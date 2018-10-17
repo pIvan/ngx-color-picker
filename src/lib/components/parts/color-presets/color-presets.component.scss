@@ -1,0 +1,13 @@
+:host {
+    display: block;
+    font-size: 0;
+}
+
+:host .row:first-child {
+    padding: 0;
+}
+
+color-preset-sublist:first-child,
+color-preset:first-child {
+    margin: 0;
+}

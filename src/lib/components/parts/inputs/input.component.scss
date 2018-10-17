@@ -1,0 +1,25 @@
+:host {
+    display: table;
+    width: 100%;
+    text-align: center;
+    color: #b4b4b4;
+    font-size: 11px;
+}
+
+.column {
+    display: table-cell;
+    padding: 0 2px;
+}
+
+input {
+    width: 100%;
+    border: 1px solid rgb(218, 218, 218);
+    color: #272727;
+    text-align: center;
+    font-size: 12px;
+    -webkit-appearance: none;
+     border-radius: 0;
+     margin: 0 0 6px;
+     height: 26px;
+     outline: none;
+}

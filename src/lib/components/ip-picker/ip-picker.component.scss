@@ -1,0 +1,143 @@
+:host {
+    display: block;
+    width: 240px;
+    border-radius: 3px;
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 0 4px;
+}
+
+.controls {
+    padding: 6px;
+}
+
+.controls-row {
+    display: table;
+    width: 100%;
+}
+
+.column {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.controls-row.saturation-hue-alpha .column:first-child {
+    width: 178px;
+}
+
+saturation-component {
+    height: 178px;
+    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
+    margin-bottom: 16px;
+}
+
+.controls-row.presentation {
+    border: 1px solid #e4e4e6;
+    border-radius: 3px;
+    padding: 6px 6px 6px 36px;
+    position: relative;
+    margin: 0 0 6px;
+}
+
+.controls-row.saturation-hue-alpha {
+    padding: 0 0 6px;
+}
+
+indicator-component {
+    height: 22px;
+    width: 22px;
+    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    border-radius: 50%;
+    margin-top: -11px;
+}
+
+:host indicator-component /deep/ svg {
+    vertical-align: 15%;
+}
+
+hex-input-component /deep/ input {
+    border: 0;
+    color: #817e81;
+    margin: 0;
+    text-align: left;
+    height: 18px;
+}
+
+.hue-column {
+    vertical-align: top;
+    padding: 0 10px 0 16px;
+}
+
+:host hue-component {
+    width: 100%;
+    height: 178px;
+    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
+}
+
+:host hue-component[vertical] /deep/ .pointer {
+    width: auto;
+    height: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    background: transparent;
+}
+
+:host alpha-component /deep/ .pointer {
+    width: 0;
+    height: auto;
+    top: 0;
+    bottom: 0;
+    margin: 0;
+    background: transparent;
+}
+
+:host hue-component[vertical] /deep/ .pointer:after,
+:host hue-component[vertical] /deep/ .pointer:before {
+    top: -5.5px;
+    display: block;
+    content: '\0A0';
+    position: absolute;
+    height: 0;
+    width: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}
+
+:host hue-component[vertical] /deep/ .pointer:after {
+    border-left: 8px solid #666;
+    left: -8px;
+}
+
+:host hue-component[vertical] /deep/ .pointer:before {
+    border-right: 8px solid #666;
+    right: -8px;
+}
+
+:host alpha-component {
+    height: 24px;
+}
+
+:host alpha-component /deep/ .pointer:after,
+:host alpha-component /deep/ .pointer:before {
+    left: -5.5px;
+    display: block;
+    content: '\0A0';
+    position: absolute;
+    height: 0;
+    width: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+}
+
+:host alpha-component /deep/ .pointer:after {
+    border-top: 8px solid #666;
+    top: -8px;
+}
+
+:host alpha-component /deep/ .pointer:before {
+    border-bottom: 8px solid #666;
+    bottom: -8px;
+}

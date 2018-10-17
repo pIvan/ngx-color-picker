@@ -1,0 +1,80 @@
+:host {
+    display: block;
+    background: #fff;
+    width: 224px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px;
+    border-radius: 4px;
+    padding: 6px;
+}
+
+:host /deep/ color-preset,
+:host /deep/ color-preset-sublist {
+    width: 30px;
+    height: 30px;
+}
+
+:host /deep/ color-preset:hover:after,
+:host /deep/ color-preset.selected:after {
+    display: block;
+    content: '\0A0';
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    bottom: 3px;
+    right: 3px;
+    z-index: 10;
+    border: 3px solid #fff;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 5px 2px;
+}
+
+:host /deep/ .row:first-child color-preset:first-child,
+:host /deep/ .row:first-child color-preset-sublist:first-child {
+    border-radius: 4px 0 0 4px;
+}
+
+:host /deep/ .row.last color-preset.last,
+:host /deep/ .row.last color-preset-sublist.last {
+    border-radius: 0 4px 4px 0;
+}
+
+:host /deep/ .child-list .row.first color-preset.first,
+:host /deep/ .child-list .row.first color-preset-sublist.first {
+    border-radius: 4px 0 0 0;
+}
+
+:host /deep/ .child-list .row.first color-preset.last,
+:host /deep/ .child-list .row.first color-preset-sublist.last {
+    border-radius: 0 4px 0 0;
+}
+
+:host /deep/ .child-list .row.last color-preset.first,
+:host /deep/ .child-list .row.last color-preset-sublist.first {
+    border-radius: 0 0 0 4px;
+}
+
+:host /deep/ .child-list .row.last color-preset.last,
+:host /deep/ .child-list .row.last color-preset-sublist.last {
+    border-radius: 0 0 4px 0;
+}
+
+:host /deep/ .child-list {
+    margin-top: 6px;
+    border-top: 1px solid #e5e5e5;
+    padding: 6px 0 0;
+}
+
+:host /deep/ .child-list color-preset:hover:after,
+:host /deep/ .child-list color-preset.selected:after {
+    content: '\2714';
+    font-size: 18px;
+    color: #fff;
+    border: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    line-height: 30px;
+    box-shadow: none;
+    text-align: center;
+}

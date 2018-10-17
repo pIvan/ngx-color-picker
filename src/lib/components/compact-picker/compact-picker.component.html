@@ -1,0 +1,33 @@
+<color-presets-component 
+    *ngIf="control.presetsVisibilityChanges | async" 
+    direction="down"
+    [columns]="9" 
+    [(color)]="control.value" 
+    [colorPresets]="control.presets" 
+    [(hue)]="control.hue"></color-presets-component>
+
+<div class="controls">
+    <div class="controls-row saturation-hue">
+        <div class="column">
+            <saturation-component [hue]="control.hue" [(color)]="control.value"></saturation-component>
+        </div>
+        <div class="column hue-column">
+            <hue-component vertical [(hue)]="control.hue" [(color)]="control.value"></hue-component>
+        </div>
+    </div>
+    <div class="controls-row presentation">
+        <div class="column">
+            <svg class="pencil" viewBox="0 0 1024 1024">
+                <path d="M639.77,121.045l-48.598,84.2l112.215,64.8l48.6-84.205L639.77,121.045z M558.773,261.354
+                    L315.78,682.206l112.215,64.795L670.99,326.15L558.773,261.354z M690.816,75.691l74.922,43.286
+                    c41.682,24.045,55.52,76.564,31.725,117.784l-37.967,65.68l-32.398,56.11L451.706,835.594L282.452,947.303
+                    c-40.961,27.004-70.24,9.027-67.329-38.894l12.149-202.411l275.395-477.041l32.398-56.11l37.883-65.686
+                    C596.824,65.946,649.473,51.857,690.816,75.691z M274.689,883.015l120.908-79.818l-112.218-64.8L274.689,883.015z"/>
+            </svg>
+            <hex-input-component prefix="#" [(color)]="control.value" [(hue)]="control.hue"></hex-input-component>
+        </div>
+        <div class="column">
+            <indicator-component colorType="hex" [color]="control.value"></indicator-component>
+        </div>
+    </div>
+</div>

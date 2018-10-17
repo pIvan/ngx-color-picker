@@ -1,0 +1,72 @@
+:host {
+    display: block;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 500px;
+    opacity: 0.5;
+    z-index: 0;
+}
+
+
+.jumbotron {
+    position: relative;
+    background: none;
+}
+
+.jumbotron .row {
+    padding-top: 20px;
+}
+
+.jumbotron .row:first-child {
+    padding: 0;
+}
+
+.jumbotron chrome-picker {
+    margin-top: -30px;
+    display: inline-block;
+}
+
+.jumbotron sketch-picker {
+    display: inline-block;
+}
+
+.jumbotron .col-md-6 {
+    padding-top: 20px;
+}
+
+@media handheld, screen and (max-width: 768px) {
+    .jumbotron .text-right,
+    .pickers-row {
+        text-align: center !important;
+    }
+
+    .jumbotron chrome-picker {
+        margin: 0;
+    }
+}
+
+.info-row {
+    padding: 0 0 20px;
+}
+
+.info-row code {
+    display: block;
+}
+
+.col-lg-4 {
+    padding: 0;
+}
+
+.buttons-row {
+    padding: 20px 0;
+}
+
+.btn {
+    cursor: pointer;
+    outline: none;
+}

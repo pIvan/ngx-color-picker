@@ -1,0 +1,58 @@
+:host {
+    position: relative;
+    display: inline-block;
+}
+
+color-preset {
+    position: relative;
+    z-index: 3;
+}
+
+.reflection {
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    right: -2px;
+    top: -2px;
+    opacity: .5;
+}
+
+.reflection + .reflection {
+    opacity: .2;
+    right: -4px;
+    top: -4px;
+    z-index: 1;
+}
+
+color-preset:hover + .reflection,
+color-preset:hover + .reflection + .reflection {
+    display: block;
+}
+
+.sublist {
+    position: absolute;
+    bottom: -8px;
+    left: -8px;
+    right: -8px;
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: rgba(0,0,0,.3) 0 0 2px, rgba(0,0,0,.3) 0 2px 4px;
+    padding: 8px 5px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.sublist color-preset {
+    margin: 8px 0 0;
+}
+
+.sublist color-preset:first-child {
+    margin: 0;
+}
+
+:host(.direction-down) .sublist {
+    bottom: auto;
+    top: -8px;
+}

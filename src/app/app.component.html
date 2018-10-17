@@ -1,0 +1,617 @@
+<div class="jumbotron">
+    <div class="background" [style.backgroundColor]="color"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4">@iplab/ngx-color-picker</h1>
+                <br>
+                <a href="https://github.com/pIvan/ngx-color-picker" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">GitHub</a>
+            </div>
+        </div>
+        <div class="row pickers-row">
+            <div class="col col-md-6 text-right">
+                <sketch-picker [(color)]="color"></sketch-picker>
+            </div>
+            <div class="col col-md-6">
+                <chrome-picker [(color)]="color"></chrome-picker>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">Getting started</div>
+        <div class="card-block">
+            <ol>
+                <li>Fork and clone this repo</li>
+                <li>npm install</li>
+                <li>Open a terminal and type "npm run start"</li>
+            </ol>
+            <p style="padding:0 0 0 40px"><b>or</b></p>
+            <ol>
+                <li>npm install @iplab/ngx-color-picker --save</li>
+                <li>ng serve --open</li>
+            </ol>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-header">Description</div>
+        <div class="card-block">
+            <p>Pure Angular color picker library.</p>
+            <ul>
+                <li>It's an Angular color picker</li>
+                <li>Compatible with Angular 5+ versions</li>
+                <li>No external dependency</li>
+                <li>Simple to configure</li>
+                <li>Easy to use</li>
+            </ul>
+        </div>
+    </div>
+    <br>
+
+    <div class="card" id="installation">
+        <div class="card-header">Installation</div>
+        <div class="card-block">
+            <p>To install this component to an external project, follow the procedure:</p>
+            <ol>
+                <li><code>npm install @iplab/ngx-color-picker --save</code></li>
+                <li><pre class="prettify">import &#123; ColorPickerModule &#125; from '@iplab/ngx-color-picker';
+...
+...
+
+
+@NgModule(&#123;
+imports: [
+    BrowserModule,
+    ColorPickerModule
+],
+bootstrap: [AppComponent]
+&#125;)
+export class AppModule &#123;&#125;</pre>
+                </li>
+                <li><code>&lt;chrome-picker [(color)]="#fff"&gt;&lt;/chrome-picker&gt;</code></li>
+            </ol>
+        </div>
+    </div>
+    <br>
+
+    <div class="card" id="usage">
+        <div class="card-header">Usage</div>
+        <div class="card-block">
+            <h6>predefined components</h6>
+            <p>Color picker have 5 predefined components. Each component, except swatches-picker,<br>
+            can be used with direct color binding <b>or/and</b> with control which provides greater flexibility</p>
+            <p>
+                <code>&lt;chrome-picker [(color)]="#fff" [control]="ColorPickerControl"&gt;&lt;/chrome-picker&gt;</code><br>
+                <code>&lt;sketch-picker [(color)]="#fff" [control]="ColorPickerControl"&gt;&lt;/sketch-picker&gt;</code><br>
+                <code>&lt;compact-picker [(color)]="#fff" [control]="ColorPickerControl"&gt;&lt;/compact-picker&gt;</code><br>
+                <code>&lt;github-picker [(color)]="#fff" [control]="ColorPickerControl"&gt;&lt;/github-picker&gt;</code><br>
+                <code>&lt;swatches-picker [(color)]="#fff"&gt;&lt;/swatches-picker&gt;</code>
+            </p>
+
+            <hr>
+            <h6>[color] attribute</h6>
+            <p>When binding over attribute <b>[color]</b> is used, component try to determine which value type is used so the output would be the same.<br>
+            <b>Examples:</b><br>
+                <code>&lt;swatches-picker [(color)]="rgb(255, 155, 46)"&gt;&lt;/swatches-picker&gt;</code> -> output is <b>rgb</b><br>
+                <code>&lt;swatches-picker [(color)]="rgba(255, 155, 46, 0.65)"&gt;&lt;/swatches-picker&gt;</code> -> output is <b>rgba</b><br>
+                <code>&lt;swatches-picker [(color)]="hsl(0, 100%, 50%)"&gt;&lt;/swatches-picker&gt;</code> -> output is <b>hsl</b><br>
+                <code>&lt;swatches-picker [(color)]="#cF09a7"&gt;&lt;/swatches-picker&gt;</code> -> output is <b>hex</b>
+            </p>
+
+            <hr>
+            <h6>[control] attribute</h6>
+            <p>When binding over <b>[control]</b> user have greater control over color output and all events<br>
+            <b>Examples:</b><br>
+                <code>&lt;chrome-picker [control]="ColorPickerControl"&gt;&lt;/chrome-picker&gt;</code>
+            </p>
+            <hr>
+            <h6>color indicator</h6>
+            <p>Color indicator is not only indicator,  but click also allows copying component color to clipboard.<br>
+                Text which is displayed on mouseover can be configured over NgModule configuration</p>
+            <pre class="prettify">import &#123; IColorPickerConfig &#125; from '@iplab/ngx-color-picker';
+...
+...
+@Injectable()
+class ColorPickerConfiguration implements IColorPickerConfig &#123;
+    public indicatorTitle: string = 'Copy color to clipboard';
+&#125;
+                
+@NgModule(&#123;
+imports: [
+    BrowserModule,
+    ColorPickerModule.forRoot(ColorPickerConfiguration)
+],
+bootstrap: [AppComponent]
+&#125;)</pre>
+            <hr>
+            <h6>color presets</h6>
+            <p>color presets on click choose a color, if the child list is available user can show it by long press on certain colors<br>
+                Text which is displayed on mouseover can be configured over NgModule configuration</p>
+                <pre class="prettify" ngNonBindable>import &#123; IColorPickerConfig &#125; from '@iplab/ngx-color-picker';
+...
+...
+@Injectable()
+class ColorPickerConfiguration implements IColorPickerConfig &#123;
+    public presetsTitle: string = '&#123;0&#125;. Long-click to show alternate shades.'; // &#123;0&#125; is the place where hex value will be placed
+&#125;
+                
+@NgModule(&#123;
+imports: [
+    BrowserModule,
+    ColorPickerModule.forRoot(ColorPickerConfiguration)
+],
+bootstrap: [AppComponent]
+&#125;)</pre>
+            <hr>
+            <h6>all color picker parts</h6>
+            <p>Color picker library exports all parts to enable custom components builds<br>
+                Here is a list of all available components and their attributes (optional attributes are marked with question mark)
+            </p>
+            <pre class="prettify">&lt;saturation-component [hue]="hueColor" [(color)]="valueColor"&gt;&lt;/saturation-component&gt;
+&lt;indicator-component [colorType]="'rgba' | 'hsla' | 'hex'" [color]="valueColor"&gt;&lt;/indicator-component&gt;
+
+&lt;hue-component vertical? [(hue)]="hueColor" [(color)]="valueColor"&gt;&lt;/hue-component&gt;
+&lt;alpha-component vertical? [(color)]="valueColor"&gt;&lt;/alpha-component&gt;
+
+&lt;rgba-input-component [alpha?]="boolean" label? [(color)]="valueColor" [(hue)]="hueColor"&gt;&lt;/rgba-input-component&gt;
+&lt;hsla-input-component [alpha?]="boolean" label? [(color)]="valueColor" [(hue)]="hueColor"&gt;&lt;/hsla-input-component&gt;
+&lt;hex-input-component label? prefix?="#" [(color)]="valueColor" [(hue)]="hueColor"&gt;&lt;/hex-input-component&gt;
+
+&lt;color-presets-component [(color)]="valueColor" [colorPresets]="presetsList [(hue)]="hueColor"&gt;&lt;/color-presets-component&gt;</pre>
+            <h6>attributes explanation</h6>
+            <p>
+                <b>color =></b> currently selected color (output color)<br>
+                <b>hue =></b> color used internally as current hue color<br>
+                <b>colorType =></b> specify which type of color should be copied to the clipboard<br>                
+                <b>vertical =></b> should component be placed horizontally or vertically<br>
+                <b>alpha =></b> should component display alpha channel<br>
+                <b>label =></b> whether the label will be displayed or not (rgba, hsla, hex)<br>
+                <b>prefix =></b> definition of label prefix<br>
+                <b>colorPresets =></b> list of colors used as presets
+            </p>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-header">Chrome color picker</div>
+        <div class="card-block">
+            <div class="row">
+                <div class="col col-lg-4">
+                    <div class="info-row">
+                        <code>selected hex: {{ chromeControl.value.toHexString() }}</code>
+                        <code>selected hexa: {{ chromeControl.value.toHexString(true) }}</code>
+                        <code>selected rgb: {{ chromeControl.value.toRgbString() }}</code>
+                        <code>selected rgba: {{ chromeControl.value.toRgbaString() }}</code>
+                        <code>selected hsl: {{ chromeControl.value.toHslString() }}</code>
+                        <code>selected hsla: {{ chromeControl.value.toHslaString() }}</code>
+                        <code>selected hsv: {{ chromeControl.value.toHsvString() }}</code>
+                        <code>selected hsva: {{ chromeControl.value.toHsvaString() }}</code>
+                        <code>selected cmyk: {{ chromeControl.value.toCmykString() }}</code>
+                    </div>
+
+                    <chrome-picker [control]="chromeControl"></chrome-picker>
+                </div>
+                <div class="col col-lg-8">
+                    <p>Component code</p>
+                    <pre class="prettify">
+@Component(&#123;
+...
+&#125;)
+export class AppComponent &#123;
+
+    public chromeControl = new ColorPickerControl()
+                                .setValueFrom(ColorsTable.aquamarine)
+                                .hidePresets()
+                                .hideAlphaChannel();
+
+    constructor() &#123;    
+    &#125;
+&#125;</pre>
+                    <p>Template code</p>
+                    <pre class="prettify">&lt;chrome-picker [control]="chromeControl"&gt;&lt;/chrome-picker&gt;</pre>
+                </div>
+            </div>
+
+            <div class="buttons-row">
+                <button class="btn btn-primary" 
+                    (click)="chromeControl.isPresetVisible() 
+                            ? chromeControl.hidePresets() : chromeControl.showPresets()">Toggle presets visibility</button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="chromeControl.reset()">Reset to initial</button>
+                &nbsp;
+                <button class="btn btn-primary" 
+                    (click)="chromeControl.isAlphaChannelEnabled() ? 
+                    chromeControl.hideAlphaChannel() : chromeControl.showAlphaChannel()">Toggle alpha channel</button>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-header">Sketch color picker</div>
+        <div class="card-block">
+            <div class="row">
+                <div class="col col-lg-4">
+                    <div class="info-row">
+                        <code>selected hex: {{ sketchControl.value.toHexString() }}</code>
+                        <code>selected hexa: {{ sketchControl.value.toHexString(true) }}</code>
+                        <code>selected rgb: {{ sketchControl.value.toRgbString() }}</code>
+                        <code>selected rgba: {{ sketchControl.value.toRgbaString() }}</code>
+                        <code>selected hsl: {{ sketchControl.value.toHslString() }}</code>
+                        <code>selected hsla: {{ sketchControl.value.toHslaString() }}</code>
+                        <code>selected hsv: {{ sketchControl.value.toHsvString() }}</code>
+                        <code>selected hsva: {{ sketchControl.value.toHsvaString() }}</code>
+                        <code>selected cmyk: {{ sketchControl.value.toCmykString() }}</code>
+                    </div>
+
+                    <sketch-picker [control]="sketchControl"></sketch-picker>
+                </div>
+                <div class="col col-lg-8">
+                    <p>Component code</p>
+                    <pre class="prettify">
+@Component(&#123;
+...
+&#125;)
+export class AppComponent &#123;
+
+    public sketchControl = new ColorPickerControl()
+                                .setValueFrom('#A6771C');
+
+    constructor() &#123;    
+    &#125;
+&#125;</pre>
+                    <p>Template code</p>
+                    <pre class="prettify">&lt;sketch-picker [control]="sketchControl"&gt;&lt;/sketch-picker&gt;</pre>
+                </div>
+            </div>
+
+            <div class="buttons-row">
+                <button class="btn btn-primary" 
+                    (click)="sketchControl.isPresetVisible() 
+                            ? sketchControl.hidePresets() : sketchControl.showPresets()">Toggle presets visibility</button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="sketchControl.reset()">Reset to initial</button>
+                &nbsp;
+                <button class="btn btn-primary" 
+                    (click)="sketchControl.isAlphaChannelEnabled() ? 
+                    sketchControl.hideAlphaChannel() : sketchControl.showAlphaChannel()">Toggle alpha channel</button>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-header">Compact color picker</div>
+        <div class="card-block">
+            <div class="row">
+                <div class="col col-lg-4">
+                    <div class="info-row">
+                        <code>selected hex: {{ compactControl.value.toHexString() }}</code>
+                        <code>selected hexa: {{ compactControl.value.toHexString(true) }}</code>
+                        <code>selected rgb: {{ compactControl.value.toRgbString() }}</code>
+                        <code>selected rgba: {{ compactControl.value.toRgbaString() }}</code>
+                        <code>selected hsl: {{ compactControl.value.toHslString() }}</code>
+                        <code>selected hsla: {{ compactControl.value.toHslaString() }}</code>
+                        <code>selected hsv: {{ compactControl.value.toHsvString() }}</code>
+                        <code>selected hsva: {{ compactControl.value.toHsvaString() }}</code>
+                        <code>selected cmyk: {{ compactControl.value.toCmykString() }}</code>
+                    </div>
+
+                    <compact-picker [control]="compactControl"></compact-picker>
+                </div>
+                <div class="col col-lg-8">
+                    <p>Component code</p>
+                    <pre class="prettify">
+@Component(&#123;
+...
+&#125;)
+export class AppComponent &#123;
+
+    public compactControl = new ColorPickerControl();
+
+    constructor() &#123;    
+    &#125;
+&#125;</pre>
+                    <p>Template code</p>
+                    <pre class="prettify">&lt;compact-picker [control]="compactControl"&gt;&lt;/compact-picker&gt;</pre>
+                </div>
+            </div>
+
+            <div class="buttons-row">
+                <button class="btn btn-primary" 
+                    (click)="compactControl.isPresetVisible() 
+                            ? compactControl.hidePresets() : compactControl.showPresets()">Toggle presets visibility</button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="compactControl.reset()">Reset to initial</button>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-header">Github color picker</div>
+        <div class="card-block">
+            <div class="row">
+                <div class="col col-lg-4">
+                    <div class="info-row">
+                        <code>selected hex: {{ githubControl.value.toHexString() }}</code>
+                        <code>selected hexa: {{ githubControl.value.toHexString(true) }}</code>
+                        <code>selected rgb: {{ githubControl.value.toRgbString() }}</code>
+                        <code>selected rgba: {{ githubControl.value.toRgbaString() }}</code>
+                        <code>selected hsl: {{ githubControl.value.toHslString() }}</code>
+                        <code>selected hsla: {{ githubControl.value.toHslaString() }}</code>
+                        <code>selected hsv: {{ githubControl.value.toHsvString() }}</code>
+                        <code>selected hsva: {{ githubControl.value.toHsvaString() }}</code>
+                        <code>selected cmyk: {{ githubControl.value.toCmykString() }}</code>
+                    </div>
+
+                    <github-picker [control]="githubControl"></github-picker>
+                </div>
+                <div class="col col-lg-8">
+                    <p>Component code</p>
+                    <pre class="prettify">
+@Component(&#123;
+...
+&#125;)
+export class AppComponent &#123;
+
+    public githubControl = new ColorPickerControl()
+                                .setValueFrom('#1273DE');
+
+    constructor() &#123;    
+    &#125;
+&#125;</pre>
+                    <p>Template code</p>
+                    <pre class="prettify">&lt;github-picker [control]="githubControl"&gt;&lt;/github-picker&gt;</pre>
+                </div>
+            </div>
+
+            <div class="buttons-row">
+                <button class="btn btn-primary" (click)="githubControl.reset()">Reset to initial</button>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-header">Swatches color picker</div>
+        <div class="card-block">
+            <div class="row">
+                <div class="col col-lg-4">
+                    <p>Swatches component only supports binding over color attribute</p>
+                    <div class="info-row">
+                        <code>selected color: {{ swatchesColor }}</code><br>
+                    </div>
+                    <swatches-picker [(color)]="swatchesColor"></swatches-picker>
+                </div>
+                <div class="col col-lg-8">
+                    <p>Component code</p>
+                    <pre class="prettify">
+@Component(&#123;
+...
+&#125;)
+export class AppComponent &#123;
+
+    public swatchesColor = '#F04A71'
+
+    constructor() &#123;    
+    &#125;
+&#125;</pre>
+                    <p>Template code</p>
+                    <pre class="prettify">&lt;swatches-picker [(color)]="swatchesColor"&gt;&lt;/swatches-picker&gt;</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-header">ColorPickerControl methods</div>
+        <div class="card-block">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>setValueFrom</td>
+                        <td><code>Function</code></td>
+                        <td>Set value from Color, Rgba, Hsla, Hsva or ColorString</td>
+                    </tr>
+                    <tr>
+                        <td>value</td>
+                        <td><code>Getter.value</code></td>
+                        <td>get value as a Color object</td>
+                    </tr>
+                    <tr>
+                        <td>reset</td>
+                        <td><code>Function</code></td>
+                        <td>reset value to initial state</td>
+                    </tr>
+                    <tr>
+                        <td>valueChanges</td>
+                        <td><code>Observable</code></td>
+                        <td>Used to observe component value changes</td>
+                    </tr>
+                    <tr>
+                        <td>isAlphaChannelEnabled</td>
+                        <td><code>Function</code></td>
+                        <td>return is alpha changel enabled</td>
+                    </tr>
+                    <tr>
+                        <td>showAlphaChannel</td>
+                        <td><code>Function</code></td>
+                        <td>show alpha channel</td>
+                    </tr>
+                    <tr>
+                        <td>hideAlphaChannel</td>
+                        <td><code>Function</code></td>
+                        <td>hide alpha channel</td>
+                    </tr>
+                    <tr>
+                        <td>alphaChannelVisibilityChanges</td>
+                        <td><code>BehaviorSubject</code></td>
+                        <td>Used to observe alpha channel changes</td>
+                    </tr>
+                    <tr>
+                        <td>setColorPresets</td>
+                        <td><code>Function</code></td>
+                        <td>define color preset list</td>
+                    </tr>
+                    <tr>
+                        <td>presets</td>
+                        <td><code>Getter.presets</code></td>
+                        <td>get color presets</td>
+                    </tr>
+                    <tr>
+                        <td>hasPresets</td>
+                        <td><code>Function</code></td>
+                        <td>return status of predefined color presets</td>
+                    </tr>
+                    <tr>
+                        <td>showPresets</td>
+                        <td><code>Function</code></td>
+                        <td>show predefined color presets</td>
+                    </tr>
+                    <tr>
+                        <td>hidePresets</td>
+                        <td><code>Function</code></td>
+                        <td>hide predefined color presets</td>
+                    </tr>
+                    <tr>
+                        <td>presetsVisibilityChanges</td>
+                        <td><code>BehaviorSubject</code></td>
+                        <td>Used to observe color preset visibility</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-header">Color methods</div>
+        <div class="card-block">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Color.from</td>
+                        <td><code>static method</code></td>
+                        <td>create new Color object from Color, Rgba, Hsla, Hsva or ColorString</td>
+                    </tr>
+                    <tr>
+                        <td>clone</td>
+                        <td><code>Function</code></td>
+                        <td>create new Color object</td>
+                    </tr>
+                    <tr>
+                        <td>setFromString</td>
+                        <td><code>Function</code></td>
+                        <td>change the value by providing the string</td>
+                    </tr>
+                    <tr>
+                        <td>setHsva</td>
+                        <td><code>Function</code></td>
+                        <td>change the value by providing hsv values</td>
+                    </tr>
+                    <tr>
+                        <td>setRgba</td>
+                        <td><code>Function</code></td>
+                        <td>change the value by providing rgb values</td>
+                    </tr>
+                    <tr>
+                        <td>setHsla</td>
+                        <td><code>Function</code></td>
+                        <td>change the value by providing hsl values</td>
+                    </tr>
+                    <tr>
+                        <td>toHexString</td>
+                        <td><code>Function</code></td>
+                        <td>convert Color object to hex string</td>
+                    </tr>
+                    <tr>
+                        <td>toRgbString</td>
+                        <td><code>Function</code></td>
+                        <td>convert Color object to rgb string</td>
+                    </tr>
+                    <tr>
+                        <td>toRgbaString</td>
+                        <td><code>Function</code></td>
+                        <td>convert Color object to rgba string</td>
+                    </tr>
+                    <tr>
+                        <td>toHslString</td>
+                        <td><code>Function</code></td>
+                        <td>convert Color object to hsl string</td>
+                    </tr>
+                    <tr>
+                        <td>toHslaString</td>
+                        <td><code>Function</code></td>
+                        <td>convert Color object to hsla string</td>
+                    </tr>
+                    <tr>
+                        <td>toHsvString</td>
+                        <td><code>Function</code></td>
+                        <td>convert Color object to hsv string</td>
+                    </tr>
+                    <tr>
+                        <td>toHsvaString</td>
+                        <td><code>Function</code></td>
+                        <td>convert Color object to hsva string</td>
+                    </tr>
+                    <tr>
+                        <td>toCmykString</td>
+                        <td><code>Function</code></td>
+                        <td>convert Color object to cmyk string</td>
+                    </tr>
+                    <tr>
+                        <td>getHsva</td>
+                        <td><code>Function</code></td>
+                        <td>return Hsva object</td>
+                    </tr>
+                    <tr>
+                        <td>getRgba</td>
+                        <td><code>Function</code></td>
+                        <td>return Rgba object</td>
+                    </tr>
+                    <tr>
+                        <td>getHsla</td>
+                        <td><code>Function</code></td>
+                        <td>return Hsla object</td>
+                    </tr>
+                    <tr>
+                        <td>getCmyk</td>
+                        <td><code>Function</code></td>
+                        <td>return Cmyk object</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-header">ColorsTable</div>
+        <div class="card-block">
+            <p>ColorTable is class with static properties which represent Rgba colors defined by <a target="_blank" href="https://www.w3.org/TR/css-color-3/#svg-color">list of the X11 colors</a></p>
+        </div>
+    </div>
+    <br>
+
+</div>

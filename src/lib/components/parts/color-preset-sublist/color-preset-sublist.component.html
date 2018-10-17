@@ -1,0 +1,11 @@
+<color-preset [show-depth-title]="list.length > 1" [color]="list[0]" [activeColor]="activeColor" (longPress)="onLongPress()" (selectionChange)="onSelectionChange($event)"></color-preset>
+<div class="reflection" [style.backgroundColor]="list[0].toRgbaString()"></div>
+<div class="reflection" [style.backgroundColor]="list[0].toRgbaString()"></div>
+
+<div class="sublist" *ngIf="showChildren" [@opacityAnimation]="showChildren" [@listAnimation]="direction">
+    <color-preset 
+        *ngFor="let preset of list | reverse : (direction == 'up' || direction == 'right')"
+        [color]="preset"
+        [activeColor]="activeColor"
+        (selectionChange)="onSelectionChange($event)"></color-preset>
+</div>

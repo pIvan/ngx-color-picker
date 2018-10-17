@@ -1,0 +1,122 @@
+:host {
+    display: block;
+    padding: 9px;
+    width: 220px;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+saturation-component {
+    height: 146px;
+    border-radius: 2px;
+    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
+}
+
+saturation-component /deep/ .pointer {
+    border-width: 2px;
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 2px;
+    width: 10px;
+    height: 10px;
+}
+
+.controls {
+    padding: 4px 0 0;
+}
+
+hue-component,
+alpha-component {
+    height: 10px;
+    border-radius: 2px;
+    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
+}
+
+hue-component {
+    margin-bottom: 4px;
+}
+
+.controls-row {
+    display: table;
+    width: 100%;
+}
+
+.column {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.indicator-column {
+    width: 25px;
+}
+
+indicator-component {
+    height: 24px;
+    width: 100%;
+    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
+    border-radius: 2px;
+}
+
+color-presets-component {
+    border-top: 1px solid #e0e0e0;
+    padding: 10px 9px 0;
+    margin: 8px -9px 0;
+}
+
+color-presets-component /deep/ .row {
+    padding: 10px 0 0;
+}
+
+:host indicator-component /deep/ svg {
+    vertical-align: 5%;
+}
+
+.controls-row.hue-alpha {
+    padding-bottom: 9px;
+}
+
+.controls-row.hue-alpha .column:first-child {
+    padding-right: 5px;
+}
+
+.hue-alpha /deep/ .pointer {
+    width: 6px;
+    margin: 0 0 0 -3px;
+    height: 100%;
+    top: 0;
+    border-radius: 2px;
+    border: 1px solid #898989;
+}
+
+.presentation .column:first-child {
+    width: 56px;
+}
+
+.presentation /deep/ input {
+    height: 20px;
+    font-size: 11px;
+}
+
+:host /deep/ .reflection,
+:host /deep/ color-preset {
+    height: 16px;
+    width: 16px;
+    border-radius: 2px;
+}
+
+:host /deep/ color-preset {
+    box-shadow: inset rgba(0, 0, 0, 0.4) 0px 0px 2px;
+}
+
+:host /deep/ color-preset.selected {
+    box-shadow: inset rgba(0, 0, 0, 0.4) 0px 1px 4px;
+}
+
+:host /deep/ .row > color-preset,
+:host /deep/ .row > color-preset-sublist {
+    margin: 0 0 0 10px;
+}
+
+:host /deep/ .row > color-preset:first-child,
+:host /deep/ .row > color-preset-sublist:first-child {
+    margin: 0;
+}

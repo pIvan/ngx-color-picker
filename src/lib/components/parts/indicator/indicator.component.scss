@@ -1,0 +1,45 @@
+:host {
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #e3e3e3;
+    overflow: hidden;
+    position: relative;
+    height: 20px;
+    width: 20px;
+    background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAh0lEQVRYR+2W0QlAMQgD60zdfwOdqa8TmI/wQMr5K0I5bZLIzLOa2nt37VVVbd+dDx5obgCC3KBLwJ2ff4PnVidkf+ucIhw80HQaCLo3DMH3CRK3iFsmAWVl6hPNDwt8EvNE5q+YuEXcMgkonVM6SdyCoEvAnZ8v1Hjx817MilmxSUB5rdLJDycZgUAZUch/AAAAAElFTkSuQmCC') repeat;
+}
+
+:host > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+:host:hover:after {
+    display: block;
+    content: '\0A0';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #000;
+    opacity: .2;
+    z-index: 2;
+}
+
+:host svg {
+    transition: background-color 2s ease-in-out;
+    opacity: 0;
+    fill: #fff;
+    height: 46%;
+    vertical-align: -20%;
+}
+
+:host:hover svg {
+    opacity: 1;
+}

@@ -1,0 +1,19 @@
+<div class="row" *ngFor="let chunk of colorPresets | chunks: columns; let first = first; let last = last;" [ngClass]="{ 'first': first, 'last': last }">
+    <ng-template ngFor let-preset let-first="first" let-last="last" [ngForOf]="chunk">
+        <color-preset-sublist 
+            [list]="preset" 
+            *ngIf="isList(preset); else colorPreset" 
+            [direction]="direction"
+            [activeColor]="color"
+            [ngClass]="{ 'first': first, 'last': last }"
+            (selectionChange)="onSelectionChange($event)"></color-preset-sublist>
+
+        <ng-template #colorPreset>
+            <color-preset 
+                [ngClass]="{ 'first': first, 'last': last }"
+                [color]="preset" 
+                [activeColor]="color" 
+                (selectionChange)="onSelectionChange($event)"></color-preset>
+        </ng-template>
+    </ng-template>
+</div>

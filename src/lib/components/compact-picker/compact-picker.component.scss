@@ -1,0 +1,136 @@
+:host {
+    display: block;
+    width: 240px;
+    border-radius: 3px;
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 0 4px;
+}
+
+color-presets-component {
+    border-bottom: 1px solid #e4e4e6;
+    padding: 9px 12px;
+}
+
+color-presets-component /deep/ .row {
+    padding: 10px 0 0;
+}
+
+.controls {
+    padding: 10px 12px 12px;
+}
+
+.controls-row {
+    display: table;
+    width: 100%;
+}
+
+.column {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.controls-row.saturation-hue {
+    padding-bottom: 9px;
+}
+
+.controls-row.saturation-hue .column:first-child {
+    width: 178px;
+}
+
+saturation-component {
+    height: 178px;
+    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
+}
+
+saturation-component /deep/ .pointer {
+    border-width: 2px;
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 2px;
+}
+
+.hue-column {
+    padding-left: 14px;
+}
+
+:host hue-component {
+    width: 100%;
+    height: 178px;
+    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
+}
+
+:host hue-component[vertical] /deep/ .pointer {
+    width: auto;
+    height: 9px;
+    left: -3px;
+    right: -3px;
+    margin: -4.5px 0 0;
+    background: transparent;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 2px;
+}
+
+.controls-row.presentation {
+    border: 1px solid #e4e4e6;
+    border-radius: 3px;
+    padding: 6px 6px 6px 26px;
+    position: relative;
+}
+
+indicator-component {
+    height: 18px;
+    width: 18px;
+    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
+    border-radius: 50%;
+}
+
+:host indicator-component /deep/ svg {
+    vertical-align: 25%;
+}
+
+hex-input-component /deep/ input {
+    border: 0;
+    color: #817e81;
+    margin: 0;
+    text-align: left;
+    height: 18px;
+}
+
+.pencil {
+    position: absolute;
+    height: 14px;
+    width: 14px;
+    left: 6px;
+    top: 50%;
+    margin: -7px 0 0;
+}
+
+.pencil svg {
+    fill: #000;
+}
+
+:host /deep/ .reflection {
+    display: none;
+}
+
+:host /deep/ color-preset {
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 1px 1px;
+}
+
+:host /deep/ .row > color-preset,
+:host /deep/ .row > color-preset-sublist {
+    margin: 0 0 0 6px;
+}
+
+:host /deep/ .row > color-preset:first-child,
+:host /deep/ .row > color-preset-sublist:first-child {
+    margin: 0;
+}
+
+:host /deep/ color-preset.selected,
+:host /deep/ .sublist color-preset:hover,
+:host /deep/ .row > color-preset:hover {
+    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 1px 6px;
+}

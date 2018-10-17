@@ -1,0 +1,30 @@
+:host {
+    display: block;
+    background: #fff;
+    width: 212px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+:host /deep/ color-preset,
+:host /deep/ color-preset-sublist {
+    width: 25px;
+    height: 25px;
+}
+
+:host /deep/ color-preset:hover:after,
+:host /deep/ color-preset.selected:after {
+    display: block;
+    content: '\0A0';
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    bottom: -1px;
+    right: -1px;
+    z-index: 10;
+    border: 2px solid #fff;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 5px 2px;
+}
+     
