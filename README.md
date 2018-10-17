@@ -5,6 +5,10 @@
 [![npm version](https://badge.fury.io/js/%40iplab%2Fngx-color-picker.svg)](https://www.npmjs.com/package/@iplab/ngx-color-picker)
 [![Build Status](https://travis-ci.org/pIvan/ngx-color-picker.svg?branch=master)](https://travis-ci.org/pIvan/ngx-color-picker)
 
+# Demo
+more detailed instructions can be found
+[here](https://pivan.github.io/ngx-color-picker/)
+
 
 # Description
 
