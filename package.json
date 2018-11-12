@@ -72,6 +72,7 @@
     "typescript": "^3.1.6",
     "zone.js": "~0.8.26",
     "google-code-prettify": "1.0.5",
-    "ng-packagr": "^4.3.1"
+    "ng-packagr": "^4.3.1",
+    "tsickle": "^0.33.1"
   }
 }
