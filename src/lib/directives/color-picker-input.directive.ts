@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, HostListener } from "@angular/core";
+import { Directive, Input, Output, EventEmitter, HostListener } from '@angular/core';
 
 
 @Directive({
@@ -14,7 +14,7 @@ export class ColorPickerInputDirective {
     @Output()
     public inputChange = new EventEmitter<number>();
 
-    @HostListener('input', ['$event']) 
+    @HostListener('input', ['$event'])
     public inputChanges(event: any): void {
         const element = event.target as HTMLInputElement || event.srcElement as HTMLInputElement;
         const value = element.value;

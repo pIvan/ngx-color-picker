@@ -1,8 +1,8 @@
-import { Cmyk } from "./cmyk.class";
-import { Hsla } from "./hsla.class";
-import { Hsva } from "./hsva.class";
-import { Rgba } from "./rgba.class";
-import { ColorsTable } from "./colors-table.class";
+import { Cmyk } from './cmyk.class';
+import { Hsla } from './hsla.class';
+import { Hsva } from './hsva.class';
+import { Rgba } from './rgba.class';
+import { ColorsTable } from './colors-table.class';
 
 export type ColorString = string;
 
@@ -180,7 +180,7 @@ export class Color {
     public toCmykString(): ColorString {
         return this.getCmyk().toString();
     }
-    
+
     public getHsva(): Hsva {
         return new Hsva(this.hsva.hue, this.hsva.saturation, this.hsva.value, this.hsva.alpha);
     }
@@ -260,13 +260,13 @@ export class Color {
         const saturation = color.saturation / 100;
         const brightness = color.value / 100;
         const alpha = color.alpha;
-        let hex = color.hue / 60;
+        const hex = color.hue / 60;
 
         const primary = Math.floor(hex);
         const secoundary = hex - primary;
         const a = (1 - saturation) * brightness;
         const b = (1 - (saturation * secoundary)) * brightness;
-        const c = (1- (saturation * (1- secoundary))) * brightness;
+        const c = (1 - (saturation * (1 - secoundary))) * brightness;
 
         switch (primary) {
             case 6:
@@ -326,7 +326,7 @@ export class Color {
 
     /**
      * convert rgb color from HSLa
-     * 
+     *
      * hue = 0 => 360
      * saturation = 0 => 1
      * lightness = 0 => 1
@@ -424,7 +424,7 @@ export class Color {
         const red = color.red / 255;
         const green = color.green / 255;
         const blue = color.blue / 255;
-        
+
         let cyan = 1 - red;
         let magenta = 1 - green;
         let yellow = 1 - blue;
@@ -487,7 +487,7 @@ export class Color {
 
         if (OpenParenthesis !== -1 && CloseParenthesis + 1 === str.length) {
             const colorTypeName = str.substr(0, OpenParenthesis);
-            const params = str.substr(OpenParenthesis + 1, CloseParenthesis-(OpenParenthesis + 1)).split(',');
+            const params = str.substr(OpenParenthesis + 1, CloseParenthesis - (OpenParenthesis + 1)).split(',');
             let alpha = 1;
 
             switch (colorTypeName) {

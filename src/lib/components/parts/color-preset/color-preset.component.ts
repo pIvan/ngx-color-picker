@@ -7,11 +7,11 @@ import {
     ChangeDetectionStrategy,
     HostListener,
     OnDestroy
-} from "@angular/core";
-import { Color, ColorString } from "./../../../helpers/color.class";
+} from '@angular/core';
+import { Color, ColorString } from './../../../helpers/color.class';
 import { Subject, of } from 'rxjs';
 import { takeUntil, delay, map } from 'rxjs/operators';
-import { ColorPickerConfig } from "./../../../services/color-picker.service";
+import { ColorPickerConfig } from './../../../services/color-picker.service';
 
 @Component({
     selector: `color-preset`,

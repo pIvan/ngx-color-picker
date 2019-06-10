@@ -1,5 +1,5 @@
-import { Color } from "./color.class";
-import { ColorType } from "./control.class";
+import { Color } from './color.class';
+import { ColorType } from './control.class';
 
 
 export function getValueByType(color: Color, type: ColorType): string {

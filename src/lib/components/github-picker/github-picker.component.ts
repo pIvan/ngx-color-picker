@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from "@angular/core";
-import { ColorString } from "./../../helpers/color.class";
-import { ColorPickerControl } from "./../../helpers/control.class";
-import { getValueByType } from "./../../helpers/helper.functions";
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { ColorString } from './../../helpers/color.class';
+import { ColorPickerControl } from './../../helpers/control.class';
+import { getValueByType } from './../../helpers/helper.functions';
 
 @Component({
     selector: `github-picker`,

@@ -13,7 +13,7 @@ saturation-component {
     box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
 }
 
-saturation-component /deep/ .pointer {
+saturation-component ::ng-deep .pointer {
     border-width: 2px;
     box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 2px;
     width: 10px;
@@ -62,11 +62,11 @@ color-presets-component {
     margin: 8px -9px 0;
 }
 
-color-presets-component /deep/ .row {
+color-presets-component ::ng-deep .row {
     padding: 10px 0 0;
 }
 
-:host indicator-component /deep/ svg {
+:host indicator-component ::ng-deep svg {
     vertical-align: 5%;
 }
 
@@ -78,7 +78,7 @@ color-presets-component /deep/ .row {
     padding-right: 5px;
 }
 
-.hue-alpha /deep/ .pointer {
+.hue-alpha ::ng-deep .pointer {
     width: 6px;
     margin: 0 0 0 -3px;
     height: 100%;
@@ -91,32 +91,32 @@ color-presets-component /deep/ .row {
     width: 56px;
 }
 
-.presentation /deep/ input {
+.presentation ::ng-deep input {
     height: 20px;
     font-size: 11px;
 }
 
-:host /deep/ .reflection,
-:host /deep/ color-preset {
+:host ::ng-deep .reflection,
+:host ::ng-deep color-preset {
     height: 16px;
     width: 16px;
     border-radius: 2px;
 }
 
-:host /deep/ color-preset {
+:host ::ng-deep color-preset {
     box-shadow: inset rgba(0, 0, 0, 0.4) 0px 0px 2px;
 }
 
-:host /deep/ color-preset.selected {
+:host ::ng-deep color-preset.selected {
     box-shadow: inset rgba(0, 0, 0, 0.4) 0px 1px 4px;
 }
 
-:host /deep/ .row > color-preset,
-:host /deep/ .row > color-preset-sublist {
+:host ::ng-deep .row > color-preset,
+:host ::ng-deep .row > color-preset-sublist {
     margin: 0 0 0 10px;
 }
 
-:host /deep/ .row > color-preset:first-child,
-:host /deep/ .row > color-preset-sublist:first-child {
+:host ::ng-deep .row > color-preset:first-child,
+:host ::ng-deep .row > color-preset-sublist:first-child {
     margin: 0;
 }

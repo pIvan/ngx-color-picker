@@ -1,9 +1,9 @@
-import { Color, ColorString } from "./color.class";
-import { Subject, BehaviorSubject } from "rxjs";
-import { distinctUntilChanged } from "rxjs/operators";
-import { Rgba } from "./rgba.class";
-import { Hsla } from "./hsla.class";
-import { Hsva } from "./hsva.class";
+import { Color, ColorString } from './color.class';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { Rgba } from './rgba.class';
+import { Hsla } from './hsla.class';
+import { Hsva } from './hsva.class';
 
 export enum ColorType {
     hex = 'hex',
@@ -21,7 +21,7 @@ export class ColorPickerControl {
     private hueValue: Color = null;
     private initValue: Color = null;
     private readonly valueChanged: Subject<Color> = new Subject();
-    
+
     public readonly presetsVisibilityChanges: BehaviorSubject<boolean> = new BehaviorSubject(true);
     public initType: ColorType = null;
     public readonly alphaChannelVisibilityChanges: BehaviorSubject<boolean> = new BehaviorSubject(true);
@@ -50,7 +50,7 @@ export class ColorPickerControl {
     }
 
     private setHueColor(color: Color) {
-        if(this.hueValue && color.getHsva().hue > 0 || !this.hueValue) {
+        if (this.hueValue && color.getHsva().hue > 0 || !this.hueValue) {
             this.hueValue = new Color().setHsva(color.getHsva().hue);
         }
     }
@@ -97,7 +97,7 @@ export class ColorPickerControl {
             color = this.initValue.clone();
             this.setHueColor(color);
         }
-        
+
         this.setValue(color);
         return this;
     }
@@ -120,7 +120,7 @@ export class ColorPickerControl {
         const str = colorString.replace(/ /g, '').toLowerCase();
         if (str[0] === '#') {
             this.initType = ColorType.hex;
-            if(str.length > 7) {
+            if (str.length > 7) {
                 this.initType = ColorType.hexa;
             }
         }

@@ -1,7 +1,7 @@
-import { Component, Input, HostBinding, HostListener, Renderer2, ElementRef, ChangeDetectionStrategy, Inject } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
-import { Color } from "./../../../helpers/color.class";
-import { ColorPickerConfig } from "./../../../services/color-picker.service";
+import { Component, Input, HostBinding, HostListener, Renderer2, ElementRef, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Color } from './../../../helpers/color.class';
+import { ColorPickerConfig } from './../../../services/color-picker.service';
 
 
 @Component({

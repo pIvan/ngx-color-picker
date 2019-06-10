@@ -1,7 +1,20 @@
-import { Component, ChangeDetectionStrategy, Input, Renderer2, Inject, ElementRef, Output, EventEmitter, ViewChild, HostListener, SimpleChanges, OnChanges } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
-import { Color } from "./../../../helpers/color.class";
-import { BaseComponent } from "./../base.component";
+import {
+    Component,
+    ChangeDetectionStrategy,
+    Input,
+    Renderer2,
+    Inject,
+    ElementRef,
+    Output,
+    EventEmitter,
+    ViewChild,
+    HostListener,
+    SimpleChanges,
+    OnChanges
+} from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Color } from './../../../helpers/color.class';
+import { BaseComponent } from './../base.component';
 
 @Component({
     selector: `hue-component`,
@@ -26,7 +39,7 @@ export class HueComponent extends BaseComponent implements OnChanges {
     @Output()
     public colorChange = new EventEmitter<Color>(false);
 
-    @ViewChild('pointer')
+    @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
 
     private isVertical: boolean = false;
@@ -51,7 +64,7 @@ export class HueComponent extends BaseComponent implements OnChanges {
      * and then we need to move pointer
      */
     public ngOnChanges(changes: SimpleChanges): void {
-        if(changes.hue && changes.hue.previousValue != changes.hue.currentValue) {
+        if (changes.hue && changes.hue.previousValue !== changes.hue.currentValue) {
             const hsva = this.hue.getHsva();
             this.changePointerPosition(hsva.hue);
         }

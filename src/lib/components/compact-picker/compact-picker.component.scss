@@ -11,7 +11,7 @@ color-presets-component {
     padding: 9px 12px;
 }
 
-color-presets-component /deep/ .row {
+color-presets-component ::ng-deep .row {
     padding: 10px 0 0;
 }
 
@@ -42,7 +42,7 @@ saturation-component {
     box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
 }
 
-saturation-component /deep/ .pointer {
+saturation-component ::ng-deep .pointer {
     border-width: 2px;
     box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 2px;
 }
@@ -57,7 +57,7 @@ saturation-component /deep/ .pointer {
     box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
 }
 
-:host hue-component[vertical] /deep/ .pointer {
+:host hue-component[vertical] ::ng-deep .pointer {
     width: auto;
     height: 9px;
     left: -3px;
@@ -83,11 +83,11 @@ indicator-component {
     border-radius: 50%;
 }
 
-:host indicator-component /deep/ svg {
+:host indicator-component ::ng-deep svg {
     vertical-align: 25%;
 }
 
-hex-input-component /deep/ input {
+hex-input-component ::ng-deep input {
     border: 0;
     color: #817e81;
     margin: 0;
@@ -108,29 +108,29 @@ hex-input-component /deep/ input {
     fill: #000;
 }
 
-:host /deep/ .reflection {
+:host ::ng-deep .reflection {
     display: none;
 }
 
-:host /deep/ color-preset {
+:host ::ng-deep color-preset {
     height: 18px;
     width: 18px;
     border-radius: 50%;
     box-shadow: inset rgba(0, 0, 0, 0.6) 0px 1px 1px;
 }
 
-:host /deep/ .row > color-preset,
-:host /deep/ .row > color-preset-sublist {
+:host ::ng-deep .row > color-preset,
+:host ::ng-deep .row > color-preset-sublist {
     margin: 0 0 0 6px;
 }
 
-:host /deep/ .row > color-preset:first-child,
-:host /deep/ .row > color-preset-sublist:first-child {
+:host ::ng-deep .row > color-preset:first-child,
+:host ::ng-deep .row > color-preset-sublist:first-child {
     margin: 0;
 }
 
-:host /deep/ color-preset.selected,
-:host /deep/ .sublist color-preset:hover,
-:host /deep/ .row > color-preset:hover {
+:host ::ng-deep color-preset.selected,
+:host ::ng-deep .sublist color-preset:hover,
+:host ::ng-deep .row > color-preset:hover {
     box-shadow: inset rgba(0, 0, 0, 0.6) 0px 1px 6px;
 }

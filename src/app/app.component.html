@@ -59,16 +59,18 @@
             <ol>
                 <li><code>npm install @iplab/ngx-color-picker --save</code></li>
                 <li><pre class="prettify">import &#123; ColorPickerModule &#125; from '@iplab/ngx-color-picker';
+import &#123; BrowserAnimationsModule &#125; from '@angular/platform-browser/animations';
 ...
 ...
 
 
 @NgModule(&#123;
-imports: [
-    BrowserModule,
-    ColorPickerModule
-],
-bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        ColorPickerModule,
+        <b>BrowserAnimationsModule</b> or <b>NoopAnimationsModule</b> // need to be included
+    ],
+    bootstrap: [AppComponent]
 &#125;)
 export class AppModule &#123;&#125;</pre>
                 </li>

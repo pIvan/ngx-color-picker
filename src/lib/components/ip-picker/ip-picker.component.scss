@@ -53,11 +53,11 @@ indicator-component {
     margin-top: -11px;
 }
 
-:host indicator-component /deep/ svg {
+:host indicator-component ::ng-deep svg {
     vertical-align: 15%;
 }
 
-hex-input-component /deep/ input {
+hex-input-component ::ng-deep input {
     border: 0;
     color: #817e81;
     margin: 0;
@@ -76,7 +76,7 @@ hex-input-component /deep/ input {
     box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
 }
 
-:host hue-component[vertical] /deep/ .pointer {
+:host hue-component[vertical] ::ng-deep .pointer {
     width: auto;
     height: 0;
     left: 0;
@@ -85,7 +85,7 @@ hex-input-component /deep/ input {
     background: transparent;
 }
 
-:host alpha-component /deep/ .pointer {
+:host alpha-component ::ng-deep .pointer {
     width: 0;
     height: auto;
     top: 0;
@@ -94,8 +94,8 @@ hex-input-component /deep/ input {
     background: transparent;
 }
 
-:host hue-component[vertical] /deep/ .pointer:after,
-:host hue-component[vertical] /deep/ .pointer:before {
+:host hue-component[vertical] ::ng-deep .pointer:after,
+:host hue-component[vertical] ::ng-deep .pointer:before {
     top: -5.5px;
     display: block;
     content: '\0A0';
@@ -106,12 +106,12 @@ hex-input-component /deep/ input {
     border-bottom: 5px solid transparent;
 }
 
-:host hue-component[vertical] /deep/ .pointer:after {
+:host hue-component[vertical] ::ng-deep .pointer:after {
     border-left: 8px solid #666;
     left: -8px;
 }
 
-:host hue-component[vertical] /deep/ .pointer:before {
+:host hue-component[vertical] ::ng-deep .pointer:before {
     border-right: 8px solid #666;
     right: -8px;
 }
@@ -120,8 +120,8 @@ hex-input-component /deep/ input {
     height: 24px;
 }
 
-:host alpha-component /deep/ .pointer:after,
-:host alpha-component /deep/ .pointer:before {
+:host alpha-component ::ng-deep .pointer:after,
+:host alpha-component ::ng-deep .pointer:before {
     left: -5.5px;
     display: block;
     content: '\0A0';
@@ -132,12 +132,12 @@ hex-input-component /deep/ input {
     border-right: 5px solid transparent;
 }
 
-:host alpha-component /deep/ .pointer:after {
+:host alpha-component ::ng-deep .pointer:after {
     border-top: 8px solid #666;
     top: -8px;
 }
 
-:host alpha-component /deep/ .pointer:before {
+:host alpha-component ::ng-deep .pointer:before {
     border-bottom: 8px solid #666;
     bottom: -8px;
 }

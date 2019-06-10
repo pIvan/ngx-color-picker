@@ -1,6 +1,17 @@
-import { Component, Input, ChangeDetectionStrategy, Renderer2, Inject, OnDestroy, ChangeDetectorRef, Output, EventEmitter, HostBinding } from "@angular/core";
+import {
+    Component,
+    Input,
+    ChangeDetectionStrategy,
+    Renderer2,
+    Inject,
+    OnDestroy,
+    ChangeDetectorRef,
+    Output,
+    EventEmitter,
+    HostBinding
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Color } from "./../../../helpers/color.class";
+import { Color } from './../../../helpers/color.class';
 import { OpacityAnimation, ListAnimation } from './color-preset-sublist.animation';
 
 @Component({

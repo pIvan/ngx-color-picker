@@ -1,5 +1,5 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from "@angular/core";
-import { Color } from "../../../../helpers/color.class";
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Color } from '../../../../helpers/color.class';
 
 
 @Component({
@@ -44,8 +44,8 @@ export class HexComponent {
     }
 
     public onInputChange(inputValue: string): void {
-        let value = inputValue.toLowerCase().replace('#', '');
-        if(value.length === 3 || value.length === 6 || value.length === 8) {
+        const value = inputValue.toLowerCase().replace('#', '');
+        if (value.length === 3 || value.length === 6 || value.length === 8) {
             const hex = parseInt(value, 16);
 
             /**

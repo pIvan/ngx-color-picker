@@ -1,5 +1,5 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from "@angular/core";
-import { Color } from "./../../../helpers/color.class";
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Color } from './../../../helpers/color.class';
 
 @Component({
     selector: `color-presets-component`,

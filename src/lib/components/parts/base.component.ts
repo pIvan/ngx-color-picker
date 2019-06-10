@@ -1,4 +1,4 @@
-import { ElementRef, Renderer2, OnDestroy } from "@angular/core";
+import { ElementRef, Renderer2, OnDestroy } from '@angular/core';
 
 /**
  * because a dynamic directive yet is not implemented,
@@ -14,7 +14,7 @@ export abstract class BaseComponent implements OnDestroy {
 
     constructor(private readonly document, protected readonly elementRef: ElementRef, protected readonly renderer: Renderer2) {
         this.window = document.defaultView;
-        this.requestAnimationFrame = this.getRequestAnimationFrame()
+        this.requestAnimationFrame = this.getRequestAnimationFrame();
     }
 
     public abstract movePointer(coordinates: {x: number; y: number; height: number; width: number;}): void;
@@ -50,7 +50,7 @@ export abstract class BaseComponent implements OnDestroy {
 
     private calculate(event: MouseEvent|TouchEvent): void {
         event.preventDefault();
-        if(!this.requestAnimationFrame) {
+        if (!this.requestAnimationFrame) {
             return this.calculateCoordinates(event);
         }
 
@@ -60,9 +60,9 @@ export abstract class BaseComponent implements OnDestroy {
     private getRequestAnimationFrame(): Function {
         return this.window.requestAnimationFrame ||
                 this.window.webkitRequestAnimationFrame ||
-		        this.window.mozRequestAnimationFrame ||
-		        this.window.oRequestAnimationFrame ||
-		        this.window.msRequestAnimationFrame;
+                this.window.mozRequestAnimationFrame ||
+                this.window.oRequestAnimationFrame ||
+                this.window.msRequestAnimationFrame;
     }
 
     private removeListeners(): void {

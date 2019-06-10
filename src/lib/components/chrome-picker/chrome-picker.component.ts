@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectionStrategy, OnDestroy, OnChanges, ChangeDetectorRef } from "@angular/core";
-import { ColorString } from "./../../helpers/color.class";
-import { ColorPickerControl } from "./../../helpers/control.class";
-import { getValueByType } from "./../../helpers/helper.functions";
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectionStrategy, OnDestroy, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { ColorString } from './../../helpers/color.class';
+import { ColorPickerControl } from './../../helpers/control.class';
+import { getValueByType } from './../../helpers/helper.functions';
 
 @Component({
     selector: `chrome-picker`,
@@ -33,7 +33,7 @@ export class ChromePickerComponent implements OnInit, OnChanges, OnDestroy {
         if (!this.control) {
             this.control = new ColorPickerControl();
         }
-        
+
         if (this.color) {
             this.control.setValueFrom(this.color);
         }
@@ -52,7 +52,7 @@ export class ChromePickerComponent implements OnInit, OnChanges, OnDestroy {
                 ['#3F51B5', '#e8eaf6', '#c5cae9', '#9fa8da', '#7986cb', '#5c6bc0', '#3f51b5', '#3949ab', '#303f9f', '#283593', '#1a237e'],
                 ['#2196F3', '#e3f2fd', '#bbdefb', '#90caf9', '#64b5f6', '#42a5f5', '#2196f3', '#1e88e5', '#1976d2', '#1565c0', '#0D47a1'],
                 ['#03A9F4', '#e1f5fe', '#b3e5fc', '#81d4fa', '#4fc3f7', '#29b6f6', '#03a9f4', '#039be5', '#0288d1', '#0277bd', '#01579b'],
-                ['#00BCD4', '#e0f7fa', '#b2ebf2', '#80deea', '#4dd0e1', '#26c6da', '#00bcd4', '#00acc1', '#0097a7', '#00838f', '#006064'], 
+                ['#00BCD4', '#e0f7fa', '#b2ebf2', '#80deea', '#4dd0e1', '#26c6da', '#00bcd4', '#00acc1', '#0097a7', '#00838f', '#006064'],
                 ['#009688', '#E0F2f1', '#b2dfdb', '#80cbc4', '#4db6ac', '#26a69a', '#009688', '#00897b', '#00796b', '#00695c', '#004d40'],
                 ['#4CAF50', '#e8f5e9', '#c8e6c9', '#a5d6a7', '#81c784', '#66bb6a', '#4caf50', '#43a047', '#388e3c', '#2e7d32', '#1b5e20'],
                 ['#8BC34A', '#f1f8e9', '#dcedc8', '#c5e1a5', '#aed581', '#9ccc65', '#8bc34a', '#7cb342', '#689f38', '#558b2f', '#33691e'],
@@ -66,7 +66,7 @@ export class ChromePickerComponent implements OnInit, OnChanges, OnDestroy {
                 ['#607d8b', '#eceff1', '#cfd8dc', '#b0bec5', '#90a4ae', '#78909c', '#60708b', '#546e7a', '#455a64', '#37474f', '#263238']
             ]);
         }
-        
+
         this.control.valueChanges.subscribe((value) => {
             this.cdr.markForCheck();
             this.colorChange.emit(getValueByType(value, this.control.initType));

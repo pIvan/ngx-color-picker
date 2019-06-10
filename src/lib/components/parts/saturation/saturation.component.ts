@@ -13,10 +13,10 @@ import {
     OnInit,
     OnChanges,
     SimpleChanges
-} from "@angular/core";
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Color } from "./../../../helpers/color.class";
-import { BaseComponent } from "./../base.component";
+import { Color } from './../../../helpers/color.class';
+import { BaseComponent } from './../base.component';
 
 
 @Component({
@@ -39,7 +39,7 @@ export class SaturationComponent extends BaseComponent implements OnInit, OnChan
     @Output()
     public colorChange = new EventEmitter<Color>(false);
 
-    @ViewChild('pointer')
+    @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
 
     constructor(renderer: Renderer2, @Inject(DOCUMENT) document, elementRef: ElementRef) {
@@ -69,7 +69,7 @@ export class SaturationComponent extends BaseComponent implements OnInit, OnChan
      * and then we need to move pointer
      */
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.color && changes.color.previousValue != changes.color.currentValue) {
+        if (changes.color && changes.color.previousValue !== changes.color.currentValue) {
             const hsva = this.color.getHsva();
             this.changePointerPosition(hsva.saturation, hsva.value);
         }

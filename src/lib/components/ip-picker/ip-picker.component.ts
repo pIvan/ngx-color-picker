@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectionStrategy, OnDestroy, OnChanges } from "@angular/core";
-import { Color, ColorString } from "./../../helpers/color.class";
-import { ColorPickerControl } from "./../../helpers/control.class";
-import { getValueByType } from "./../../helpers/helper.functions";
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectionStrategy, OnDestroy, OnChanges } from '@angular/core';
+import { Color, ColorString } from './../../helpers/color.class';
+import { ColorPickerControl } from './../../helpers/control.class';
+import { getValueByType } from './../../helpers/helper.functions';
 
 @Component({
     selector: `ip-picker`,
@@ -58,7 +58,7 @@ export class IpPickerComponent implements OnInit, OnChanges, OnDestroy {
                 ['#607d8b', '#eceff1', '#cfd8dc', '#b0bec5', '#90a4ae', '#78909c', '#60708b', '#546e7a', '#455a64', '#37474f', '#263238']
             ]);
         }
-        
+
         if (this.color) {
             this.control.setValueFrom(this.color);
         }

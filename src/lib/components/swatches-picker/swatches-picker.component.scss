@@ -8,14 +8,14 @@
     padding: 6px;
 }
 
-:host /deep/ color-preset,
-:host /deep/ color-preset-sublist {
+:host ::ng-deep color-preset,
+:host ::ng-deep color-preset-sublist {
     width: 30px;
     height: 30px;
 }
 
-:host /deep/ color-preset:hover:after,
-:host /deep/ color-preset.selected:after {
+:host ::ng-deep color-preset:hover:after,
+:host ::ng-deep color-preset.selected:after {
     display: block;
     content: '\0A0';
     position: absolute;
@@ -28,44 +28,44 @@
     box-shadow: rgba(0, 0, 0, 0.2) 0 0 5px 2px;
 }
 
-:host /deep/ .row:first-child color-preset:first-child,
-:host /deep/ .row:first-child color-preset-sublist:first-child {
+:host ::ng-deep .row:first-child color-preset:first-child,
+:host ::ng-deep .row:first-child color-preset-sublist:first-child {
     border-radius: 4px 0 0 4px;
 }
 
-:host /deep/ .row.last color-preset.last,
-:host /deep/ .row.last color-preset-sublist.last {
+:host ::ng-deep .row.last color-preset.last,
+:host ::ng-deep .row.last color-preset-sublist.last {
     border-radius: 0 4px 4px 0;
 }
 
-:host /deep/ .child-list .row.first color-preset.first,
-:host /deep/ .child-list .row.first color-preset-sublist.first {
+:host ::ng-deep .child-list .row.first color-preset.first,
+:host ::ng-deep .child-list .row.first color-preset-sublist.first {
     border-radius: 4px 0 0 0;
 }
 
-:host /deep/ .child-list .row.first color-preset.last,
-:host /deep/ .child-list .row.first color-preset-sublist.last {
+:host ::ng-deep .child-list .row.first color-preset.last,
+:host ::ng-deep .child-list .row.first color-preset-sublist.last {
     border-radius: 0 4px 0 0;
 }
 
-:host /deep/ .child-list .row.last color-preset.first,
-:host /deep/ .child-list .row.last color-preset-sublist.first {
+:host ::ng-deep .child-list .row.last color-preset.first,
+:host ::ng-deep .child-list .row.last color-preset-sublist.first {
     border-radius: 0 0 0 4px;
 }
 
-:host /deep/ .child-list .row.last color-preset.last,
-:host /deep/ .child-list .row.last color-preset-sublist.last {
+:host ::ng-deep .child-list .row.last color-preset.last,
+:host ::ng-deep .child-list .row.last color-preset-sublist.last {
     border-radius: 0 0 4px 0;
 }
 
-:host /deep/ .child-list {
+:host ::ng-deep .child-list {
     margin-top: 6px;
     border-top: 1px solid #e5e5e5;
     padding: 6px 0 0;
 }
 
-:host /deep/ .child-list color-preset:hover:after,
-:host /deep/ .child-list color-preset.selected:after {
+:host ::ng-deep .child-list color-preset:hover:after,
+:host ::ng-deep .child-list color-preset.selected:after {
     content: '\2714';
     font-size: 18px;
     color: #fff;

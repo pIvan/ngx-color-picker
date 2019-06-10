@@ -7,7 +7,6 @@
  */
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /**
  * parts
@@ -59,8 +58,7 @@ export { IColorPickerConfig } from './services/color-picker.service';
 
 @NgModule({
     imports: [
-        CommonModule,
-        BrowserAnimationsModule
+        CommonModule
     ],
     providers: [
         ColorPickerConfig
@@ -123,6 +121,6 @@ export class ColorPickerModule {
             providers: [
                 { provide: ColorPickerConfig, useClass: configuration || ColorPickerConfig }
             ]
-        }
+        };
     }
 }

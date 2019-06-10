@@ -29,7 +29,7 @@ saturation-component {
     padding: 0 10px 0 0;
 }
 
-:host /deep/ .controls .pointer {
+:host ::ng-deep .controls .pointer {
     box-shadow: rgba(0,0,0,.3) 0 0 2px, rgba(0,0,0,.3) 0 1px 4px;
 }
 
@@ -48,7 +48,7 @@ color-presets-component {
     padding: 12px;
 }
 
-color-presets-component /deep/ .row {
+color-presets-component ::ng-deep .row {
     padding: 12px 0 0;
 }
 
@@ -73,27 +73,27 @@ color-presets-component /deep/ .row {
     padding: 12px 0 0;
 }
 
-:host /deep/ .reflection,
-:host /deep/ color-preset {
+:host ::ng-deep .reflection,
+:host ::ng-deep color-preset {
     border-radius: 2px;
 }
 
-:host /deep/ .row > color-preset,
-:host /deep/ .row > color-preset-sublist {
+:host ::ng-deep .row > color-preset,
+:host ::ng-deep .row > color-preset-sublist {
     margin: 0 0 0 12px;
 }
 
-:host /deep/ .row > color-preset:first-child,
-:host /deep/ .row > color-preset-sublist:first-child {
+:host ::ng-deep .row > color-preset:first-child,
+:host ::ng-deep .row > color-preset-sublist:first-child {
     margin: 0;
 }
 
 
-:host /deep/ color-preset {
+:host ::ng-deep color-preset {
     box-shadow: inset rgba(0, 0, 0, 0.3) 0px 0px 2px;
 }
 
-:host /deep/ .sublist color-preset:hover,
-:host /deep/ .row > color-preset:hover {
+:host ::ng-deep .sublist color-preset:hover,
+:host ::ng-deep .row > color-preset:hover {
     transform: scale(1.18, 1.18);
 }

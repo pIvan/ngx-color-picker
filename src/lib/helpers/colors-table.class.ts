@@ -1,4 +1,4 @@
-import { Rgba } from "./rgba.class";
+import { Rgba } from './rgba.class';
 
 /**
  * http://www.w3.org/TR/css3-color/
