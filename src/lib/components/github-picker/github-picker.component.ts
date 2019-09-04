@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, HostBinding } from '@angular/core';
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
 import { getValueByType } from './../../helpers/helper.functions';
@@ -20,8 +20,19 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     public control: ColorPickerControl;
 
+    @Input()
+    public columns: number | 'auto' = 8;
+
     @Output()
     public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
+
+    @HostBinding('style.width') get widht() {
+        return this.columns === 'auto' ? `auto` : `${25 * this.columns + 12}px`;
+    }
+
+    public get columnsCount() {
+        return this.columns === 'auto' ? this.control.presets.length : this.columns;
+    }
 
     constructor(private readonly cdr: ChangeDetectorRef) {
     }
