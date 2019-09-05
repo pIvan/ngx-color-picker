@@ -455,7 +455,7 @@ export class Color {
         /**
          * try to find color by name in table
          */
-        let rgba: Rgba = ColorsTable[colorString] || null;
+        let rgba: Rgba = ColorsTable[str] || null;
 
         /**
          * hex find
