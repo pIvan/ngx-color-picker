@@ -20,4 +20,4 @@ install:
   - npm install
 
 script:
-  - ng test --watch=false
+  - ng test ngx-library
