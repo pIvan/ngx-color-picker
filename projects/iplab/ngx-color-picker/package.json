@@ -18,8 +18,8 @@
     "url": "https://github.com/pIvan/ngx-color-picker.git"
   },
   "peerDependencies": {
-    "@angular/common": "^8.2.4",
-    "@angular/core": "^8.2.4",
-    "@angular/animations": "^8.2.4"
+    "@angular/common": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
+    "@angular/core": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
+    "@angular/animations": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0"
   }
 }
