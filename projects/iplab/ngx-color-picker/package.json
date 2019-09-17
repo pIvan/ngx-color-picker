@@ -1,0 +1,25 @@
+{
+  "name": "@iplab/ngx-color-picker",
+  "description": "",
+  "homepage": "https://github.com/pIvan/ngx-color-picker",
+  "bugs": "https://github.com/pIvan/ngx-color-picker/issues",
+  "version": "1.0.3",
+  "author": "Ivan Pintar",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "keywords": [
+    "color picker",
+    "color",
+    "angular",
+    "ngx"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pIvan/ngx-color-picker.git"
+  },
+  "peerDependencies": {
+    "@angular/common": "^8.2.4",
+    "@angular/core": "^8.2.4",
+    "@angular/animations": "^8.2.4"
+  }
+}
