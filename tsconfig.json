@@ -1,18 +1,15 @@
 {
   "compileOnSave": false,
-  "angularCompilerOptions": {
-    "enableIvy": true
-  },
   "compilerOptions": {
-    "baseUrl": "src",
-    "importHelpers": true,
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "importHelpers": true,
     "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
@@ -22,7 +19,13 @@
       "dom"
     ],
     "paths": {
-      "@iplab/ngx-color-picker": [ "lib/public_api" ]
+      "@iplab/ngx-color-picker": [
+        "projects/iplab/ngx-color-picker/src/public-api"
+      ]
     }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   }
 }

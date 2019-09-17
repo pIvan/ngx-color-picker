@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { ColorPickerControl, ColorsTable, Color } from '@iplab/ngx-color-picker';
+import { ColorPickerControl, ColorsTable } from '@iplab/ngx-color-picker';
 import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 
 @Component({
@@ -8,21 +8,21 @@ import * as prettify from 'google-code-prettify/bin/prettify.min.js';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
+
   public color = 'rgba(54, 86, 4, 1)';
 
   public readonly chromeControl = new ColorPickerControl()
-                                      .setValueFrom(ColorsTable.aquamarine)
-                                      .hidePresets()
-                                      .hideAlphaChannel();
+    .setValueFrom(ColorsTable.aquamarine)
+    .hidePresets()
+    .hideAlphaChannel();
 
   public readonly sketchControl = new ColorPickerControl()
-                                      .setValueFrom('#A6771C');
+    .setValueFrom('#A6771C');
 
   public readonly compactControl = new ColorPickerControl();
 
   public githubControl = new ColorPickerControl()
-                              .setValueFrom('#1273DE');
+    .setValueFrom('#1273DE');
 
   public swatchesColor = '#F04A71';
 
@@ -31,6 +31,6 @@ export class AppComponent {
 
   public ngAfterViewInit(): void {
     this.elRef.nativeElement.querySelectorAll('.prettify')
-      .forEach(( el: HTMLElement ) => el.innerHTML = prettify.prettyPrintOne(el.innerHTML));
+      .forEach((el: HTMLElement) => el.innerHTML = prettify.prettyPrintOne(el.innerHTML));
   }
 }

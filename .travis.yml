@@ -2,16 +2,15 @@ language: node_js
 node_js:
   - "node"
 
+dist: trusty
+sudo: required
+
 services:
   - xvfb
 
 branches:
   only:
     - master
-
-before_install:
-  - export CHROME_BIN=chromium-browser
-  - export DISPLAY=:99.0
 
 before_script:
   - npm install -g @angular/cli
@@ -20,4 +19,4 @@ install:
   - npm install
 
 script:
-  - ng test --watch=false
+  - ng test ngx-library
