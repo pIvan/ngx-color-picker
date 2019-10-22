@@ -25,6 +25,8 @@ export class AppComponent {
     .setValueFrom('#1273DE');
 
   public swatchesColor = '#F04A71';
+  
+  public wrapperColor = '#F04A71';
 
   constructor(private readonly elRef: ElementRef) {
   }

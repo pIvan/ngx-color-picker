@@ -4,6 +4,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ColorPickerModule } from '@iplab/ngx-color-picker';
 import { AppComponent } from './app.component';
 
+/**
+ * wrapper component examples
+ */
+import { WrapperExampleModule } from './wrap-examples/wrap-example.module';
+
 
 
 @NgModule({
@@ -13,7 +18,8 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     ColorPickerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    WrapperExampleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
