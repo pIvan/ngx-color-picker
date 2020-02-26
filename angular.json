@@ -43,7 +43,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -139,6 +138,11 @@
           "options": {
             "tsConfig": "projects/iplab/ngx-color-picker/tsconfig.lib.json",
             "project": "projects/iplab/ngx-color-picker/ng-package.json"
+          },
+         "configurations": {
+            "production": {
+              "tsConfig": "projects/iplab/ngx-color-picker/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
