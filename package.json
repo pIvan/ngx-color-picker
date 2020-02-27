@@ -11,7 +11,7 @@
     "clean": "rm -rf dist",
     "copy:files": "copy README.md .\\dist\\lib\\ && copy LICENSE .\\dist\\lib\\",
     "build:git:demo": "ng build --prod",
-    "build:library": "ng test ngx-library && ng build ngx-library && npm run copy:files && npm run build:git:demo",
+    "build:library": "ng test ngx-library && ng build ngx-library --prod && npm run copy:files && npm run build:git:demo",
     "build:publish": "npm publish dist/lib/ --access public --tag=latest"
   },
   "private": true,
