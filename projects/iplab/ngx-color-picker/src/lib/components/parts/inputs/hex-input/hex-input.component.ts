@@ -47,12 +47,15 @@ export class HexComponent {
         const value = inputValue.toLowerCase().replace('#', '');
         if (value.length === 3 || value.length === 6 || value.length === 8) {
             const hex = parseInt(value, 16);
+            const hexStr = hex.toString(16);
 
             /**
              * if value is valid
              * change color else do nothing
+             * after parsing number leading 0 is removed,
+             * compare length and add leading 0 before comparing two values
              */
-            if (hex.toString(16) === value && this.value !== value) {
+            if (hexStr.padStart(value.length, '0') === value && this.value !== value) {
                 const newColor = new Color(`#${value}`);
                 const hue = new Color().setHsva(newColor.getHsva().hue);
                 this.hueChange.emit(hue);
