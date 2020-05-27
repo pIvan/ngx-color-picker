@@ -1,3 +1,8 @@
+<a name="1.0.8"></a>
+## [1.0.8](https://github.com/pIvan/ngx-color-picker/commit/2f88dd4e62b80b0d3e11a4aa360bbf194a5649d7) (2020-5-27)
+
+### hex to string validation fix
+
 <a name="1.0.5"></a>
 ## [1.0.5](https://github.com/pIvan/ngx-color-picker/commit/d6b677bef03106d5f2b259e0704aaac1f0b612d3) (2019-10-22)
 
