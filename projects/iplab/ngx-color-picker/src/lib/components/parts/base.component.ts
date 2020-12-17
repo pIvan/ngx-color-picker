@@ -1,4 +1,4 @@
-import { ElementRef, Renderer2, OnDestroy } from '@angular/core';
+import { ElementRef, Renderer2, OnDestroy, Directive } from '@angular/core';
 
 /**
  * because a dynamic directive yet is not implemented,
@@ -6,6 +6,7 @@ import { ElementRef, Renderer2, OnDestroy } from '@angular/core';
  * help us to implement position calculation in our
  * components
  */
+@Directive()
 export abstract class BaseComponent implements OnDestroy {
 
     private eventHooks: Array<Function> = [];

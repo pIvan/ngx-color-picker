@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, inject, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { Color } from '@iplab/ngx-color-picker';
 
 const staticColors = {
@@ -48,7 +48,7 @@ const staticColors = {
 
 describe('Color.class', () => {
 
-    it('should correctly convert hex', async(() => {
+    it('should correctly convert hex', waitForAsync(() => {
         const blue = new Color(staticColors.blue.hex);
         const green = new Color(staticColors.green.hex);
         const lime = new Color(staticColors.lime.hex);
@@ -93,7 +93,7 @@ describe('Color.class', () => {
         expect(purple.toCmykString()).toBe(staticColors.purple.cmyk);
     }));
 
-    it('should correctly convert rgb', async(() => {
+    it('should correctly convert rgb', waitForAsync(() => {
         const blue = new Color(staticColors.blue.rgb);
         const green = new Color(staticColors.green.rgb);
         const lime = new Color(staticColors.lime.rgb);
