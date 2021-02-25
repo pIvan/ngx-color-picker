@@ -48,7 +48,7 @@ export class IndicatorComponent {
                 input.value = this.color.toHslaString();
                 break;
             case 'hex':
-                input.value = this.color.toHexString();
+                input.value = this.color.toHexString(this.color.getRgba().alpha < 1);
                 break;
             default:
                 input.value = this.backgroundColor;

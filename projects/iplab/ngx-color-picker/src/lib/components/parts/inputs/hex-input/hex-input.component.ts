@@ -40,7 +40,7 @@ export class HexComponent {
     }
 
     public get value() {
-        return this.prefixValue + (this.color ? this.color.toHexString().replace('#', '') : '');
+        return this.prefixValue + (this.color ? this.color.toHexString(this.color.getRgba().alpha < 1).replace('#', '') : '');
     }
 
     public onInputChange(inputValue: string): void {
