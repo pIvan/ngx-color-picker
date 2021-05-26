@@ -1,3 +1,8 @@
+<a name="2.1.0"></a>
+## [2.1.0](https://github.com/pIvan/ngx-color-picker/commit/0c3ecdd853747126e8dea565ccdeea2a9bf7c9f2) (2021-05-26)
+
+### Angular 12 update
+
 <a name="2.0.1"></a>
 ## [2.0.1](https://github.com/pIvan/ngx-color-picker/commit/ddbc5869fa74fd64714173ec4dec7a244d649ca1) (2020-5-27)
 
