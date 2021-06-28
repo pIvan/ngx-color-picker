@@ -446,8 +446,8 @@ export class Color {
         return new Cmyk(cyan, magenta, yellow, black);
     }
 
-    private roundNumber(number: number): number {
-        return Math.round(number * 100) / 100;
+    private roundNumber(n: number): number {
+        return Math.round(n * 100) / 100;
     }
 
     private stringToColor(colorString: ColorString): this {

@@ -43,9 +43,12 @@ export class HexComponent {
         return this.prefixValue + (this.color ? this.color.toHexString(this.color.getRgba().alpha < 1).replace('#', '') : '');
     }
 
-    public onInputChange(inputValue: string): void {
+    public onInputChange(event: KeyboardEvent, inputValue: string): void {
         const value = inputValue.toLowerCase().replace('#', '');
-        if (value.length === 3 || value.length === 6 || value.length === 8) {
+
+        if (
+        ((event.keyCode === 13 || event.key.toLowerCase() === 'enter') && value.length === 3)
+        || value.length === 6 || value.length === 8) {
             const hex = parseInt(value, 16);
             const hexStr = hex.toString(16);
 

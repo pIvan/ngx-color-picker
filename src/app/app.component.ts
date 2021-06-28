@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef } from '@angular/core';
 import { ColorPickerControl, ColorsTable } from '@iplab/ngx-color-picker';
 import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 
@@ -7,7 +7,7 @@ import * as prettify from 'google-code-prettify/bin/prettify.min.js';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
 
   public color = 'rgba(54, 86, 4, 1)';
 
@@ -25,7 +25,7 @@ export class AppComponent {
     .setValueFrom('#1273DE');
 
   public swatchesColor = '#F04A71';
-  
+
   public wrapperColor = '#F04A71';
 
   constructor(private readonly elRef: ElementRef) {
