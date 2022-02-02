@@ -39,7 +39,7 @@ export class SaturationComponent extends BaseComponent implements OnInit, OnChan
     @Output()
     public colorChange = new EventEmitter<Color>(false);
 
-    @ViewChild('pointer', { static: true })
+    @ViewChild('pointer')
     public pointer: ElementRef;
 
     constructor(renderer: Renderer2, @Inject(DOCUMENT) document, elementRef: ElementRef) {
