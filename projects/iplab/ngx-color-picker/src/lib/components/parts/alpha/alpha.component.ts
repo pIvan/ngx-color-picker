@@ -33,7 +33,7 @@ export class AlphaComponent extends BaseComponent implements OnChanges {
     @Output()
     public colorChange = new EventEmitter<Color>(false);
 
-    @ViewChild('pointer')
+    @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
 
     private isVertical: boolean = false;
