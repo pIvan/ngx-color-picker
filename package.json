@@ -10,9 +10,9 @@
     "e2e": "ng e2e",
     "clean": "rm -rf dist",
     "copy:files": "copy README.md .\\dist\\lib\\ && copy LICENSE .\\dist\\lib\\",
-    "build:git:demo": "ng build --prod",
-    "build:library": "ng test ngx-library && ng build ngx-library --prod && npm run copy:files && npm run build:git:demo",
-    "build:publish": "npm publish dist/lib/ --access public --tag=latest"
+    "build:git:demo": "ng build --configuration production",
+    "build:library": "ng test ngx-library && ng build ngx-library --configuration production && npm run copy:files && npm run build:git:demo",
+    "build:publish": "npm publish dist/lib/ --access public --tag=support-13.0.0"
   },
   "private": true,
   "dependencies": {
