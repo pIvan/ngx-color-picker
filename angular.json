@@ -143,6 +143,6 @@
           }
         }
       }
-    }},
-  "defaultProject": "ngx-color-picker"
+    }
+  }
 }
