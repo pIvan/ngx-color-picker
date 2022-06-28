@@ -8,7 +8,6 @@ import {
     Output,
     EventEmitter,
     ViewChild,
-    HostListener,
     SimpleChanges,
     OnChanges
 } from '@angular/core';
@@ -44,14 +43,8 @@ export class HueComponent extends BaseComponent implements OnChanges {
 
     private isVertical: boolean = false;
 
-    constructor(renderer: Renderer2, @Inject(DOCUMENT) document, elementRef: ElementRef) {
-        super(document, elementRef, renderer);
-    }
-
-    @HostListener('mousedown', ['$event'])
-    @HostListener('touchstart', ['$event'])
-    public onClick(event: any): void {
-        this.onEventChange(event);
+    constructor(private readonly renderer: Renderer2, @Inject(DOCUMENT) document, elementRef: ElementRef) {
+        super(document, elementRef);
     }
 
     @Input()

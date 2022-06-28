@@ -1,4 +1,6 @@
-import { ElementRef, Renderer2, OnDestroy, Directive } from '@angular/core';
+import { ElementRef, OnDestroy, Directive } from '@angular/core';
+import { fromEvent, merge, Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 /**
  * because a dynamic directive yet is not implemented,
@@ -9,39 +11,53 @@ import { ElementRef, Renderer2, OnDestroy, Directive } from '@angular/core';
 @Directive()
 export abstract class BaseComponent implements OnDestroy {
 
-    private eventHooks: Array<Function> = [];
+    private readonly subscriptions: Subscription[] = [];
     private window: any = { pageXOffset: 0, pageYOffset: 0 };
     private readonly requestAnimationFrame;
 
-    constructor(private readonly document, protected readonly elementRef: ElementRef, protected readonly renderer: Renderer2) {
+    private mouseup = new Subject<void>();
+
+    constructor(private readonly document, protected readonly elementRef: ElementRef) {
         this.window = document.defaultView;
         this.requestAnimationFrame = this.getRequestAnimationFrame();
+        this.addEventListeners();
     }
 
     public abstract movePointer(coordinates: { x: number; y: number; height: number; width: number; }): void;
 
-    protected onEventChange(event: MouseEvent | TouchEvent): void {
+    private addEventListeners(): void {
+        this.subscriptions.push(
+            fromEvent(this.elementRef.nativeElement, 'touchstart', { passive: true }).subscribe((e: TouchEvent) => this.onEventChange(e))
+        );
+
+        this.subscriptions.push(
+            fromEvent(this.elementRef.nativeElement, 'mousedown').subscribe((e: MouseEvent) => this.onEventChange(e))
+        );
+    }
+
+    private onEventChange(event: MouseEvent | TouchEvent): void {
         this.calculate(event);
 
-        this.eventHooks.push(
-            this.renderer.listen(this.document, 'mouseup', () => this.removeListeners())
-        );
-        this.eventHooks.push(
-            this.renderer.listen(this.document, 'touchend', () => this.removeListeners())
-        );
-        this.eventHooks.push(
-            this.renderer.listen(this.document, 'mousemove', (e) => this.calculate(e))
-        );
-        this.eventHooks.push(
-            this.renderer.listen(this.document, 'touchmove', (e) => this.calculate(e))
-        );
+        merge(
+            fromEvent(this.document, 'mouseup'),
+            fromEvent(this.document, 'touchend')
+        ).subscribe(() => this.mouseup.next());
+
+        merge(
+            fromEvent(this.document, 'mousemove'),
+            fromEvent(this.document, 'touchmove', { passive: true })
+        )
+        .pipe(takeUntil(this.mouseup))
+        .subscribe((e: MouseEvent | TouchEvent) => this.calculate(e));
     }
 
     private calculateCoordinates(event: MouseEvent | TouchEvent): void {
         const { width: elWidth, height: elHeight, top: elTop, left: elLeft } = this.elementRef.nativeElement.getBoundingClientRect();
 
-        const pageX = typeof event['pageX'] === 'number' ? event['pageX'] : event['touches'][0].pageX;
-        const pageY = typeof event['pageY'] === 'number' ? event['pageY'] : event['touches'][0].pageY;
+        const pageX = typeof (event as MouseEvent).pageX === 'number'
+                        ? (event as MouseEvent).pageX : (event as TouchEvent).touches[0].pageX;
+        const pageY = typeof  (event as MouseEvent).pageY === 'number'
+                        ? (event as MouseEvent).pageY : (event as TouchEvent).touches[0].pageY;
 
         const x = Math.max(0, Math.min(pageX - (elLeft + this.window.pageXOffset), elWidth));
         const y = Math.max(0, Math.min(pageY - (elTop + this.window.pageYOffset), elHeight));
@@ -50,7 +66,9 @@ export abstract class BaseComponent implements OnDestroy {
     }
 
     private calculate(event: MouseEvent | TouchEvent): void {
-        event.preventDefault();
+        if (!event.type.includes('touch')) {
+            event.preventDefault();
+        }
         if (!this.requestAnimationFrame) {
             return this.calculateCoordinates(event);
         }
@@ -58,7 +76,7 @@ export abstract class BaseComponent implements OnDestroy {
         this.requestAnimationFrame(() => this.calculateCoordinates(event));
     }
 
-    private getRequestAnimationFrame(): Function {
+    private getRequestAnimationFrame(): () => void {
         return this.window.requestAnimationFrame ||
             this.window.webkitRequestAnimationFrame ||
             this.window.mozRequestAnimationFrame ||
@@ -66,12 +84,10 @@ export abstract class BaseComponent implements OnDestroy {
             this.window.msRequestAnimationFrame;
     }
 
-    private removeListeners(): void {
-        this.eventHooks.forEach((cb) => cb());
-        this.eventHooks.length = 0;
-    }
-
     public ngOnDestroy(): void {
-        this.removeListeners();
+        this.mouseup.next();
+        this.mouseup.complete();
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subscriptions.length = 0;
     }
 }

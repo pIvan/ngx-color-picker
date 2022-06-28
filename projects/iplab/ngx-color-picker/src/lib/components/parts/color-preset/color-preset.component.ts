@@ -5,11 +5,11 @@ import {
     EventEmitter,
     Output,
     ChangeDetectionStrategy,
-    HostListener,
-    OnDestroy
+    OnDestroy,
+    ElementRef
 } from '@angular/core';
 import { Color, ColorString } from './../../../helpers/color.class';
-import { Subject, of } from 'rxjs';
+import { Subject, of, fromEvent, Subscription, merge } from 'rxjs';
 import { takeUntil, delay, map } from 'rxjs/operators';
 import { ColorPickerConfig } from './../../../services/color-picker.service';
 
@@ -41,15 +41,20 @@ export class ColorPresetComponent implements OnDestroy {
     @Output()
     public longPress = new EventEmitter<boolean>(false);
 
-    private mouseup = new Subject<MouseEvent | TouchEvent>();
+    private mouseup = new Subject<void>();
 
     private showDepthText: boolean = false;
 
-    constructor(private readonly pickerConfig: ColorPickerConfig) { }
+    private subscriptions: Subscription[] = [];
+
+    constructor(private readonly pickerConfig: ColorPickerConfig, private readonly elementRef: ElementRef) {
+        this.addEventListeners();
+    }
 
     public ngOnDestroy(): void {
         this.mouseup.next();
         this.mouseup.complete();
+        this.removeEventListeners();
     }
 
     @HostBinding('style.backgroundColor')
@@ -72,9 +77,30 @@ export class ColorPresetComponent implements OnDestroy {
         return this.activeColor ? this.color.toRgbaString() === this.activeColor.toRgbaString() : false;
     }
 
-    @HostListener('mousedown', ['$event'])
-    @HostListener('touchstart', ['$event'])
-    public onTouch(event: MouseEvent | TouchEvent): void {
+    private addEventListeners(): void {
+        this.subscriptions.push(
+            merge(
+                fromEvent(this.elementRef.nativeElement, 'mouseup'),
+                fromEvent(this.elementRef.nativeElement, 'touchend')
+            )
+            .subscribe(() => this.onTouchEnd())
+        );
+
+        this.subscriptions.push(
+            merge(
+                fromEvent(this.elementRef.nativeElement, 'mousedown'),
+                fromEvent(this.elementRef.nativeElement, 'touchstart', { passive: true })
+            )
+            .subscribe((e: MouseEvent | TouchEvent) => this.onTouch(e))
+        );
+    }
+
+    private removeEventListeners(): void {
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subscriptions.length = 0;
+    }
+
+    private onTouch(event: MouseEvent | TouchEvent): void {
         of(event)
             .pipe(
                 map((e: MouseEvent | TouchEvent) => e.timeStamp || new Date().getTime()),
@@ -86,10 +112,8 @@ export class ColorPresetComponent implements OnDestroy {
         this.selectionChange.emit(this.color);
     }
 
-    @HostListener('mouseup', ['$event'])
-    @HostListener('touchend', ['$event'])
-    public onTouchEnd(event: MouseEvent | TouchEvent): void {
-        this.mouseup.next(event);
+    private onTouchEnd(): void {
+        this.mouseup.next();
     }
 
 }
