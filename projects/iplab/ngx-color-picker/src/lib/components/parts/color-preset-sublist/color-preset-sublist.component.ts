@@ -2,7 +2,6 @@ import {
     Component,
     Input,
     ChangeDetectionStrategy,
-    Renderer2,
     Inject,
     OnDestroy,
     ChangeDetectorRef,
@@ -13,6 +12,7 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { OpacityAnimation, ListAnimation } from './color-preset-sublist.animation';
+import { fromEvent, merge, Subscription } from 'rxjs';
 
 @Component({
     selector: `color-preset-sublist`,
@@ -40,10 +40,9 @@ export class ColorPresetSublist implements OnDestroy {
 
     public showChildren: boolean = false;
 
-    private hooks: Array<Function> = [];
+    private subscriptions: Subscription[] = [];
 
     constructor(
-        private readonly renderer: Renderer2,
         @Inject(DOCUMENT) private readonly document,
         private readonly cdr: ChangeDetectorRef) {
     }
@@ -54,8 +53,8 @@ export class ColorPresetSublist implements OnDestroy {
     }
 
     private removeListeners(): void {
-        this.hooks.forEach((callback) => callback());
-        this.hooks.length = 0;
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subscriptions.length = 0;
     }
 
     /**
@@ -67,12 +66,17 @@ export class ColorPresetSublist implements OnDestroy {
 
     public onLongPress(): void {
         this.showChildren = true;
-        this.listenDocumentClick();
+        this.listenDocumentEvents();
     }
 
-    private listenDocumentClick(): void {
-        this.hooks.push(this.renderer.listen(this.document, 'mousedown', () => this.closeList()));
-        this.hooks.push(this.renderer.listen(this.document, 'touchstart', () => this.closeList()));
+    private listenDocumentEvents(): void {
+        this.subscriptions.push(
+            merge(
+                fromEvent(this.document, 'mousedown'),
+                fromEvent(this.document, 'touchstart', { passive: true })
+            )
+            .subscribe(() => this.closeList())
+        );
     }
 
     private closeList(): void {
