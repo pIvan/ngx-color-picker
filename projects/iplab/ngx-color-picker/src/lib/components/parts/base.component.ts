@@ -1,13 +1,8 @@
-import { ElementRef, OnDestroy, Directive } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { ElementRef, OnDestroy, Directive, inject } from '@angular/core';
 import { fromEvent, merge, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-/**
- * because a dynamic directive yet is not implemented,
- * we have a base class which will
- * help us to implement position calculation in our
- * components
- */
 @Directive()
 export abstract class BaseComponent implements OnDestroy {
 
@@ -17,7 +12,11 @@ export abstract class BaseComponent implements OnDestroy {
 
     private mouseup = new Subject<void>();
 
-    constructor(private readonly document, protected readonly elementRef: ElementRef) {
+    private readonly document = inject(DOCUMENT);
+
+    protected readonly elementRef: ElementRef = inject(ElementRef);
+
+    constructor() {
         this.window = document.defaultView;
         this.requestAnimationFrame = this.getRequestAnimationFrame();
         this.addEventListeners();

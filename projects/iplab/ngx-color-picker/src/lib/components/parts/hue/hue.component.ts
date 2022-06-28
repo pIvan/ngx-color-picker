@@ -43,8 +43,8 @@ export class HueComponent extends BaseComponent implements OnChanges {
 
     private isVertical: boolean = false;
 
-    constructor(private readonly renderer: Renderer2, @Inject(DOCUMENT) document, elementRef: ElementRef) {
-        super(document, elementRef);
+    constructor(private readonly renderer: Renderer2) {
+        super();
     }
 
     @Input()

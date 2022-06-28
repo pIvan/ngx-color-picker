@@ -41,8 +41,8 @@ export class SaturationComponent extends BaseComponent implements OnInit, OnChan
     @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
 
-    constructor(private readonly renderer: Renderer2, @Inject(DOCUMENT) document, elementRef: ElementRef) {
-        super(document, elementRef);
+    constructor(private readonly renderer: Renderer2) {
+        super();
     }
 
     @HostBinding('style.backgroundColor')
