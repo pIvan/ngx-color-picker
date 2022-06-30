@@ -26,11 +26,11 @@ export abstract class BaseComponent implements OnDestroy {
 
     private addEventListeners(): void {
         this.subscriptions.push(
-            fromEvent(this.elementRef.nativeElement, 'touchstart', { passive: true }).subscribe((e: TouchEvent) => this.onEventChange(e))
-        );
-
-        this.subscriptions.push(
-            fromEvent(this.elementRef.nativeElement, 'mousedown').subscribe((e: MouseEvent) => this.onEventChange(e))
+            merge(
+                fromEvent(this.elementRef.nativeElement, 'touchstart', { passive: true }),
+                fromEvent(this.elementRef.nativeElement, 'mousedown')
+            )
+            .subscribe((e: TouchEvent | MouseEvent) => this.onEventChange(e))
         );
     }
 

@@ -3,7 +3,6 @@ import {
     ChangeDetectionStrategy,
     Input,
     Renderer2,
-    Inject,
     ElementRef,
     Output,
     EventEmitter,
@@ -11,7 +10,6 @@ import {
     SimpleChanges,
     OnChanges
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
 
