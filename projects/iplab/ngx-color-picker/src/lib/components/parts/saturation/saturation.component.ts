@@ -6,14 +6,12 @@ import {
     Output,
     ChangeDetectionStrategy,
     Renderer2,
-    Inject,
     ElementRef,
     ViewChild,
     OnInit,
     OnChanges,
     SimpleChanges
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
 

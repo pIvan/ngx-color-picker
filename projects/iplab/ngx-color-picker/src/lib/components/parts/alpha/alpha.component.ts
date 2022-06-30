@@ -5,13 +5,11 @@ import {
     Output,
     ChangeDetectionStrategy,
     OnChanges,
-    Inject,
     ElementRef,
     ViewChild,
     Renderer2,
     SimpleChanges
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
 
