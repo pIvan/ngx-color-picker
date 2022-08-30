@@ -464,7 +464,7 @@ export class Color {
             let hex = str.substr(1);
             const length = hex.length;
             let a = 1;
-            let hexArray;
+            let hexArray = [];
 
             if (length === 3) {
                 hexArray = hex.split('').map((value) => value + value);
