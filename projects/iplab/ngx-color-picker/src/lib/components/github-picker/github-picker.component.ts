@@ -34,13 +34,21 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
     public control: ColorPickerControl;
 
     @Input()
-    public columns: number | 'auto' = 8;
+    public get columns() {
+        return this.columnsValue;
+    }
+    public set columns(value: string | number | null | undefined) {
+        this.columnsValue = !isNaN(parseFloat(value as any)) && !isNaN(Number(value))
+            ? Number(value)
+            : 'auto';
+    }
+    private columnsValue: 'auto' | number = 8;
 
     @Output()
     public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
 
     @HostBinding('style.width') public get width() {
-        return this.columns === 'auto' ? `auto` : `${25 * this.columns + 12}px`;
+        return this.columnsValue === 'auto' ? `auto` : `${25 * this.columnsValue + 12}px`;
     }
 
     public get columnsCount() {
