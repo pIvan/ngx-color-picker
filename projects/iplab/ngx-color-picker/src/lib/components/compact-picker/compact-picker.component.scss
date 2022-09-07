@@ -4,15 +4,66 @@
     border-radius: 3px;
     background: #fff;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 0 4px;
+
+    ::ng-deep {
+        .reflection {
+            display: none;
+        }
+
+        color-preset {
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            box-shadow: inset rgba(0, 0, 0, 0.6) 0px 1px 1px;
+        }
+
+        .presets-row > color-preset,
+        .presets-row > color-preset-sublist {
+            margin: 0 0 0 6px;
+        }
+
+        .presets-row > color-preset:first-child,
+        .presets-row > color-preset-sublist:first-child {
+            margin: 0;
+        }
+
+        color-preset.selected,
+        .sublist color-preset:hover,
+        .presets-row > color-preset:hover {
+            box-shadow: inset rgba(0, 0, 0, 0.6) 0px 1px 6px;
+        }
+    }
+
+    hue-component {
+        width: 100%;
+        height: 178px;
+        box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
+    }
+
+    hue-component[vertical] ::ng-deep .pointer {
+        width: auto;
+        height: 9px;
+        left: -3px;
+        right: -3px;
+        margin: -4.5px 0 0;
+        background: transparent;
+        border: 3px solid #fff;
+        border-radius: 5px;
+        box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 2px;
+    }
+
+    indicator-component ::ng-deep svg {
+        vertical-align: 25%;
+    }
 }
 
 color-presets-component {
     border-bottom: 1px solid #e4e4e6;
     padding: 9px 12px;
-}
 
-color-presets-component ::ng-deep .row {
-    padding: 10px 0 0;
+    ::ng-deep .presets-row {
+        padding: 10px 0 0;
+    }
 }
 
 .controls {
@@ -40,33 +91,15 @@ color-presets-component ::ng-deep .row {
 saturation-component {
     height: 178px;
     box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
-}
 
-saturation-component ::ng-deep .pointer {
-    border-width: 2px;
-    box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 2px;
+    ::ng-deep .pointer {
+        border-width: 2px;
+        box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 2px;
+    }
 }
 
 .hue-column {
     padding-left: 14px;
-}
-
-:host hue-component {
-    width: 100%;
-    height: 178px;
-    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
-}
-
-:host hue-component[vertical] ::ng-deep .pointer {
-    width: auto;
-    height: 9px;
-    left: -3px;
-    right: -3px;
-    margin: -4.5px 0 0;
-    background: transparent;
-    border: 3px solid #fff;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 2px;
 }
 
 .controls-row.presentation {
@@ -81,10 +114,6 @@ indicator-component {
     width: 18px;
     box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
     border-radius: 50%;
-}
-
-:host indicator-component ::ng-deep svg {
-    vertical-align: 25%;
 }
 
 hex-input-component ::ng-deep input {
@@ -108,29 +137,3 @@ hex-input-component ::ng-deep input {
     fill: #000;
 }
 
-:host ::ng-deep .reflection {
-    display: none;
-}
-
-:host ::ng-deep color-preset {
-    height: 18px;
-    width: 18px;
-    border-radius: 50%;
-    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 1px 1px;
-}
-
-:host ::ng-deep .row > color-preset,
-:host ::ng-deep .row > color-preset-sublist {
-    margin: 0 0 0 6px;
-}
-
-:host ::ng-deep .row > color-preset:first-child,
-:host ::ng-deep .row > color-preset-sublist:first-child {
-    margin: 0;
-}
-
-:host ::ng-deep color-preset.selected,
-:host ::ng-deep .sublist color-preset:hover,
-:host ::ng-deep .row > color-preset:hover {
-    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 1px 6px;
-}
