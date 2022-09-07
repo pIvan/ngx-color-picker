@@ -415,6 +415,76 @@ export class AppComponent &#123;
     </div>
     <br>
 
+
+    <div class="card" id="wrap-component">
+        <div class="card-header">How to wrapp color picker</div>
+        <div class="card-block">
+            <div class="row">
+                <div class="col col-lg-4">
+                    
+                    <div class="info-row">
+                        <code>selected color: {{ wrapperColor }}</code><br>
+                    </div>
+                    <chrome-wrapper [(color)]="wrapperColor"></chrome-wrapper>
+                </div>
+                <div class="col col-lg-8">
+                    <p>Component code</p>
+                    <pre class="prettify">
+@Component(&#123;
+...
+selector: 'chrome-wrapper',
+template: '
+&lt;chrome-picker *ngIf="isVisible" [control]="colorControl"&gt;&lt;/chrome-picker&gt;
+&lt;div *ngIf="isVisible" class="overlay" (click)="overlayClick($event)"&gt;&lt;/div&gt;
+'
+&#125;)
+export class ChromeWrapperComponent &#123;
+
+    public colorControl = new ColorPickerControl();
+
+    public isVisible: boolean = false;
+
+    @Input()
+    public set color(color: string) &#123;
+        this.colorControl.setValueFrom(color);
+    &#125;
+
+    @Output()
+    public colorChange: EventEmitter&lt;string&gt; = new EventEmitter();
+
+    @HostBinding('style.background-color')
+    public get background(): string &#123;
+        return this.colorControl.value.toHexString();
+    &#125;
+
+    public ngOnInit() &#123;
+        this.colorControl.valueChanges.subscribe((value: Color) => this.colorChange.emit(value.toHexString()));
+    &#125;
+
+    @HostListener('click', ['$event'])
+    public showColorPicker(event: MouseEvent) &#123;
+        if (this.isVisible === true) &#123;
+            return;
+        &#125;
+
+        this.isVisible = !this.isVisible;
+    &#125;
+
+    public overlayClick(event: MouseEvent): void &#123;
+        event.preventDefault();
+        event.stopPropagation();
+        this.isVisible = false;
+    &#125;
+&#125;</pre>
+                    
+                    <p>Use case</p>
+                    <pre class="prettify">&lt;chrome-wrapper [(color)]="wrapperColor"&gt;&lt;/chrome-wrapper&gt;</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
     <div class="card">
         <div class="card-header">ColorPickerControl methods</div>
         <div class="card-block">

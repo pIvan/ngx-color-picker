@@ -40,19 +40,25 @@ export class HexComponent {
     }
 
     public get value() {
-        return this.prefixValue + (this.color ? this.color.toHexString().replace('#', '') : '');
+        return this.prefixValue + (this.color ? this.color.toHexString(this.color.getRgba().alpha < 1).replace('#', '') : '');
     }
 
-    public onInputChange(inputValue: string): void {
+    public onInputChange(event: KeyboardEvent, inputValue: string): void {
         const value = inputValue.toLowerCase().replace('#', '');
-        if (value.length === 3 || value.length === 6 || value.length === 8) {
+
+        if (
+        ((event.keyCode === 13 || event.key.toLowerCase() === 'enter') && value.length === 3)
+        || value.length === 6 || value.length === 8) {
             const hex = parseInt(value, 16);
+            const hexStr = hex.toString(16);
 
             /**
              * if value is valid
              * change color else do nothing
+             * after parsing number leading 0 is removed,
+             * compare length and add leading 0 before comparing two values
              */
-            if (hex.toString(16) === value && this.value !== value) {
+            if (hexStr.padStart(value.length, '0') === value && this.value !== value) {
                 const newColor = new Color(`#${value}`);
                 const hue = new Color().setHsva(newColor.getHsva().hue);
                 this.hueChange.emit(hue);

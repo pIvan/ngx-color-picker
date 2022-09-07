@@ -22,6 +22,16 @@ import { ColorPresetsComponent } from './components/parts/color-presets/color-pr
 import { ColorPresetComponent } from './components/parts/color-preset/color-preset.component';
 import { ColorPresetSublist } from './components/parts/color-preset-sublist/color-preset-sublist.component';
 
+export { SaturationComponent } from './components/parts/saturation/saturation.component';
+export { IndicatorComponent } from './components/parts/indicator/indicator.component';
+export { HueComponent } from './components/parts/hue/hue.component';
+export { AlphaComponent } from './components/parts/alpha/alpha.component';
+export { RgbaComponent } from './components/parts/inputs/rgba-input/rgba-input.component';
+export { HslaComponent } from './components/parts/inputs/hsla-input/hsla-input.component';
+export { HexComponent } from './components/parts/inputs/hex-input/hex-input.component';
+export { ColorPresetsComponent } from './components/parts/color-presets/color-presets.component';
+export { ColorPresetComponent } from './components/parts/color-preset/color-preset.component';
+export { ColorPresetSublist } from './components/parts/color-preset-sublist/color-preset-sublist.component';
 /**
  * directives
  */
@@ -42,6 +52,13 @@ import { CompactPickerComponent } from './components/compact-picker/compact-pick
 import { GithubPickerComponent } from './components/github-picker/github-picker.component';
 import { SwatchesPickerComponent } from './components/swatches-picker/swatches-picker.component';
 import { IpPickerComponent } from './components/ip-picker/ip-picker.component';
+
+export { ChromePickerComponent } from './components/chrome-picker/chrome-picker.component';
+export { SketchPickerComponent } from './components/sketch-picker/sketch-picker.component';
+export { CompactPickerComponent } from './components/compact-picker/compact-picker.component';
+export { GithubPickerComponent } from './components/github-picker/github-picker.component';
+export { SwatchesPickerComponent } from './components/swatches-picker/swatches-picker.component';
+export { IpPickerComponent } from './components/ip-picker/ip-picker.component';
 
 /**
  * services
@@ -109,13 +126,11 @@ export { IColorPickerConfig } from './services/color-picker.service';
         GithubPickerComponent,
         CompactPickerComponent,
         IpPickerComponent
-    ],
-    entryComponents: [
     ]
 })
 export class ColorPickerModule {
 
-    public static forRoot<T extends IColorPickerConfig>(configuration?: T): ModuleWithProviders {
+    public static forRoot<T extends IColorPickerConfig>(configuration?: T): ModuleWithProviders<ColorPickerModule> {
         return {
             ngModule: ColorPickerModule,
             providers: [

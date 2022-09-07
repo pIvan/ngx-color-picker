@@ -13,6 +13,7 @@ import {
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
 import { getValueByType } from './../../helpers/helper.functions';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: `swatches-picker`,
@@ -33,6 +34,7 @@ export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
 
     public control: ColorPickerControl = new ColorPickerControl();
     public childControl: ColorPickerControl = new ColorPickerControl();
+    private subscriptions: Array<Subscription> = [];
 
     private mapColors = {
         '#E6315B': [
@@ -95,24 +97,28 @@ export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
          */
         this.childControl.setColorPresets(this.mapColors['#E6315B']);
 
-        this.childControl.valueChanges.subscribe((value) => {
-            this.colorChange.emit(getValueByType(value, this.childControl.initType));
-        });
+        this.subscriptions.push(
+            this.childControl.valueChanges.subscribe((value) => {
+                this.colorChange.emit(getValueByType(value, this.childControl.initType));
+            })
+        );
 
-        this.control.valueChanges.subscribe((value) => {
-            this.cdr.markForCheck();
-            const presets = this.mapColors[value.toHexString()];
-            if (presets) {
-                this.childControl.setColorPresets(presets);
-            }
-            this.colorChange.emit(getValueByType(this.childControl.value, this.childControl.initType));
-        });
+        this.subscriptions.push(
+            this.control.valueChanges.subscribe((value) => {
+                this.cdr.markForCheck();
+                const presets = this.mapColors[value.toHexString()];
+                if (presets) {
+                    this.childControl.setColorPresets(presets);
+                }
+                this.colorChange.emit(getValueByType(this.childControl.value, this.childControl.initType));
+            })
+        );
     }
 
     public ngOnDestroy(): void {
-        this.control.unsubscribe();
-        this.childControl.unsubscribe();
         this.cdr.detach();
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subscriptions.length = 0;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {

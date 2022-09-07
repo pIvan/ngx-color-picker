@@ -14,6 +14,7 @@ import {
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
 import { getValueByType } from './../../helpers/helper.functions';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: `github-picker`,
@@ -46,6 +47,8 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
         return this.columns === 'auto' ? this.control.presets.length : this.columns;
     }
 
+    private subscriptions: Array<Subscription> = [];
+
     constructor(private readonly cdr: ChangeDetectorRef) {
     }
 
@@ -70,15 +73,18 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
                 ]);
         }
 
-        this.control.valueChanges.subscribe((value) => {
-            this.cdr.markForCheck();
-            this.colorChange.emit(getValueByType(value, this.control.initType));
-        });
+        this.subscriptions.push(
+            this.control.valueChanges.subscribe((value) => {
+                this.cdr.markForCheck();
+                this.colorChange.emit(getValueByType(value, this.control.initType));
+            })
+        );
     }
 
     public ngOnDestroy(): void {
-        this.control.unsubscribe();
         this.cdr.detach();
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subscriptions.length = 0;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {

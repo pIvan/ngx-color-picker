@@ -446,8 +446,8 @@ export class Color {
         return new Cmyk(cyan, magenta, yellow, black);
     }
 
-    private roundNumber(number: number): number {
-        return Math.round(number * 100) / 100;
+    private roundNumber(n: number): number {
+        return Math.round(n * 100) / 100;
     }
 
     private stringToColor(colorString: ColorString): this {
@@ -464,7 +464,7 @@ export class Color {
             let hex = str.substr(1);
             const length = hex.length;
             let a = 1;
-            let hexArray;
+            let hexArray = [];
 
             if (length === 3) {
                 hexArray = hex.split('').map((value) => value + value);

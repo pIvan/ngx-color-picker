@@ -12,6 +12,7 @@ import {
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
 import { getValueByType } from './../../helpers/helper.functions';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: `ip-picker`,
@@ -32,6 +33,8 @@ export class IpPickerComponent implements OnInit, OnChanges, OnDestroy {
 
     @Output()
     public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
+
+    private subscriptions: Array<Subscription> = [];
 
     constructor() {
     }
@@ -74,13 +77,16 @@ export class IpPickerComponent implements OnInit, OnChanges, OnDestroy {
             this.control.setValueFrom(this.color);
         }
 
-        this.control.valueChanges.subscribe((value) => {
-            this.colorChange.emit(getValueByType(value, this.control.initType));
-        });
+        this.subscriptions.push(
+            this.control.valueChanges.subscribe((value) => {
+                this.colorChange.emit(getValueByType(value, this.control.initType));
+            })
+        );
     }
 
     public ngOnDestroy(): void {
-        this.control.unsubscribe();
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subscriptions.length = 0;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {

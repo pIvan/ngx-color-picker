@@ -5,16 +5,13 @@ import {
     EventEmitter,
     Output,
     ChangeDetectionStrategy,
-    HostListener,
     Renderer2,
-    Inject,
     ElementRef,
     ViewChild,
     OnInit,
     OnChanges,
     SimpleChanges
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
 
@@ -42,19 +39,13 @@ export class SaturationComponent extends BaseComponent implements OnInit, OnChan
     @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
 
-    constructor(renderer: Renderer2, @Inject(DOCUMENT) document, elementRef: ElementRef) {
-        super(document, elementRef, renderer);
+    constructor(private readonly renderer: Renderer2) {
+        super();
     }
 
     @HostBinding('style.backgroundColor')
     public get backgroundColor(): string {
         return this.hue ? this.hue.toRgbaString() : '';
-    }
-
-    @HostListener('mousedown', ['$event'])
-    @HostListener('touchstart', ['$event'])
-    public onClick(event: any): void {
-        this.onEventChange(event);
     }
 
     public ngOnInit(): void {

@@ -37,7 +37,8 @@ export class ColorPresetsComponent {
         const selectedRgbaColor = color.getRgba();
         const selectedHsvaColor = color.getHsva();
 
-        const newColor = new Color().setRgba(selectedRgbaColor.red, selectedRgbaColor.green, selectedRgbaColor.blue, selectedRgbaColor.alpha);
+        const newColor = new Color()
+            .setRgba(selectedRgbaColor.red, selectedRgbaColor.green, selectedRgbaColor.blue, selectedRgbaColor.alpha);
         const hueColor = new Color().setHsva(selectedHsvaColor.hue);
 
         this.hueChange.emit(hueColor);

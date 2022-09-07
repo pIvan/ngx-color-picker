@@ -185,12 +185,4 @@ export class ColorPickerControl {
         this.presetsVisibilityChanges.next(false);
         return this;
     }
-
-    /**
-     * complete emit on all observers
-     */
-    public unsubscribe(): void {
-        this.valueChanged.complete();
-        this.presetsVisibilityChanges.complete();
-    }
 }
