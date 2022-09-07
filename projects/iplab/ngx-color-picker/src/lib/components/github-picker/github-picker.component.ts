@@ -38,7 +38,7 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
 
-    @HostBinding('style.width') get widht() {
+    @HostBinding('style.width') public get width() {
         return this.columns === 'auto' ? `auto` : `${25 * this.columns + 12}px`;
     }
 
