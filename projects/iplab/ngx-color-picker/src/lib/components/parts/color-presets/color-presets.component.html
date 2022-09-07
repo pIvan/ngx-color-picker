@@ -1,4 +1,4 @@
-<div class="row" *ngFor="let chunk of colorPresets | chunks: columns; let first = first; let last = last;" [ngClass]="{ 'first': first, 'last': last }">
+<div class="presets-row" *ngFor="let chunk of colorPresets | chunks: columns; let first = first; let last = last;" [ngClass]="{ 'first': first, 'last': last }">
     <ng-template ngFor let-preset let-first="first" let-last="last" [ngForOf]="chunk">
         <color-preset-sublist 
             [list]="preset" 

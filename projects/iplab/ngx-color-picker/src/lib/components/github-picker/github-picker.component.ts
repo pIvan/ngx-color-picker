@@ -52,7 +52,7 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public get columnsCount() {
-        return this.columns === 'auto' ? this.control.presets.length : this.columns;
+        return this.columnsValue === 'auto' ? this.control.presets.length : this.columnsValue;
     }
 
     private subscriptions: Array<Subscription> = [];

@@ -4,6 +4,36 @@
     border-radius: 2px;
     background: #fff;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 1px 4px;
+
+    ::ng-deep {
+        .controls .pointer {
+            box-shadow: rgba(0,0,0,.3) 0 0 2px, rgba(0,0,0,.3) 0 1px 4px;
+        }
+
+        .reflection,
+        color-preset {
+            border-radius: 2px;
+        }
+
+        color-preset {
+            box-shadow: inset rgba(0, 0, 0, 0.3) 0px 0px 2px;
+        }
+
+        color-preset,
+        color-preset-sublist {
+            margin: 0 0 0 12px;
+        }
+
+        color-preset:first-child,
+        color-preset-sublist:first-child {
+            margin: 0;
+        }
+
+        .sublist color-preset:hover,
+        .presets-row > color-preset:hover {
+            transform: scale(1.18, 1.18);
+        }
+    }
 }
 
 saturation-component {
@@ -29,10 +59,6 @@ saturation-component {
     padding: 0 10px 0 0;
 }
 
-:host ::ng-deep .controls .pointer {
-    box-shadow: rgba(0,0,0,.3) 0 0 2px, rgba(0,0,0,.3) 0 1px 4px;
-}
-
 indicator-component {
     height: 32px;
     width: 32px;
@@ -46,10 +72,10 @@ alpha-component {
 color-presets-component {
     border-top: 1px solid #d0d0d0;
     padding: 12px;
-}
 
-color-presets-component ::ng-deep .row {
-    padding: 12px 0 0;
+    ::ng-deep .presets-row {
+        padding: 12px 0 0;
+    }
 }
 
 .type-btn {
@@ -58,10 +84,10 @@ color-presets-component ::ng-deep .row {
     width: 20px;
     background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAgCAYAAAAffCjxAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACewAAAnsB01CO3AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAIASURBVEiJ7ZY9axRRFIafsxMStrLQJpAgpBFhi+C9w1YSo00I6RZ/g9vZpBf/QOr4GyRgkSKNSrAadsZqQGwCkuAWyRZJsySwvhZ7N/vhzrgbLH3Ld8597jlzz50zJokyxXH8DqDVar0qi6v8BbItqSGpEcfxdlmsFWXkvX8AfAVWg3UKPEnT9GKujMzsAFgZsVaCN1VTQd77XUnrgE1kv+6935268WRpzrnHZvYRWC7YvC3pRZZl3wozqtVqiyH9IgjAspkd1Gq1xUJQtVrdB9ZKIAOthdg/Qc65LUk7wNIMoCVJO865rYFhkqjX6/d7vV4GPJwBMqofURS5JEk6FYBer/eeYb/Mo9WwFnPOvQbeAvfuAAK4BN4sAJtAG/gJIElmNuiJyba3EGNmZiPeZuEVmVell/Y/6N+CzDn3AXhEOOo7Hv/3BeAz8IzQkMPnJbuPx1wC+yYJ7/0nYIP5S/0FHKdp+rwCEEXRS/rf5Hl1Gtb2M0iSpCOpCZzPATmX1EySpHMLAsiy7MjMDoHrGSDXZnaYZdnRwBh7J91utwmczAA6CbG3GgPleX4jqUH/a1CktqRGnuc3hSCAMB32gKspkCtgb3KCQMmkjeP4WNJThrNNZval1WptTIsv7JtQ4tmIdRa8qSoEpWl6YWZNoAN0zKxZNPehpLSBZv2t+Q0CJ9lLnARQLAAAAABJRU5ErkJggg==') no-repeat center;
     background-size: 6px 12px;
-}
 
-.type-btn:hover {
-    background-color: #eee;
+    &:hover {
+        background-color: #eee;
+    }
 }
 
 .type-column {
@@ -71,29 +97,4 @@ color-presets-component ::ng-deep .row {
 
 .presentation {
     padding: 12px 0 0;
-}
-
-:host ::ng-deep .reflection,
-:host ::ng-deep color-preset {
-    border-radius: 2px;
-}
-
-:host ::ng-deep .row > color-preset,
-:host ::ng-deep .row > color-preset-sublist {
-    margin: 0 0 0 12px;
-}
-
-:host ::ng-deep .row > color-preset:first-child,
-:host ::ng-deep .row > color-preset-sublist:first-child {
-    margin: 0;
-}
-
-
-:host ::ng-deep color-preset {
-    box-shadow: inset rgba(0, 0, 0, 0.3) 0px 0px 2px;
-}
-
-:host ::ng-deep .sublist color-preset:hover,
-:host ::ng-deep .row > color-preset:hover {
-    transform: scale(1.18, 1.18);
 }
