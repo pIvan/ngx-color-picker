@@ -1,3 +1,9 @@
+<a name="14.2.1"></a>
+## [14.2.1](https://github.com/pIvan/ngx-color-picker/commit/62df22219b46bd4e954a26133912e6d8394bc214) (2022-09-11)
+
+### * Fix - Fixed typo in getter name
+### * Feature - Coercing columns input into number type
+
 <a name="14.2.0"></a>
 ## [14.2.0](https://github.com/pIvan/ngx-color-picker/commit/67a51b7d4a37387a63234270b06090e6b480393a) (2022-09-07)
 ### * Feature - Ability to change the number of columns for github-picker
