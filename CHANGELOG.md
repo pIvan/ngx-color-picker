@@ -20,6 +20,11 @@
 ### * Angular 14 support
 
 
+<a name="13.0.0"></a>
+## [13.0.0](https://github.com/pIvan/ngx-color-picker/commit/390463388221106b181ba0ded323437dcb9c44ca) (2022-10-14)
+### * Angular 13 support with all features from version 14
+
+
 
 <a name="2.1.0"></a>
 ## [2.1.0](https://github.com/pIvan/ngx-color-picker/commit/0c3ecdd853747126e8dea565ccdeea2a9bf7c9f2) (2021-05-26)
