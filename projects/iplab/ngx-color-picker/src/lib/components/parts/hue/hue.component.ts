@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
     Component,
     ChangeDetectionStrategy,
@@ -8,7 +9,8 @@ import {
     EventEmitter,
     ViewChild,
     SimpleChanges,
-    OnChanges
+    OnChanges,
+    Inject
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';

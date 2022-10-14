@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
     Component,
     Input,
@@ -8,7 +9,8 @@ import {
     ElementRef,
     ViewChild,
     Renderer2,
-    SimpleChanges
+    SimpleChanges,
+    Inject
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';

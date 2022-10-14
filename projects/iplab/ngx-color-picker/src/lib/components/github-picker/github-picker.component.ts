@@ -8,7 +8,8 @@ import {
     SimpleChanges,
     ChangeDetectionStrategy,
     OnDestroy,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    HostBinding
 } from '@angular/core';
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
@@ -26,14 +27,35 @@ import { Subscription } from 'rxjs';
 })
 export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
 
+    private columnsValue: 'auto' | number = 8;
+
     @Input()
     public color: string;
 
     @Input()
     public control: ColorPickerControl;
 
+    @Input()
+    public get columns() {
+        return this.columnsValue;
+    }
+    public set columns(value: string | number | null | undefined) {
+        this.columnsValue = !isNaN(parseFloat(value as any)) && !isNaN(Number(value))
+            ? Number(value)
+            : 'auto';
+    }
+
     @Output()
     public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
+
+    @HostBinding('style.width')
+    public get width() {
+        return this.columnsValue === 'auto' ? `auto` : `${25 * this.columnsValue + 12}px`;
+    }
+
+    public get columnsCount() {
+        return this.columnsValue === 'auto' ? this.control.presets.length : this.columnsValue;
+    }
 
     private subscriptions: Array<Subscription> = [];
 

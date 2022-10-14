@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
     Component,
     HostBinding,
@@ -10,7 +11,8 @@ import {
     ViewChild,
     OnInit,
     OnChanges,
-    SimpleChanges
+    SimpleChanges,
+    Inject
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';

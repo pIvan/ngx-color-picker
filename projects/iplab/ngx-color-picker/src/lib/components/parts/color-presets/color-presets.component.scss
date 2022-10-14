@@ -1,10 +1,14 @@
 :host {
     display: block;
     font-size: 0;
-}
 
-:host .row:first-child {
-    padding: 0;
+    .presets-row {
+        display: flex;
+    }
+
+    .presets-row:first-child {
+        padding: 0;
+    }
 }
 
 color-preset-sublist:first-child,

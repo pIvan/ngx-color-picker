@@ -62,7 +62,7 @@ color-presets-component {
     margin: 8px -9px 0;
 }
 
-color-presets-component ::ng-deep .row {
+color-presets-component ::ng-deep .presets-row {
     padding: 10px 0 0;
 }
 
@@ -111,12 +111,12 @@ color-presets-component ::ng-deep .row {
     box-shadow: inset rgba(0, 0, 0, 0.4) 0px 1px 4px;
 }
 
-:host ::ng-deep .row > color-preset,
-:host ::ng-deep .row > color-preset-sublist {
+:host ::ng-deep .presets-row > color-preset,
+:host ::ng-deep .presets-row > color-preset-sublist {
     margin: 0 0 0 10px;
 }
 
-:host ::ng-deep .row > color-preset:first-child,
-:host ::ng-deep .row > color-preset-sublist:first-child {
+:host ::ng-deep .presets-row > color-preset:first-child,
+:host ::ng-deep .presets-row > color-preset-sublist:first-child {
     margin: 0;
 }
