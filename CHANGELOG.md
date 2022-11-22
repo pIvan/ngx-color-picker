@@ -1,5 +1,5 @@
 <a name="15.0.0"></a>
-## [15.0.0](https://github.com/pIvan/ngx-color-picker/commit/698085abe0eab5f6e5c1540aa485d363b1b7f050) (2022-11-21)
+## [15.0.0](https://github.com/pIvan/ngx-color-picker/commit/da1bd9b0c9406f40ec6748b604f76f0148c3129b) (2022-11-21)
 ### * Angular 15 support
 
 
