@@ -1,3 +1,9 @@
+<a name="13.0.1"></a>
+## [13.0.1](https://github.com/pIvan/ngx-color-picker/commit/9b9b791d5df12472b4c8f6bc5daa842ace0a0326) (2023-02-18)
+
+### * Fix - moving the event listener after finishing the color selection
+### * Fix - Fixed bug with touch event,  hue and saturation pickers
+
 <a name="2.1.0"></a>
 ## [2.1.0](https://github.com/pIvan/ngx-color-picker/commit/0c3ecdd853747126e8dea565ccdeea2a9bf7c9f2) (2021-05-26)
 
