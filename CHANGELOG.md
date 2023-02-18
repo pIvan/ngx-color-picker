@@ -1,3 +1,9 @@
+<a name="15.0.1"></a>
+## [15.0.1](https://github.com/pIvan/ngx-color-picker/commit/4656a5ea4408e2a13c497f4f88222105dcbf30c1) (2023-02-18)
+### * Bug - Preventing "pull down to refresh" on touch devices
+### * Bug - moving the event listener after finishing the color selection
+
+
 <a name="15.0.0"></a>
 ## [15.0.0](https://github.com/pIvan/ngx-color-picker/commit/da1bd9b0c9406f40ec6748b604f76f0148c3129b) (2022-11-21)
 ### * Angular 15 support
