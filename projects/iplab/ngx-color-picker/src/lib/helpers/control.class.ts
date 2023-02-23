@@ -50,9 +50,7 @@ export class ColorPickerControl {
     }
 
     private setHueColor(color: Color) {
-        if (this.hueValue && color.getHsva().hue > 0 || !this.hueValue) {
-            this.hueValue = new Color().setHsva(color.getHsva().hue);
-        }
+        this.hueValue = new Color().setHsva(color.getHsva().hue);
     }
 
     public get hue() {
