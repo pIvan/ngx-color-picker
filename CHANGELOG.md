@@ -1,3 +1,8 @@
+<a name="14.2.3"></a>
+## [14.2.3](https://github.com/pIvan/ngx-color-picker/commit/56f6fa5bcc36790f04625771845e77c9f783944e) (2023-02-23)
+### * Bug - fixed issue with setting color which have hue value equal to 0
+### * Bug - preventing mouse up event to stop sliding on hue and saturation pickers
+
 <a name="14.2.2"></a>
 ## [14.2.2](https://github.com/pIvan/ngx-color-picker/commit/5b9b30e55938527b5aa573ca3672d7c4da533b57) (2023-02-18)
 
