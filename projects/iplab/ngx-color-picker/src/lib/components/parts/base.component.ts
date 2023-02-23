@@ -39,15 +39,15 @@ export abstract class BaseComponent implements OnDestroy {
         this.calculate(event);
 
         merge(
-            fromEvent(this.elementRef.nativeElement, 'mouseup'),
-            fromEvent(this.elementRef.nativeElement, 'touchend')
+            fromEvent(this.document, 'mouseup'),
+            fromEvent(this.document, 'touchend')
         )
         .pipe(takeUntil(this.mouseup))
         .subscribe(() => this.mouseup.next());
 
         merge(
-            fromEvent(this.elementRef.nativeElement, 'mousemove'),
-            fromEvent(this.elementRef.nativeElement, 'touchmove', { passive: true })
+            fromEvent(this.document, 'mousemove'),
+            fromEvent(this.document, 'touchmove', { passive: true })
         )
         .pipe(takeUntil(this.mouseup))
         .subscribe((e: MouseEvent | TouchEvent) => this.calculate(e));
