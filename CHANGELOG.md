@@ -1,3 +1,8 @@
+<a name="16.0.0"></a>
+## [16.0.0](https://github.com/pIvan/ngx-color-picker/commit/071866862cd41ce5771357a2e71e0833dbfe4a49) (2023-05-16)
+### * Angular 16 support
+
+
 <a name="15.0.2"></a>
 ## [15.0.2](https://github.com/pIvan/ngx-color-picker/commit/980f336e27d24f237b189bdc7f74d286ec992fc8) (2023-02-18)
 ### * Bug - fixed issue with setting color which have hue value equal to 0
