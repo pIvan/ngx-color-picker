@@ -1,5 +1,9 @@
+<ng-content select="[before]"></ng-content>
+
 <color-presets-component 
     direction="down"
     [columns]="columnsCount"
     [(color)]="control.value" 
     [colorPresets]="control.presets"></color-presets-component>
+
+<ng-content></ng-content>

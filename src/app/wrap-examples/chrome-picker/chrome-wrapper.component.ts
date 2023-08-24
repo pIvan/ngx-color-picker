@@ -4,9 +4,11 @@ import { ColorPickerControl, Color } from '@iplab/ngx-color-picker';
 @Component({
     selector: 'chrome-wrapper',
     templateUrl: './chrome-wrapper.component.html',
-    styleUrls: ['./chrome-wrapper.component.css']
+    styleUrls: ['./chrome-wrapper.component.scss']
 })
 export class ChromeWrapperComponent implements OnInit {
+
+    private _color: Color = null;
 
     public colorControl = new ColorPickerControl();
 
@@ -15,6 +17,7 @@ export class ChromeWrapperComponent implements OnInit {
     @Input()
     public set color(color: string) {
         this.colorControl.setValueFrom(color);
+        this._color = this.colorControl.value;
     }
 
     @Output()
@@ -22,11 +25,10 @@ export class ChromeWrapperComponent implements OnInit {
 
     @HostBinding('style.background-color')
     public get background(): string {
-        return this.colorControl.value.toHexString();
+        return this._color ? this._color.toHexString() : null;
     }
 
     ngOnInit() {
-        this.colorControl.valueChanges.subscribe((value: Color) => this.colorChange.emit(value.toHexString()));
     }
 
     @HostListener('click', ['$event'])
@@ -38,10 +40,12 @@ export class ChromeWrapperComponent implements OnInit {
         this.isVisible = !this.isVisible;
     }
 
-    public overlayClick(event: MouseEvent): void {
+    public applyClick(event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();
         this.isVisible = false;
+        this._color = this.colorControl.value;
+        this.colorChange.emit(this.colorControl.value.toHexString());
     }
 
 }

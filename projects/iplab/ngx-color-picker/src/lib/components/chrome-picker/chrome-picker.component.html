@@ -1,3 +1,5 @@
+<ng-content select="[before]"></ng-content>
+
 <saturation-component [hue]="control.hue" [(color)]="control.value"></saturation-component>
 
 <div class="controls">
@@ -23,3 +25,5 @@
 </div>
 
 <color-presets-component *ngIf="control.presetsVisibilityChanges | async" [(color)]="control.value" [colorPresets]="control.presets" [(hue)]="control.hue"></color-presets-component>
+
+<ng-content></ng-content>
