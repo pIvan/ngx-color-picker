@@ -1,3 +1,9 @@
+<a name="16.1.0"></a>
+## [16.1.0](https://github.com/pIvan/ngx-color-picker/commit/3ca5dae3db80a369965eabc3686a26835938d9ba) (2023-08-24)
+### Feature
+### * Added support for adding content before and after all other elements within the color picker.
+
+
 <a name="16.0.0"></a>
 ## [16.0.0](https://github.com/pIvan/ngx-color-picker/commit/071866862cd41ce5771357a2e71e0833dbfe4a49) (2023-05-16)
 ### * Angular 16 support
