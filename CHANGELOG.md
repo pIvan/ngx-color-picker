@@ -1,3 +1,10 @@
+<a name="14.3.0"></a>
+## [14.3.0](https://github.com/pIvan/ngx-color-picker/commit/8bb0eb39920efae70075b856fdfdf841cb52ae21) (2023-08-24)
+### Feature
+### * Added support for adding content before and after all other elements within the color picker.
+
+
+
 <a name="14.2.3"></a>
 ## [14.2.3](https://github.com/pIvan/ngx-color-picker/commit/56f6fa5bcc36790f04625771845e77c9f783944e) (2023-02-23)
 ### * Bug - fixed issue with setting color which have hue value equal to 0
