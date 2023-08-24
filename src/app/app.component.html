@@ -112,6 +112,21 @@ export class AppModule &#123;&#125;</pre>
                 <code>&lt;chrome-picker [control]="ColorPickerControl"&gt;&lt;/chrome-picker&gt;</code>
             </p>
             <hr>
+
+            <h6>Custom content before and after a color picker.</h6>
+            <p>All components support this functionality; that is, all components project content to specified locations.</p>
+            <b>Examples:</b><br>
+            <pre class="prettify">&lt;chrome-picker [control]="ColorPickerControl"&gt;
+    &lt;div before&gt;
+        This content goes insede color picker before any other elements.
+    &lt;/div&gt;
+    &lt;div&gt;
+        This content goes insede color picker after all other elements.
+    &lt;/div&gt;
+&lt;/chrome-picker&gt;</pre>
+            <p>An example of implementing content afterward is shown <a href="#wrap-component">here</a>.</p>
+
+            <hr>
             <h6>color indicator</h6>
             <p>Color indicator is not only indicator,  but click also allows copying component color to clipboard.<br>
                 Text which is displayed on mouseover can be configured over NgModule configuration</p>
@@ -435,11 +450,19 @@ export class AppComponent &#123;
 ...
 selector: 'chrome-wrapper',
 template: '
-&lt;chrome-picker *ngIf="isVisible" [control]="colorControl"&gt;&lt;/chrome-picker&gt;
-&lt;div *ngIf="isVisible" class="overlay" (click)="overlayClick($event)"&gt;&lt;/div&gt;
+&lt;div class="picker" *ngIf="isVisible"&gt;
+    &lt;chrome-picker [control]="colorControl"&gt;
+        &lt;div class="buttons"&gt;
+            &lt;button type="button" class="btn btn-primary" (click)="applyClick($event)"&gt;Apply&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/chrome-picker&gt;
+    &lt;div class="overlay"&gt;&lt;/div&gt;
+&lt;/div&gt;
 '
 &#125;)
 export class ChromeWrapperComponent &#123;
+
+    private _color: Color = null;
 
     public colorControl = new ColorPickerControl();
 
@@ -448,6 +471,7 @@ export class ChromeWrapperComponent &#123;
     @Input()
     public set color(color: string) &#123;
         this.colorControl.setValueFrom(color);
+        this._color = this.colorControl.value;
     &#125;
 
     @Output()
@@ -455,11 +479,10 @@ export class ChromeWrapperComponent &#123;
 
     @HostBinding('style.background-color')
     public get background(): string &#123;
-        return this.colorControl.value.toHexString();
+        return this._color ? this._color.toHexString() : null;
     &#125;
 
     public ngOnInit() &#123;
-        this.colorControl.valueChanges.subscribe((value: Color) => this.colorChange.emit(value.toHexString()));
     &#125;
 
     @HostListener('click', ['$event'])
@@ -471,10 +494,12 @@ export class ChromeWrapperComponent &#123;
         this.isVisible = !this.isVisible;
     &#125;
 
-    public overlayClick(event: MouseEvent): void &#123;
+    public applyClick(event: MouseEvent): void &#123;
         event.preventDefault();
         event.stopPropagation();
         this.isVisible = false;
+        this._color = this.colorControl.value;
+        this.colorChange.emit(this.colorControl.value.toHexString());
     &#125;
 &#125;</pre>
                     
