@@ -28,9 +28,6 @@ import { BaseComponent } from './../base.component';
 export class SaturationComponent extends BaseComponent implements OnInit, OnChanges {
 
     @Input()
-    public hue: Color;
-
-    @Input()
     public color: Color;
 
     @Output()
@@ -45,13 +42,14 @@ export class SaturationComponent extends BaseComponent implements OnInit, OnChan
 
     @HostBinding('style.backgroundColor')
     public get backgroundColor(): string {
-        return this.hue ? this.hue.toRgbaString() : '';
+        if (this.color) {
+            const currentColor = this.color.getHsva();
+            return new Color().setHsva(currentColor.hue, 100, 100).toRgbString();
+        }
+        return null;
     }
 
     public ngOnInit(): void {
-        if (!this.hue) {
-            this.hue = Color.from(this.color.getHsva());
-        }
         this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', this.backgroundColor);
     }
 
@@ -71,9 +69,8 @@ export class SaturationComponent extends BaseComponent implements OnInit, OnChan
         const bright = -((y * 100) / height) + 100;
 
         this.changePointerPosition(saturation, bright);
-        const hsva = this.hue.getHsva();
         const color = this.color.getHsva();
-        const newColor = new Color().setHsva(hsva.hue, saturation, bright, color.alpha);
+        const newColor = new Color().setHsva(color.hue, saturation, bright, color.alpha);
         this.colorChange.emit(newColor);
     }
 

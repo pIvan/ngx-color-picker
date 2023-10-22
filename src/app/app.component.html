@@ -1,5 +1,5 @@
 <div class="jumbotron">
-    <div class="background" [style.backgroundColor]="color"></div>
+    <div class="background" [style.backgroundColor]="colorControl?.value?.getRgba()"></div>
     <div class="container">
         <div class="row">
             <div class="col">
@@ -10,10 +10,10 @@
         </div>
         <div class="row pickers-row">
             <div class="col col-md-6 text-right">
-                <sketch-picker [(color)]="color"></sketch-picker>
+                <sketch-picker [control]="colorControl"></sketch-picker>
             </div>
             <div class="col col-md-6">
-                <chrome-picker [(color)]="color"></chrome-picker>
+                <chrome-picker [control]="colorControl"></chrome-picker>
                 <!-- <ip-picker [(color)]="color"></ip-picker> -->
             </div>
         </div>
@@ -456,7 +456,7 @@ template: '
             &lt;button type="button" class="btn btn-primary" (click)="applyClick($event)"&gt;Apply&lt;/button&gt;
         &lt;/div&gt;
     &lt;/chrome-picker&gt;
-    &lt;div class="overlay"&gt;&lt;/div&gt;
+    &lt;div class="overlay" (click)="discardClick($event)"&gt;&lt;/div&gt;
 &lt;/div&gt;
 '
 &#125;)
@@ -495,11 +495,15 @@ export class ChromeWrapperComponent &#123;
     &#125;
 
     public applyClick(event: MouseEvent): void &#123;
-        event.preventDefault();
+        event.stopPropagation();
+        this._color = this.colorControl.value;
+        this.colorChange.emit(getValueByType(this.colorControl.value, this.colorControl.initType));
+        this.isVisible = false;
+    &#125;
+
+    public discardClick(event: MouseEvent): void &#123;
         event.stopPropagation();
         this.isVisible = false;
-        this._color = this.colorControl.value;
-        this.colorChange.emit(this.colorControl.value.toHexString());
     &#125;
 &#125;</pre>
                     

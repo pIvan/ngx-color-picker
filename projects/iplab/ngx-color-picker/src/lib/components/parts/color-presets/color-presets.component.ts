@@ -19,12 +19,6 @@ export class ColorPresetsComponent {
     public colorPresets: Array<Array<Color> | Color>;
 
     @Input()
-    public hue: Color;
-
-    @Output()
-    public hueChange = new EventEmitter<Color>(false);
-
-    @Input()
     public color: Color;
 
     @Output()
@@ -35,13 +29,9 @@ export class ColorPresetsComponent {
 
     public onSelectionChange(color: Color): void {
         const selectedRgbaColor = color.getRgba();
-        const selectedHsvaColor = color.getHsva();
 
         const newColor = new Color()
             .setRgba(selectedRgbaColor.red, selectedRgbaColor.green, selectedRgbaColor.blue, selectedRgbaColor.alpha);
-        const hueColor = new Color().setHsva(selectedHsvaColor.hue);
-
-        this.hueChange.emit(hueColor);
         this.colorChange.emit(newColor);
     }
 

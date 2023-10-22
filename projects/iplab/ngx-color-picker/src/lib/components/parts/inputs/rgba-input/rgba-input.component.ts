@@ -15,12 +15,6 @@ import { Color } from './../../../../helpers/color.class';
 export class RgbaComponent {
 
     @Input()
-    public hue: Color;
-
-    @Output()
-    public hueChange = new EventEmitter<Color>(false);
-
-    @Input()
     public color: Color;
 
     @Output()
@@ -52,9 +46,6 @@ export class RgbaComponent {
         const alpha = color === 'A' ? newValue : value.alpha;
 
         const newColor = new Color().setRgba(red, green, blue, alpha);
-        const hue = new Color().setHsva(newColor.getHsva().hue);
-
-        this.hueChange.emit(hue);
         this.colorChange.emit(newColor);
     }
 }

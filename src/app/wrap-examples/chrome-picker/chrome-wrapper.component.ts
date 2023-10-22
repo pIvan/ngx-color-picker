@@ -1,12 +1,12 @@
-import { Component, OnInit, EventEmitter, Input, Output, HostBinding, HostListener } from '@angular/core';
-import { ColorPickerControl, Color } from '@iplab/ngx-color-picker';
+import { Component, OnInit, EventEmitter, Input, Output, HostBinding, HostListener, OnDestroy } from '@angular/core';
+import { ColorPickerControl, Color, getValueByType } from '@iplab/ngx-color-picker';
 
 @Component({
     selector: 'chrome-wrapper',
     templateUrl: './chrome-wrapper.component.html',
     styleUrls: ['./chrome-wrapper.component.scss']
 })
-export class ChromeWrapperComponent implements OnInit {
+export class ChromeWrapperComponent implements OnInit, OnDestroy {
 
     private _color: Color = null;
 
@@ -28,7 +28,12 @@ export class ChromeWrapperComponent implements OnInit {
         return this._color ? this._color.toHexString() : null;
     }
 
-    ngOnInit() {
+    constructor() {}
+
+    public ngOnInit(): void {
+    }
+
+    public ngOnDestroy(): void {
     }
 
     @HostListener('click', ['$event'])
@@ -41,11 +46,14 @@ export class ChromeWrapperComponent implements OnInit {
     }
 
     public applyClick(event: MouseEvent): void {
-        event.preventDefault();
         event.stopPropagation();
-        this.isVisible = false;
         this._color = this.colorControl.value;
-        this.colorChange.emit(this.colorControl.value.toHexString());
+        this.colorChange.emit(getValueByType(this.colorControl.value, this.colorControl.initType));
+        this.isVisible = false;
     }
 
+    public discardClick(event: MouseEvent): void {
+        event.stopPropagation();
+        this.isVisible = false;
+    }
 }

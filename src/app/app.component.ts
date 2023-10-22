@@ -9,7 +9,8 @@ import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 })
 export class AppComponent implements AfterViewInit {
 
-  public color = 'rgba(54, 86, 4, 1)';
+  public colorControl = new ColorPickerControl()
+                          .setValueFrom('rgba(54, 86, 4, 1)');
 
   public readonly chromeControl = new ColorPickerControl()
     .setValueFrom(ColorsTable.aquamarine)

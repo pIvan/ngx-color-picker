@@ -25,12 +25,6 @@ import { BaseComponent } from './../base.component';
 export class HueComponent extends BaseComponent implements OnChanges {
 
     @Input()
-    public hue: Color;
-
-    @Output()
-    public hueChange = new EventEmitter<Color>(false);
-
-    @Input()
     public color: Color;
 
     @Output()
@@ -55,8 +49,8 @@ export class HueComponent extends BaseComponent implements OnChanges {
      * and then we need to move pointer
      */
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.hue && changes.hue.previousValue !== changes.hue.currentValue) {
-            const hsva = this.hue.getHsva();
+        if (changes.color && changes.color.previousValue !== changes.color.currentValue) {
+            const hsva = this.color.getHsva();
             this.changePointerPosition(hsva.hue);
         }
     }
@@ -65,12 +59,9 @@ export class HueComponent extends BaseComponent implements OnChanges {
         const hue = this.isVertical ? (y / height) * 360 : (x / width) * 360;
         this.changePointerPosition(hue);
 
-        const color = this.color.getHsva();
-        const newColor = new Color().setHsva(hue, color.saturation, color.value, color.alpha);
-        const newHueColor = new Color().setHsva(hue, 100, 100, color.alpha);
-
-        this.hueChange.emit(newHueColor);
-        this.colorChange.emit(newColor);
+        const currentColor = this.color.getHsva();
+        const newHueColor = new Color().setHsva(hue, currentColor.saturation, currentColor.value, currentColor.alpha);
+        this.colorChange.emit(newHueColor);
     }
 
     /**

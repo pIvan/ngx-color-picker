@@ -5,16 +5,15 @@
     direction="down"
     [columns]="9" 
     [(color)]="control.value" 
-    [colorPresets]="control.presets" 
-    [(hue)]="control.hue"></color-presets-component>
+    [colorPresets]="control.presets"></color-presets-component>
 
 <div class="controls">
     <div class="controls-row saturation-hue">
         <div class="column">
-            <saturation-component [hue]="control.hue" [(color)]="control.value"></saturation-component>
+            <saturation-component [(color)]="control.value"></saturation-component>
         </div>
         <div class="column hue-column">
-            <hue-component vertical [(hue)]="control.hue" [(color)]="control.value"></hue-component>
+            <hue-component vertical [(color)]="control.value"></hue-component>
         </div>
     </div>
     <div class="controls-row presentation">
@@ -26,7 +25,7 @@
                     c-40.961,27.004-70.24,9.027-67.329-38.894l12.149-202.411l275.395-477.041l32.398-56.11l37.883-65.686
                     C596.824,65.946,649.473,51.857,690.816,75.691z M274.689,883.015l120.908-79.818l-112.218-64.8L274.689,883.015z"/>
             </svg>
-            <hex-input-component prefix="#" [(color)]="control.value" [(hue)]="control.hue"></hex-input-component>
+            <hex-input-component prefix="#" [(color)]="control.value"></hex-input-component>
         </div>
         <div class="column">
             <indicator-component colorType="hex" [color]="control.value"></indicator-component>

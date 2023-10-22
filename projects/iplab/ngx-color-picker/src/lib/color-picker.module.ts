@@ -69,8 +69,9 @@ import { ColorPickerConfig, IColorPickerConfig } from './services/color-picker.s
  * exports
  */
 export { Color } from './helpers/color.class';
-export { ColorPickerControl } from './helpers/control.class';
+export { ColorPickerControl, ColorType } from './helpers/control.class';
 export { ColorsTable } from './helpers/colors-table.class';
+export { getValueByType } from './helpers/helper.functions';
 export { IColorPickerConfig } from './services/color-picker.service';
 
 @NgModule({

@@ -1,16 +1,16 @@
 <div class="controls">
     <div class="controls-row presentation">
         <indicator-component colorType="hex" [color]="control.value"></indicator-component>
-        <hex-input-component [(color)]="control.value" [(hue)]="control.hue"></hex-input-component>
+        <hex-input-component [(color)]="control.value"></hex-input-component>
     </div>
 
     <div class="controls-row saturation-hue-alpha">
         <div class="column">
-            <saturation-component [hue]="control.hue" [(color)]="control.value"></saturation-component>
+            <saturation-component [(color)]="control.value"></saturation-component>
             <alpha-component [(color)]="control.value"></alpha-component>
         </div>
         <div class="column hue-column">
-            <hue-component vertical [(hue)]="control.hue" [(color)]="control.value"></hue-component>
+            <hue-component vertical [(color)]="control.value"></hue-component>
         </div>
     </div>
 </div>
@@ -18,5 +18,4 @@
     *ngIf="control.presetsVisibilityChanges | async" 
     [columns]="8" 
     [(color)]="control.value" 
-    [colorPresets]="control.presets" 
-    [(hue)]="control.hue"></color-presets-component>
+    [colorPresets]="control.presets"></color-presets-component>

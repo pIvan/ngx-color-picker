@@ -15,12 +15,6 @@ import { Color } from '../../../../helpers/color.class';
 export class HexComponent {
 
     @Input()
-    public hue: Color;
-
-    @Output()
-    public hueChange = new EventEmitter<Color>(false);
-
-    @Input()
     public color: Color;
 
     @Output()
@@ -60,8 +54,6 @@ export class HexComponent {
              */
             if (hexStr.padStart(value.length, '0') === value && this.value !== value) {
                 const newColor = new Color(`#${value}`);
-                const hue = new Color().setHsva(newColor.getHsva().hue);
-                this.hueChange.emit(hue);
                 this.colorChange.emit(newColor);
             }
         }

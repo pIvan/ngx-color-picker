@@ -18,7 +18,6 @@ export enum ColorType {
 export class ColorPickerControl {
 
     private modelValue: Color = null;
-    private hueValue: Color = null;
     private initValue: Color = null;
     private readonly valueChanged: Subject<Color> = new Subject();
 
@@ -32,7 +31,6 @@ export class ColorPickerControl {
     constructor() {
         const color = Color.from(new Rgba(255, 0, 0, 1));
         this.setValue(color);
-        this.setHueColor(color);
     }
 
     public setValueFrom(color: ColorString | Color | Rgba | Hsla | Hsva): this {
@@ -41,33 +39,10 @@ export class ColorPickerControl {
             this.initValue = Color.from(color);
         }
 
-        if (typeof color === 'string') {
-            this.finOutInputType(color);
+        if (typeof color === 'string' && !this.initType) {
+            this.initType = this.finOutInputType(color);
         }
-        this.setHueColor(newColor);
         this.setValue(newColor);
-        return this;
-    }
-
-    private setHueColor(color: Color) {
-        this.hueValue = new Color().setHsva(color.getHsva().hue);
-    }
-
-    public get hue() {
-        return this.hueValue;
-    }
-
-    /**
-     * @internal
-     * used for two-way data binding
-     */
-    public set hue(hueColor: Color) {
-        this.hueValue = hueColor;
-    }
-
-    private setValue(value: Color): this {
-        this.modelValue = value;
-        this.valueChanged.next(value);
         return this;
     }
 
@@ -87,15 +62,9 @@ export class ColorPickerControl {
      * reset color to initial
      */
     public reset(): this {
-        let color;
-        if (!this.initValue) {
-            color = Color.from(new Rgba(255, 0, 0, 1));
-            this.hueValue = new Color().setHsva(color.getHsva().hue);
-        } else {
-            color = this.initValue.clone();
-            this.setHueColor(color);
-        }
-
+        const color = !this.initValue ?
+            Color.from(new Rgba(255, 0, 0, 1)) :
+            this.initValue.clone();
         this.setValue(color);
         return this;
     }
@@ -114,52 +83,13 @@ export class ColorPickerControl {
         return this;
     }
 
-    private finOutInputType(colorString: ColorString) {
-        const str = colorString.replace(/ /g, '').toLowerCase();
-        if (str[0] === '#') {
-            this.initType = ColorType.hex;
-            if (str.length > 7) {
-                this.initType = ColorType.hexa;
-            }
-        }
-
-        const OpenParenthesis = str.indexOf('(');
-        const colorTypeName = str.substr(0, OpenParenthesis);
-        switch (colorTypeName) {
-            case ColorType.rgba:
-                this.initType = ColorType.rgba;
-                break;
-            case ColorType.rgb:
-                this.initType = ColorType.rgb;
-                break;
-            case ColorType.hsla:
-                this.initType = ColorType.hsla;
-                break;
-            case ColorType.hsl:
-                this.initType = ColorType.hsl;
-                break;
-            case ColorType.cmyk:
-                this.initType = ColorType.cmyk;
-                break;
-        }
+    public getColorType(colorString: ColorString): ColorType {
+        return this.finOutInputType(colorString);
     }
 
     public setColorPresets(colorPresets: Array<Array<ColorString> | ColorString>): this {
         this.colorPresets = this.setPresets(colorPresets);
         return this;
-    }
-
-    private setPresets(colorPresets: Array<Array<ColorString> | ColorString>): Array<Color> {
-        const presets = [];
-
-        for (const color of colorPresets) {
-            if (Array.isArray(color)) {
-                presets.push(this.setPresets(color));
-            } else {
-                presets.push(new Color(color));
-            }
-        }
-        return presets;
     }
 
     public get presets() {
@@ -182,5 +112,50 @@ export class ColorPickerControl {
     public hidePresets(): this {
         this.presetsVisibilityChanges.next(false);
         return this;
+    }
+
+    private setValue(value: Color): this {
+        this.modelValue = value;
+        this.valueChanged.next(value);
+        return this;
+    }
+
+    private finOutInputType(colorString: ColorString): ColorType {
+        const str = colorString.replace(/ /g, '').toLowerCase();
+        if (str[0] === '#') {
+            if (str.length > 7) {
+                return ColorType.hexa;
+            }
+            return ColorType.hex;
+        }
+
+        const OpenParenthesis = str.indexOf('(');
+        const colorTypeName = str.substr(0, OpenParenthesis);
+        switch (colorTypeName) {
+            case ColorType.rgba:
+                return ColorType.rgba;
+            case ColorType.rgb:
+                return ColorType.rgb;
+            case ColorType.hsla:
+                return ColorType.hsla;
+            case ColorType.hsl:
+                return ColorType.hsl;
+            case ColorType.cmyk:
+                return ColorType.cmyk;
+        }
+        return null;
+    }
+
+    private setPresets(colorPresets: Array<Array<ColorString> | ColorString>): Array<Color> {
+        const presets = [];
+
+        for (const color of colorPresets) {
+            if (Array.isArray(color)) {
+                presets.push(this.setPresets(color));
+            } else {
+                presets.push(new Color(color));
+            }
+        }
+        return presets;
     }
 }
