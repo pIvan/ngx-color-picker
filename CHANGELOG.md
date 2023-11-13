@@ -1,3 +1,9 @@
+<a name="16.2.0"></a>
+## [16.1.0](https://github.com/pIvan/ngx-color-picker/commit/e387999d6c7758fa63b647732f679545776f23be) (2023-10-22)
+### Bug
+### * Hue component slider drifting in the wrap color picker example
+### * Defined HSVa as the base color
+
 <a name="16.1.0"></a>
 ## [16.1.0](https://github.com/pIvan/ngx-color-picker/commit/3ca5dae3db80a369965eabc3686a26835938d9ba) (2023-08-24)
 ### Feature
