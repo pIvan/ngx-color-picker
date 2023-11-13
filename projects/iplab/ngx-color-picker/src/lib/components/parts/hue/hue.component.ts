@@ -68,7 +68,7 @@ export class HueComponent extends BaseComponent implements OnChanges {
      * hue value is in range from 0 to 360°
      */
     private changePointerPosition(hue: number): void {
-        const x = hue / 360 * 100;
+        const x = (hue / 360) * 100;
         const orientation = this.isVertical ? 'top' : 'left';
         this.renderer.setStyle(this.pointer.nativeElement, orientation, `${x}%`);
     }

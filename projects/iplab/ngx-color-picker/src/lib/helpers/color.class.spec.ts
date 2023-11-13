@@ -30,7 +30,7 @@ const staticColors = {
         hsl: 'hsl(72, 38%, 77%)',
         cmyk: 'cmyk(4%, 0%, 20%, 14%)'
     },
-    red: {
+    orange: {
         hex: '#e84833',
         rgb: 'rgb(232, 72, 51)',
         hsv: 'hsv(7, 78%, 91%)',
@@ -43,6 +43,20 @@ const staticColors = {
         hsv: 'hsv(352, 80%, 39%)',
         hsl: 'hsl(352, 66%, 23%)',
         cmyk: 'cmyk(0%, 80%, 69%, 61%)'
+    },
+    red: {
+        hex: '#ff0000',
+        rgb: 'rgb(255, 0, 0)',
+        hsv: 'hsv(0, 100%, 100%)',
+        hsl: 'hsl(0, 100%, 50%)',
+        cmyk: 'cmyk(0%, 100%, 100%, 0%)'
+    },
+    black: {
+        hex: '#000000',
+        rgb: 'rgb(0, 0, 0)',
+        hsv: 'hsv(0, 0%, 0%)',
+        hsl: 'hsl(0, 0%, 0%)',
+        cmyk: 'cmyk(0%, 0%, 0%, 100%)'
     }
 }
 
@@ -55,6 +69,8 @@ describe('Color.class', () => {
         const yellow = new Color(staticColors.yellow.hex);
         const red = new Color(staticColors.red.hex);
         const purple = new Color(staticColors.purple.hex);
+        const orange = new Color(staticColors.orange.hex);
+        const black = new Color(staticColors.black.hex);
 
         expect(blue.toHexString()).toBe(staticColors.blue.hex.toUpperCase());
         expect(blue.toHslString()).toBe(staticColors.blue.hsl);
@@ -91,6 +107,18 @@ describe('Color.class', () => {
         expect(purple.toRgbString()).toBe(staticColors.purple.rgb);
         expect(purple.toHsvString()).toBe(staticColors.purple.hsv);
         expect(purple.toCmykString()).toBe(staticColors.purple.cmyk);
+
+        expect(orange.toHexString()).toBe(staticColors.orange.hex.toUpperCase());
+        expect(orange.toHslString()).toBe(staticColors.orange.hsl);
+        expect(orange.toRgbString()).toBe(staticColors.orange.rgb);
+        expect(orange.toHsvString()).toBe(staticColors.orange.hsv);
+        expect(orange.toCmykString()).toBe(staticColors.orange.cmyk);
+
+        expect(black.toHexString()).toBe(staticColors.black.hex.toUpperCase());
+        expect(black.toHslString()).toBe(staticColors.black.hsl);
+        expect(black.toRgbString()).toBe(staticColors.black.rgb);
+        expect(black.toHsvString()).toBe(staticColors.black.hsv);
+        expect(black.toCmykString()).toBe(staticColors.black.cmyk);
     }));
 
     it('should correctly convert rgb', waitForAsync(() => {
@@ -100,6 +128,8 @@ describe('Color.class', () => {
         const yellow = new Color(staticColors.yellow.rgb);
         const red = new Color(staticColors.red.rgb);
         const purple = new Color(staticColors.purple.rgb);
+        const orange = new Color(staticColors.orange.rgb);
+        const black = new Color(staticColors.black.rgb);
 
         expect(blue.toHexString()).toBe(staticColors.blue.hex.toUpperCase());
         expect(blue.toHslString()).toBe(staticColors.blue.hsl);
@@ -136,6 +166,18 @@ describe('Color.class', () => {
         expect(purple.toRgbString()).toBe(staticColors.purple.rgb);
         expect(purple.toHsvString()).toBe(staticColors.purple.hsv);
         expect(purple.toCmykString()).toBe(staticColors.purple.cmyk);
+
+        expect(orange.toHexString()).toBe(staticColors.orange.hex.toUpperCase());
+        expect(orange.toHslString()).toBe(staticColors.orange.hsl);
+        expect(orange.toRgbString()).toBe(staticColors.orange.rgb);
+        expect(orange.toHsvString()).toBe(staticColors.orange.hsv);
+        expect(orange.toCmykString()).toBe(staticColors.orange.cmyk);
+
+        expect(black.toHexString()).toBe(staticColors.black.hex.toUpperCase());
+        expect(black.toHslString()).toBe(staticColors.black.hsl);
+        expect(black.toRgbString()).toBe(staticColors.black.rgb);
+        expect(black.toHsvString()).toBe(staticColors.black.hsv);
+        expect(black.toCmykString()).toBe(staticColors.black.cmyk);
     }));
 
     // it('should correctly convert hsl', async(() => {

@@ -16,7 +16,7 @@ export class Color {
      * #ff0000
      */
     private hsva: Hsva = new Hsva(0, 1, 1, 1);
-    private rgba: Rgba = new Rgba(255, 0, 0, 1);
+    // private rgba: Rgba = new Rgba(255, 0, 0, 1);
 
     constructor(colorString?: ColorString) {
         if (colorString) {
@@ -75,7 +75,7 @@ export class Color {
             this.hsva.alpha = alpha;
         }
 
-        this.rgba = this.hsvaToRgba(this.hsva);
+        // this.rgba = this.hsvaToRgba(this.hsva);
         return this;
     }
 
@@ -83,24 +83,10 @@ export class Color {
      * define Color from RGBa
      */
     public setRgba(red: number = null, green: number = null, blue: number = null, alpha: number = 1): this {
-        if (red != null) {
-            this.rgba.red = red;
-        }
-
-        if (green != null) {
-            this.rgba.green = green;
-        }
-
-        if (blue != null) {
-            this.rgba.blue = blue;
-        }
-
         if (alpha != null) {
             alpha = alpha > 1 ? 1 : alpha < 0 ? 0 : alpha;
-            this.rgba.alpha = alpha;
         }
-
-        this.hsva = this.rgbaToHsva(this.rgba);
+        this.hsva = this.rgbaToHsva(new Rgba(red, green, blue, alpha));
         return this;
     }
 
@@ -110,12 +96,10 @@ export class Color {
     public setHsla(hue: number, saturation: number, lightness: number, alpha: number = 1): this {
         if (alpha != null) {
             alpha = alpha > 1 ? 1 : alpha < 0 ? 0 : alpha;
-            this.rgba.alpha = alpha;
         }
 
         const hsla = new Hsla(hue, saturation, lightness, alpha);
-        this.rgba = this.hslaToRgba(hsla);
-        this.hsva = this.rgbaToHsva(this.rgba);
+        this.hsva = this.hslaToHsva(hsla);
         return this;
     }
 
@@ -123,10 +107,11 @@ export class Color {
      * return hexadecimal value formatted as '#341d2a' or '#341d2aFF' if alhpa channel is enabled
      */
     public toHexString(alpha: boolean = false): ColorString {
+        const rgba = this.getRgba();
         /* tslint:disable:no-bitwise */
-        let hex = '#' + ((1 << 24) | (this.rgba.getRed() << 16) | (this.rgba.getGreen() << 8) | this.rgba.getBlue()).toString(16).substr(1);
+        let hex = '#' + ((1 << 24) | (rgba.getRed() << 16) | (rgba.getGreen() << 8) | rgba.getBlue()).toString(16).substring(1);
         if (alpha) {
-            hex += ((1 << 8) | Math.round(this.rgba.alpha * 255)).toString(16).substr(1);
+            hex += ((1 << 8) | Math.round(rgba.alpha * 255)).toString(16).substring(1);
         }
         /* tslint:enable:no-bitwise */
         return hex.toUpperCase();
@@ -136,14 +121,14 @@ export class Color {
      * return rgba string formatted as rgba(52, 29, 42, 1)
      */
     public toRgbaString(): ColorString {
-        return this.rgba.toString();
+        return this.getRgba().toString();
     }
 
     /**
      * return rgb string formatted as rgb(52, 29, 42)
      */
     public toRgbString(): ColorString {
-        return this.rgba.toString(false);
+        return this.getRgba().toString(false);
     }
 
     /**
@@ -164,14 +149,14 @@ export class Color {
      * return hsva string formatted as hsva(327, 29%, 16%, 100%)
      */
     public toHsvaString(): ColorString {
-        return this.hsva.toString();
+        return this.getHsva().toString();
     }
 
     /**
      * return hsv string formatted as hsv(327, 29%, 16%)
      */
     public toHsvString(): ColorString {
-        return this.hsva.toString(false);
+        return this.getHsva().toString(false);
     }
 
     /**
@@ -186,15 +171,15 @@ export class Color {
     }
 
     public getRgba(): Rgba {
-        return new Rgba(this.rgba.red, this.rgba.green, this.rgba.blue, this.rgba.alpha);
+        return this.hsvaToRgba(this.getHsva());
     }
 
     public getHsla(): Hsla {
-        return this.rgbaToHsla(this.rgba);
+        return this.rgbaToHsla(this.getRgba());
     }
 
     public getCmyk(): Cmyk {
-        return this.rgbaToCmyk(this.rgba);
+        return this.rgbaToCmyk(this.getRgba());
     }
 
     private hsvaToHsla(color: Hsva): Hsla {
@@ -431,7 +416,7 @@ export class Color {
         let black = Math.min(cyan, magenta, yellow);
 
         if (black === 1) {
-            return new Cmyk(0, 0, 0, 1);
+            return new Cmyk(0, 0, 0, 100);
         }
 
         cyan = (cyan - black) / (1 - black);
@@ -515,7 +500,6 @@ export class Color {
         }
 
         if (rgba) {
-            this.rgba = rgba;
             this.hsva = this.rgbaToHsva(rgba);
         }
 
