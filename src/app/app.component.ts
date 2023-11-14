@@ -18,6 +18,9 @@ export class AppComponent implements AfterViewInit {
   public colorControl = new ColorPickerControl()
                           .setValueFrom('rgba(54, 86, 4, 1)');
 
+  public chromeColorControl = new ColorPickerControl()
+                          .setValueFrom('rgba(54, 86, 4, 1)');
+
   public readonly chromeControl = new ColorPickerControl()
     .setValueFrom(ColorsTable.aquamarine)
     .hidePresets()
@@ -84,6 +87,8 @@ export class AppComponent implements AfterViewInit {
   ]
 
   constructor(private readonly elRef: ElementRef) {
+    this.chromeColorControl.valueChanges.subscribe((value) => this.colorControl.setValueFrom(value));
+    this.colorControl.valueChanges.subscribe((value) => this.chromeColorControl.setValueFrom(value));
   }
 
   public ngAfterViewInit(): void {

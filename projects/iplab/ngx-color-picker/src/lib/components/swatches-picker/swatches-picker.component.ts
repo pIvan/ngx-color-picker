@@ -14,6 +14,7 @@ import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
 import { getValueByType } from './../../helpers/helper.functions';
 import { Subscription } from 'rxjs';
+import { ColorPresetsComponent } from '../parts/color-presets/color-presets.component';
 
 @Component({
     selector: `swatches-picker`,
@@ -22,7 +23,11 @@ import { Subscription } from 'rxjs';
         `./../parts/base.style.scss`,
         `./swatches-picker.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        ColorPresetsComponent
+    ]
 })
 export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
 

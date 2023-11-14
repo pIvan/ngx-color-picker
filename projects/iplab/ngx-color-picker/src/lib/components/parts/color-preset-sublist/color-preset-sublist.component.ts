@@ -13,6 +13,8 @@ import { DOCUMENT } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { OpacityAnimation, ListAnimation } from './color-preset-sublist.animation';
 import { fromEvent, merge, Subscription } from 'rxjs';
+import { ColorPresetComponent } from './../color-preset/color-preset.component';
+import { ReversePipe } from './../../../pipes/reverse.pipe';
 
 @Component({
     selector: `color-preset-sublist`,
@@ -22,6 +24,8 @@ import { fromEvent, merge, Subscription } from 'rxjs';
         `./color-preset-sublist.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [ColorPresetComponent, ReversePipe],
     animations: [OpacityAnimation, ListAnimation]
 })
 export class ColorPresetSublist implements OnDestroy {

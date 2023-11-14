@@ -1,10 +1,12 @@
 import { Component, OnInit, EventEmitter, Input, Output, HostBinding, HostListener, OnDestroy } from '@angular/core';
-import { ColorPickerControl, Color, getValueByType } from '@iplab/ngx-color-picker';
+import { ColorPickerControl, Color, getValueByType, ChromePickerComponent } from '@iplab/ngx-color-picker';
 
 @Component({
     selector: 'chrome-wrapper',
     templateUrl: './chrome-wrapper.component.html',
-    styleUrls: ['./chrome-wrapper.component.scss']
+    styleUrls: ['./chrome-wrapper.component.scss'],
+    standalone: true,
+    imports: [ChromePickerComponent]
 })
 export class ChromeWrapperComponent implements OnInit, OnDestroy {
 

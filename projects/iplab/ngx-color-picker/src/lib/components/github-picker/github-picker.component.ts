@@ -15,6 +15,8 @@ import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
 import { getValueByType } from './../../helpers/helper.functions';
 import { Subscription } from 'rxjs';
+import { ColorPresetsComponent } from '../parts/color-presets/color-presets.component';
+
 
 export function columnAttribute(value: string | number | null | undefined): number | 'auto' {
     return !isNaN(parseFloat(value as any)) && !isNaN(Number(value))
@@ -29,7 +31,11 @@ export function columnAttribute(value: string | number | null | undefined): numb
         `./../parts/base.style.scss`,
         `./github-picker.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        ColorPresetsComponent
+    ]
 })
 export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
 

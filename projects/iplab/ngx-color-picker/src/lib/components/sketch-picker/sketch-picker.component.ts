@@ -10,10 +10,18 @@ import {
     OnDestroy,
     ChangeDetectorRef
 } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
 import { getValueByType } from './../../helpers/helper.functions';
 import { Subscription } from 'rxjs';
+import { SaturationComponent } from './../parts/saturation/saturation.component';
+import { IndicatorComponent } from './../parts/indicator/indicator.component';
+import { HueComponent } from './../parts/hue/hue.component';
+import { AlphaComponent } from './../parts/alpha/alpha.component';
+import { RgbaComponent } from './../parts/inputs/rgba-input/rgba-input.component';
+import { HexComponent } from './../parts/inputs/hex-input/hex-input.component';
+import { ColorPresetsComponent } from '../parts/color-presets/color-presets.component';
 
 @Component({
     selector: `sketch-picker`,
@@ -22,7 +30,18 @@ import { Subscription } from 'rxjs';
         `./../parts/base.style.scss`,
         `./sketch-picker.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        SaturationComponent,
+        IndicatorComponent,
+        HueComponent,
+        AlphaComponent,
+        HexComponent,
+        RgbaComponent,
+        ColorPresetsComponent,
+        AsyncPipe
+    ]
 })
 export class SketchPickerComponent implements OnInit, OnChanges, OnDestroy {
 

@@ -21,7 +21,8 @@ import { BaseComponent } from './../base.component';
         `./../base.style.scss`,
         `./hue.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class HueComponent extends BaseComponent implements OnChanges {
 

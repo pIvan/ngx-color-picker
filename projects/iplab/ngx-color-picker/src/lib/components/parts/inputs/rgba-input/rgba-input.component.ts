@@ -10,7 +10,9 @@ import { Color } from './../../../../helpers/color.class';
         `./../input.component.scss`,
         `./rgba-input.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+
 })
 export class RgbaComponent {
 

@@ -10,7 +10,8 @@ import { Color } from './../../../../helpers/color.class';
         `./../input.component.scss`,
         `./hsla-input.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class HslaComponent {
 

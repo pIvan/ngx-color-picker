@@ -7,8 +7,7 @@ import { AppComponent } from './app.component';
 /**
  * wrapper component examples
  */
-import { WrapperExampleModule } from './wrap-examples/wrap-example.module';
-
+import { ChromeWrapperComponent } from './wrap-examples/chrome-picker/chrome-wrapper.component';
 
 
 @NgModule({
@@ -19,9 +18,8 @@ import { WrapperExampleModule } from './wrap-examples/wrap-example.module';
     BrowserModule,
     ColorPickerModule,
     BrowserAnimationsModule,
-    WrapperExampleModule
+    ChromeWrapperComponent
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

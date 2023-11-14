@@ -23,7 +23,8 @@ import { BaseComponent } from './../base.component';
         `./../base.style.scss`,
         './saturation.component.scss'
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class SaturationComponent extends BaseComponent implements OnInit, OnChanges {
 

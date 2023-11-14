@@ -13,7 +13,7 @@
                 <sketch-picker [control]="colorControl" />
             </div>
             <div class="col col-md-6">
-                <chrome-picker [control]="colorControl" />
+                <chrome-picker [control]="chromeColorControl" />
                 <!-- <ip-picker [control]="colorControl"></ip-picker> -->
             </div>
         </div>
@@ -99,6 +99,33 @@ import &#123; BrowserAnimationsModule &#125; from '&#64;angular/platform-browser
 export class AppModule &#123;&#125;</pre>
                 </li>
                 <li><code>&lt;chrome-picker [(color)]="#fff"&gt;&lt;/chrome-picker&gt;</code></li>
+            </ol>
+
+            <p>Or if the component is used as standalone.</p>
+            <ol>
+                <li><pre class="prettify">import &#123; ChromePickerComponent &#125; from '&#64;iplab/ngx-color-picker';
+import &#123; provideAnimations &#125; from '&#64;angular/platform-browser/animations';
+...
+...
+
+
+&#64;Component(&#123;
+    selector: 'app-standalone',
+    standalone: true,
+    imports: [
+        ChromePickerComponent
+    ],
+    template: '&lt;chrome-picker [(color)]="#fff"&gt;&lt;/chrome-picker&gt;'
+&#125;)
+export class AppComponent &#123;&#125;
+
+
+bootstrapApplication(
+    AppComponent, &#123;
+    providers: [
+        <b>provideAnimations()</b> or <b>provideNoopAnimations()</b> // need to be included
+    ]
+&#125;);</pre></li>
             </ol>
         </div>
     </div>
@@ -187,6 +214,43 @@ imports: [
 ],
 bootstrap: [AppComponent]
 &#125;)</pre>
+            <hr>
+            <h6>configuration in standalone component</h6>
+            <pre class="prettify" ngNonBindable>import &#123; IColorPickerConfig, COLOR_PICKER_CONFIG &#125; from '&#64;iplab/ngx-color-picker';
+...
+...
+&#64;Injectable()
+class ColorPickerConfiguration implements IColorPickerConfig &#123;
+    public presetsTitle: string = '&#123;0&#125;. Long-click to show alternate shades.'; // &#123;0&#125; is the place where hex value will be placed
+    public get indicatorTitle(): string &#123;
+        return 'Copy color to clipboard';
+    &#125;
+&#125;
+                
+&#64;Component(&#123;
+    selector: 'app-standalone',
+    standalone: true,
+    imports: [
+        ChromePickerComponent
+    ],
+    providers: [
+        &#123; provide: COLOR_PICKER_CONFIG, useClass: ColorPickerConfiguration &#125;
+    ],
+    template: '&lt;chrome-picker [(color)]="#fff"&gt;&lt;/chrome-picker&gt;'
+&#125;)
+export class AppComponent &#123;&#125;
+
+
+bootstrapApplication(
+    AppComponent, &#123;
+    providers: [
+        <b>provideAnimations()</b> or <b>provideNoopAnimations()</b> // need to be included
+    ]
+&#125;);</pre>
+
+
+
+
             <hr>
             <h6>all color picker parts</h6>
             <p>Color picker library exports all parts to enable custom components builds<br>
@@ -484,6 +548,8 @@ template: '
         &lt;/div&gt;
     &#125;
     '
+standalone: true,
+imports: [ChromePickerComponent]
 &#125;)
 export class ChromeWrapperComponent &#123;
 

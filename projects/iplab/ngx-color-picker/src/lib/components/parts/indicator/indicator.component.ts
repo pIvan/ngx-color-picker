@@ -12,7 +12,8 @@ import { fromEvent, Subscription } from 'rxjs';
         `./../base.style.scss`,
         `./indicator.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class IndicatorComponent implements OnInit {
     @Input()

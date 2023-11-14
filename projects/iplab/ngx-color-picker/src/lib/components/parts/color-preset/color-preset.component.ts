@@ -21,7 +21,8 @@ import { ColorPickerConfig } from './../../../services/color-picker.service';
         `./../base.style.scss`,
         `./color-preset.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class ColorPresetComponent implements OnDestroy {
 

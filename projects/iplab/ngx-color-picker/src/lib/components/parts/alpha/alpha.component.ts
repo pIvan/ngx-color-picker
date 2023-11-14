@@ -21,7 +21,8 @@ import { BaseComponent } from './../base.component';
         `./../base.style.scss`,
         `./alpha.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class AlphaComponent extends BaseComponent implements OnChanges {
 
