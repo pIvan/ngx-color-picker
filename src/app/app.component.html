@@ -14,7 +14,7 @@
             </div>
             <div class="col col-md-6">
                 <chrome-picker [control]="colorControl" />
-                <!-- <ip-picker [(color)]="color"></ip-picker> -->
+                <!-- <ip-picker [control]="colorControl"></ip-picker> -->
             </div>
         </div>
     </div>
@@ -38,17 +38,40 @@
     </div>
     <br>
 
+
     <div class="card">
         <div class="card-header">Description</div>
         <div class="card-block">
             <p>Pure Angular color picker library.</p>
             <ul>
-                <li>It's an Angular color picker</li>
                 <li>Compatible with Angular 5+ versions</li>
                 <li>No external dependency</li>
                 <li>Simple to configure</li>
                 <li>Easy to use</li>
             </ul>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-header">Compatibility with angular</div>
+        <div class="card-block">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Angular</th>
+                        <th>&#64;iplab/ngx-color-picker</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for( element of angularCompatibility; track element.ng ) {
+                    <tr>
+                        <td>{{ element.ng }}</td>
+                        <td>{{ element.lib }}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
     <br>
@@ -450,15 +473,17 @@ export class AppComponent &#123;
 ...
 selector: 'chrome-wrapper',
 template: '
-&lt;div class="picker" *ngIf="isVisible"&gt;
-    &lt;chrome-picker [control]="colorControl"&gt;
-        &lt;div class="buttons"&gt;
-            &lt;button type="button" class="btn btn-primary" (click)="applyClick($event)"&gt;Apply&lt;/button&gt;
+    &#64;if (isVisible) &#123;
+        &lt;div class="picker"&gt;
+            &lt;chrome-picker [control]="colorControl"&gt;
+                &lt;div class="buttons"&gt;
+                    &lt;button type="button" class="btn btn-primary" (click)="applyClick($event)"&gt;Apply&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/chrome-picker&gt;
+            &lt;div class="overlay" (click)="discardClick($event)"&gt;&lt;/div&gt;
         &lt;/div&gt;
-    &lt;/chrome-picker&gt;
-    &lt;div class="overlay" (click)="discardClick($event)"&gt;&lt;/div&gt;
-&lt;/div&gt;
-'
+    &#125;
+    '
 &#125;)
 export class ChromeWrapperComponent &#123;
 
@@ -527,76 +552,13 @@ export class ChromeWrapperComponent &#123;
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>setValueFrom</td>
-                        <td><code>Function</code></td>
-                        <td>Set value from Color, Rgba, Hsla, Hsva or ColorString</td>
-                    </tr>
-                    <tr>
-                        <td>value</td>
-                        <td><code>Getter.value</code></td>
-                        <td>get value as a Color object</td>
-                    </tr>
-                    <tr>
-                        <td>reset</td>
-                        <td><code>Function</code></td>
-                        <td>reset value to initial state</td>
-                    </tr>
-                    <tr>
-                        <td>valueChanges</td>
-                        <td><code>Observable</code></td>
-                        <td>Used to observe component value changes</td>
-                    </tr>
-                    <tr>
-                        <td>isAlphaChannelEnabled</td>
-                        <td><code>Function</code></td>
-                        <td>return is alpha changel enabled</td>
-                    </tr>
-                    <tr>
-                        <td>showAlphaChannel</td>
-                        <td><code>Function</code></td>
-                        <td>show alpha channel</td>
-                    </tr>
-                    <tr>
-                        <td>hideAlphaChannel</td>
-                        <td><code>Function</code></td>
-                        <td>hide alpha channel</td>
-                    </tr>
-                    <tr>
-                        <td>alphaChannelVisibilityChanges</td>
-                        <td><code>BehaviorSubject</code></td>
-                        <td>Used to observe alpha channel changes</td>
-                    </tr>
-                    <tr>
-                        <td>setColorPresets</td>
-                        <td><code>Function</code></td>
-                        <td>define color preset list</td>
-                    </tr>
-                    <tr>
-                        <td>presets</td>
-                        <td><code>Getter.presets</code></td>
-                        <td>get color presets</td>
-                    </tr>
-                    <tr>
-                        <td>hasPresets</td>
-                        <td><code>Function</code></td>
-                        <td>return status of predefined color presets</td>
-                    </tr>
-                    <tr>
-                        <td>showPresets</td>
-                        <td><code>Function</code></td>
-                        <td>show predefined color presets</td>
-                    </tr>
-                    <tr>
-                        <td>hidePresets</td>
-                        <td><code>Function</code></td>
-                        <td>hide predefined color presets</td>
-                    </tr>
-                    <tr>
-                        <td>presetsVisibilityChanges</td>
-                        <td><code>BehaviorSubject</code></td>
-                        <td>Used to observe color preset visibility</td>
-                    </tr>
+                    @for (item of COLOR_PICKER_CONTROL_METHODS; track item) {
+                        <tr>
+                            <td>{{ item.property }}</td>
+                            <td><code>{{ item.type }}</code></td>
+                            <td>{{ item.description }}</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
@@ -615,96 +577,13 @@ export class ChromeWrapperComponent &#123;
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Color.from</td>
-                        <td><code>static method</code></td>
-                        <td>create new Color object from Color, Rgba, Hsla, Hsva or ColorString</td>
-                    </tr>
-                    <tr>
-                        <td>clone</td>
-                        <td><code>Function</code></td>
-                        <td>create new Color object</td>
-                    </tr>
-                    <tr>
-                        <td>setFromString</td>
-                        <td><code>Function</code></td>
-                        <td>change the value by providing the string</td>
-                    </tr>
-                    <tr>
-                        <td>setHsva</td>
-                        <td><code>Function</code></td>
-                        <td>change the value by providing hsv values</td>
-                    </tr>
-                    <tr>
-                        <td>setRgba</td>
-                        <td><code>Function</code></td>
-                        <td>change the value by providing rgb values</td>
-                    </tr>
-                    <tr>
-                        <td>setHsla</td>
-                        <td><code>Function</code></td>
-                        <td>change the value by providing hsl values</td>
-                    </tr>
-                    <tr>
-                        <td>toHexString</td>
-                        <td><code>Function</code></td>
-                        <td>convert Color object to hex string</td>
-                    </tr>
-                    <tr>
-                        <td>toRgbString</td>
-                        <td><code>Function</code></td>
-                        <td>convert Color object to rgb string</td>
-                    </tr>
-                    <tr>
-                        <td>toRgbaString</td>
-                        <td><code>Function</code></td>
-                        <td>convert Color object to rgba string</td>
-                    </tr>
-                    <tr>
-                        <td>toHslString</td>
-                        <td><code>Function</code></td>
-                        <td>convert Color object to hsl string</td>
-                    </tr>
-                    <tr>
-                        <td>toHslaString</td>
-                        <td><code>Function</code></td>
-                        <td>convert Color object to hsla string</td>
-                    </tr>
-                    <tr>
-                        <td>toHsvString</td>
-                        <td><code>Function</code></td>
-                        <td>convert Color object to hsv string</td>
-                    </tr>
-                    <tr>
-                        <td>toHsvaString</td>
-                        <td><code>Function</code></td>
-                        <td>convert Color object to hsva string</td>
-                    </tr>
-                    <tr>
-                        <td>toCmykString</td>
-                        <td><code>Function</code></td>
-                        <td>convert Color object to cmyk string</td>
-                    </tr>
-                    <tr>
-                        <td>getHsva</td>
-                        <td><code>Function</code></td>
-                        <td>return Hsva object</td>
-                    </tr>
-                    <tr>
-                        <td>getRgba</td>
-                        <td><code>Function</code></td>
-                        <td>return Rgba object</td>
-                    </tr>
-                    <tr>
-                        <td>getHsla</td>
-                        <td><code>Function</code></td>
-                        <td>return Hsla object</td>
-                    </tr>
-                    <tr>
-                        <td>getCmyk</td>
-                        <td><code>Function</code></td>
-                        <td>return Cmyk object</td>
-                    </tr>
+                    @for (method of COLOR_METHODS; track method) {
+                        <tr>
+                            <td>{{ method.property }}</td>
+                            <td><code>{{ method.type }}</code></td>
+                            <td>{{ method.description }}</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

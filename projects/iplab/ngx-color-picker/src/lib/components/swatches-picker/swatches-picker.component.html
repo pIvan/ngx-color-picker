@@ -4,13 +4,15 @@
     [columns]="7"
     direction="down"
     [(color)]="control.value" 
-    [colorPresets]="control.presets"></color-presets-component>
-<color-presets-component
-    class="child-list"
-    *ngIf="childControl.presets.length"
-    [columns]="7"
-    direction="down"
-    [(color)]="childControl.value" 
-    [colorPresets]="childControl.presets"></color-presets-component>
+    [colorPresets]="control.presets" />
+
+@if(childControl.presets.length) {
+    <color-presets-component
+        class="child-list"
+        [columns]="7"
+        direction="down"
+        [(color)]="childControl.value" 
+        [colorPresets]="childControl.presets" />
+}
 
 <ng-content></ng-content>

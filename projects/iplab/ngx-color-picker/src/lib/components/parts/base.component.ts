@@ -22,7 +22,7 @@ export abstract class BaseComponent implements OnDestroy {
         this.addEventListeners();
     }
 
-    public abstract movePointer(coordinates: { x: number; y: number; height: number; width: number; }): void;
+    protected abstract movePointer(coordinates: { x: number; y: number; height: number; width: number; }): void;
 
     private addEventListeners(): void {
         this.subscriptions.push(

@@ -8,7 +8,8 @@ import {
     EventEmitter,
     ViewChild,
     SimpleChanges,
-    OnChanges
+    OnChanges,
+    booleanAttribute
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
@@ -33,15 +34,11 @@ export class HueComponent extends BaseComponent implements OnChanges {
     @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
 
+    @Input({ alias: 'vertical', transform: booleanAttribute })
     private isVertical: boolean = false;
 
     constructor(private readonly renderer: Renderer2) {
         super();
-    }
-
-    @Input()
-    public set vertical(value: string) {
-        this.isVertical = true;
     }
 
     /**
@@ -55,7 +52,7 @@ export class HueComponent extends BaseComponent implements OnChanges {
         }
     }
 
-    public movePointer({ x, y, height, width }): void {
+    protected movePointer({ x, y, height, width }): void {
         const hue = this.isVertical ? (y / height) * 360 : (x / width) * 360;
         this.changePointerPosition(hue);
 

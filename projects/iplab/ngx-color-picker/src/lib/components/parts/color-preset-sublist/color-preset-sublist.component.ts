@@ -52,9 +52,9 @@ export class ColorPresetSublist implements OnDestroy {
         this.cdr.detach();
     }
 
-    private removeListeners(): void {
-        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-        this.subscriptions.length = 0;
+    @HostBinding('className')
+    public get className(): string {
+        return `direction-${this.direction}`;
     }
 
     /**
@@ -67,6 +67,11 @@ export class ColorPresetSublist implements OnDestroy {
     public onLongPress(): void {
         this.showChildren = true;
         this.listenDocumentEvents();
+    }
+
+    private removeListeners(): void {
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subscriptions.length = 0;
     }
 
     private listenDocumentEvents(): void {
@@ -85,10 +90,5 @@ export class ColorPresetSublist implements OnDestroy {
             this.cdr.markForCheck();
             this.removeListeners();
         }
-    }
-
-    @HostBinding('className')
-    public get className(): string {
-        return `direction-${this.direction}`;
     }
 }

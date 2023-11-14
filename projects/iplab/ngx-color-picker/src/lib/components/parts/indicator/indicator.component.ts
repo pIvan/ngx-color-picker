@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, Renderer2, ElementRef, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, Input, HostBinding, Renderer2, ElementRef, ChangeDetectionStrategy, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { ColorPickerConfig } from './../../../services/color-picker.service';
@@ -14,7 +14,7 @@ import { fromEvent, Subscription } from 'rxjs';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IndicatorComponent {
+export class IndicatorComponent implements OnInit {
     @Input()
     public color: Color;
 
@@ -33,9 +33,12 @@ export class IndicatorComponent {
         private readonly renderer: Renderer2,
         private readonly elementRef: ElementRef,
         @Inject(DOCUMENT) private readonly document) {
-            this.subscriptions.push(
-                fromEvent(this.elementRef.nativeElement, 'click').subscribe(() => this.onClick())
-            );
+    }
+
+    public ngOnInit(): void {
+        this.subscriptions.push(
+            fromEvent(this.elementRef.nativeElement, 'click').subscribe(() => this.onClick())
+        );
     }
 
     public get backgroundColor(): string {

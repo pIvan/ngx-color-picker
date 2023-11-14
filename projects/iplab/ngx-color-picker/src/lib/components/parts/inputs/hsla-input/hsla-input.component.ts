@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy, booleanAttribute } from '@angular/core';
 import { Color } from './../../../../helpers/color.class';
 
 
@@ -15,30 +15,16 @@ import { Color } from './../../../../helpers/color.class';
 export class HslaComponent {
 
     @Input()
-    public hue: Color;
-
-    @Output()
-    public hueChange = new EventEmitter<Color>(false);
-
-    @Input()
     public color: Color;
 
     @Output()
     public colorChange = new EventEmitter<Color>(false);
 
-    public labelVisible: boolean;
+    @Input({ alias: 'label', transform: booleanAttribute })
+    public labelVisible: boolean = false;
 
-    @Input()
-    public set label(value) {
-        this.labelVisible = true;
-    }
-
+    @Input({ alias: 'alpha', transform: booleanAttribute })
     public isAlphaVisible: boolean = true;
-
-    @Input()
-    public set alpha(isVisible: boolean) {
-        this.isAlphaVisible = isVisible;
-    }
 
     public get value() {
         return this.color ? this.color.getHsla() : null;
@@ -51,11 +37,7 @@ export class HslaComponent {
         const lightness = color === 'L' ? newValue : value.lightness;
         const alpha = color === 'A' ? newValue : value.alpha;
 
-
         const newColor = new Color().setHsla(hue, saturation, lightness, alpha);
-        const hueColor = new Color().setHsva(newColor.getHsva().hue);
-
-        this.hueChange.emit(hueColor);
         this.colorChange.emit(newColor);
     }
 }

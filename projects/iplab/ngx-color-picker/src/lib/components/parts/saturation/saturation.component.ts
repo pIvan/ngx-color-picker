@@ -64,7 +64,7 @@ export class SaturationComponent extends BaseComponent implements OnInit, OnChan
         }
     }
 
-    public movePointer({ x, y, height, width }): void {
+    protected movePointer({ x, y, height, width }): void {
         const saturation = (x * 100) / width;
         const bright = -((y * 100) / height) + 100;
 

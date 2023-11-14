@@ -1,8 +1,10 @@
-<div class="picker" *ngIf="isVisible">
-    <chrome-picker [control]="colorControl">
-        <div class="buttons">
-            <button type="button" class="btn btn-primary" (click)="applyClick($event)">Apply</button>
-        </div>
-    </chrome-picker>
-    <div class="overlay" (click)="discardClick($event)"></div>
-</div>
+@if (isVisible) {
+    <div class="picker">
+        <chrome-picker [control]="colorControl">
+            <div class="buttons">
+                <button type="button" class="btn btn-primary" (click)="applyClick($event)">Apply</button>
+            </div>
+        </chrome-picker>
+        <div class="overlay" (click)="discardClick($event)"></div>
+    </div>
+}

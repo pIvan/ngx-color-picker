@@ -6,7 +6,8 @@ import {
     Output,
     ChangeDetectionStrategy,
     OnDestroy,
-    ElementRef
+    ElementRef,
+    booleanAttribute
 } from '@angular/core';
 import { Color, ColorString } from './../../../helpers/color.class';
 import { Subject, of, fromEvent, Subscription, merge } from 'rxjs';
@@ -30,10 +31,8 @@ export class ColorPresetComponent implements OnDestroy {
     @Input()
     public color: Color;
 
-    @Input('show-depth-title')
-    public set depth(showDepthText: boolean) {
-        this.showDepthText = !!showDepthText;
-    }
+    @Input({ alias: 'show-depth-title', transform: booleanAttribute })
+    public showDepthText: boolean = false;
 
     @Output()
     public selectionChange = new EventEmitter<Color>(false);
@@ -42,8 +41,6 @@ export class ColorPresetComponent implements OnDestroy {
     public longPress = new EventEmitter<boolean>(false);
 
     private mouseup = new Subject<void>();
-
-    private showDepthText: boolean = false;
 
     private subscriptions: Subscription[] = [];
 

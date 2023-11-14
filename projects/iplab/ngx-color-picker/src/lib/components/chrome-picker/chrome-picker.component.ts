@@ -83,7 +83,7 @@ export class ChromePickerComponent implements OnInit, OnChanges, OnDestroy {
 
         this.subscriptions.push(
             this.control.valueChanges.subscribe((value) => {
-                this.cdr.markForCheck();
+                this.cdr.detectChanges();
                 this.colorChange.emit(getValueByType(value, this.control.initType));
             })
         );

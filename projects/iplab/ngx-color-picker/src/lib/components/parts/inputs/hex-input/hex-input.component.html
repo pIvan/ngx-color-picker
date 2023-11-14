@@ -1,4 +1,6 @@
 <div class="column">
     <input #elRef type="text" [value]="value" (keyup)="onInputChange($event, elRef.value)" />
-    <span *ngIf="labelVisible">HEX</span>
+    @if (labelVisible) {
+        <span>HEX</span>
+    }
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy, booleanAttribute } from '@angular/core';
 import { Color } from './../../../../helpers/color.class';
 
 
@@ -20,19 +20,11 @@ export class RgbaComponent {
     @Output()
     public colorChange = new EventEmitter<Color>(false);
 
-    public labelVisible: boolean;
+    @Input({ alias: 'label', transform: booleanAttribute })
+    public labelVisible: boolean = false;
 
-    @Input()
-    public set label(value) {
-        this.labelVisible = true;
-    }
-
+    @Input({ alias: 'alpha', transform: booleanAttribute })
     public isAlphaVisible: boolean = true;
-
-    @Input()
-    public set alpha(isVisible: boolean) {
-        this.isAlphaVisible = isVisible;
-    }
 
     public get value() {
         return this.color ? this.color.getRgba() : null;

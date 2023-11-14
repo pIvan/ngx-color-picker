@@ -105,11 +105,11 @@ export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
 
         this.subscriptions.push(
             this.control.valueChanges.subscribe((value) => {
-                this.cdr.markForCheck();
                 const presets = this.mapColors[value.toHexString()];
                 if (presets) {
                     this.childControl.setColorPresets(presets);
                 }
+                this.cdr.detectChanges();
                 this.colorChange.emit(getValueByType(this.childControl.value, this.childControl.initType));
             })
         );

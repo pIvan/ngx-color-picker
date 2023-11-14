@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy, booleanAttribute } from '@angular/core';
 import { Color } from '../../../../helpers/color.class';
 
 
@@ -20,18 +20,11 @@ export class HexComponent {
     @Output()
     public colorChange = new EventEmitter<Color>(false);
 
-    public labelVisible: boolean;
+    @Input({ alias: 'label', transform: booleanAttribute })
+    public labelVisible: boolean = false;
+
+    @Input({ alias: 'prefix' })
     private prefixValue: string = '';
-
-    @Input()
-    public set label(value) {
-        this.labelVisible = true;
-    }
-
-    @Input()
-    public set prefix(value) {
-        this.prefixValue = value;
-    }
 
     public get value() {
         return this.prefixValue + (this.color ? this.color.toHexString(this.color.getRgba().alpha < 1).replace('#', '') : '');

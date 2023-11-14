@@ -8,7 +8,8 @@ import {
     ElementRef,
     ViewChild,
     Renderer2,
-    SimpleChanges
+    SimpleChanges,
+    booleanAttribute
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
@@ -33,16 +34,12 @@ export class AlphaComponent extends BaseComponent implements OnChanges {
     @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
 
-    private isVertical: boolean = false;
-
     constructor(private readonly renderer: Renderer2) {
         super();
     }
 
-    @Input()
-    public set vertical(value: string) {
-        this.isVertical = true;
-    }
+    @Input({ alias: 'vertical', transform: booleanAttribute })
+    public isVertical: boolean = false;
 
     /**
      * color can be changed through inputs
@@ -55,7 +52,7 @@ export class AlphaComponent extends BaseComponent implements OnChanges {
         }
     }
 
-    public movePointer({ x, y, height, width }): void {
+    protected movePointer({ x, y, height, width }): void {
         const alpha = this.isVertical ? y / height : x / width;
         this.changePointerPosition(alpha);
 

@@ -16,6 +16,12 @@ import { ColorPickerControl } from './../../helpers/control.class';
 import { getValueByType } from './../../helpers/helper.functions';
 import { Subscription } from 'rxjs';
 
+export function columnAttribute(value: string | number | null | undefined): number | 'auto' {
+    return !isNaN(parseFloat(value as any)) && !isNaN(Number(value))
+            ? Number(value)
+            : 'auto';
+}
+
 @Component({
     selector: `github-picker`,
     templateUrl: `./github-picker.component.html`,
@@ -33,31 +39,21 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     public control: ColorPickerControl;
 
-    @Input()
-    public get columns() {
-        return this.columnsValue;
-    }
-
-    public set columns(value: string | number | null | undefined) {
-        this.columnsValue = !isNaN(parseFloat(value as any)) && !isNaN(Number(value))
-            ? Number(value)
-            : 'auto';
-    }
+    @Input({ transform: columnAttribute })
+    public columns: 'auto' | number = 8;
 
     @Output()
     public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
 
     @HostBinding('style.width')
     public get width() {
-        return this.columnsValue === 'auto' ? `auto` : `${25 * this.columnsValue + 12}px`;
+        return this.columns === 'auto' ? `auto` : `${25 * this.columns + 12}px`;
     }
 
     public get columnsCount() {
-        return this.columnsValue === 'auto' ? this.control.presets.length : this.columnsValue;
+        return this.columns === 'auto' ? this.control.presets.length : this.columns;
     }
     
-    private columnsValue: 'auto' | number = 8;
-
     private subscriptions: Array<Subscription> = [];
 
     constructor(private readonly cdr: ChangeDetectorRef) {
@@ -86,7 +82,7 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
 
         this.subscriptions.push(
             this.control.valueChanges.subscribe((value) => {
-                this.cdr.markForCheck();
+                this.cdr.detectChanges();
                 this.colorChange.emit(getValueByType(value, this.control.initType));
             })
         );
