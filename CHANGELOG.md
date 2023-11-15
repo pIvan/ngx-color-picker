@@ -1,3 +1,10 @@
+<a name="17.1.0"></a>
+## [17.1.0](https://github.com/pIvan/ngx-color-picker/commit/530105f6edcc533245476394797e367f35bfd55b) (2023-11-14)
+### Feature
+### * standalone api supported
+### * new control flow implemented
+### * minor adjustments made to configuration so localization through configuration is easier
+
 <a name="17.0.0"></a>
 ## [17.0.0](https://github.com/pIvan/ngx-color-picker/commit/ac043e615ebde89ce0c6d5449939f6bcf1ea8e48) (2023-11-13)
 ### Feature
