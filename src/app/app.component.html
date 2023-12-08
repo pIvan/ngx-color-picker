@@ -103,7 +103,7 @@ export class AppModule &#123;&#125;</pre>
 
             <p>Or if the component is used as standalone.</p>
             <ol>
-                <li><pre class="prettify">import &#123; ChromePickerComponent &#125; from '&#64;iplab/ngx-color-picker';
+                <li><pre class="prettify">import &#123; ChromePickerComponent, COLOR_PICKER_CONFIG &#125; from '&#64;iplab/ngx-color-picker';
 import &#123; provideAnimations &#125; from '&#64;angular/platform-browser/animations';
 ...
 ...
@@ -124,6 +124,7 @@ bootstrapApplication(
     AppComponent, &#123;
     providers: [
         <b>provideAnimations()</b> or <b>provideNoopAnimations()</b> // need to be included
+        <b>&#123; provide: COLOR_PICKER_CONFIG, use... &#125;</b> or <b>importProvidersFrom(ColorPickerModule)</b>
     ]
 &#125;);</pre></li>
             </ol>

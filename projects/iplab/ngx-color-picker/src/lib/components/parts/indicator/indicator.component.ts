@@ -24,7 +24,7 @@ export class IndicatorComponent implements OnInit {
 
     @HostBinding('attr.title')
     public get title() {
-        return this.pickerConfig ? this.pickerConfig.indicatorTitle : '';
+        return this.pickerConfig?.indicatorTitle || '';
     }
 
     private subscriptions: Subscription[] = [];

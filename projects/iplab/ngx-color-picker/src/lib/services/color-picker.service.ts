@@ -6,10 +6,11 @@ export interface IColorPickerConfig {
     presetsTitle: string;
 }
 
-@Injectable()
+export const COLOR_PICKER_CONFIG = new InjectionToken<IColorPickerConfig>('COLOR_PICKER_CONFIG');
+
+@Injectable({ providedIn: 'root', useExisting: COLOR_PICKER_CONFIG })
 export class ColorPickerConfig implements IColorPickerConfig {
     public indicatorTitle: string = 'Copy color to clipboard';
     public presetsTitle: string = '{0}. Long-click to show alternate shades.';
 }
 
-export const COLOR_PICKER_CONFIG = new InjectionToken<IColorPickerConfig>('COLOR_PICKER_CONFIG');

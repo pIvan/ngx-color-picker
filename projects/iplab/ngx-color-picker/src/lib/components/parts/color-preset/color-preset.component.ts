@@ -65,7 +65,7 @@ export class ColorPresetComponent implements OnDestroy {
         const color = this.color ? this.color.toHexString() : '';
 
         if (this.showDepthText) {
-            return this.pickerConfig.presetsTitle.replace(/\{\s*(.+?)\s*\}/g, (match, firstMatch) => color);
+            return (this.pickerConfig?.presetsTitle || '').replace(/\{\s*(.+?)\s*\}/g, (match, firstMatch) => color);
         }
         return color;
     }

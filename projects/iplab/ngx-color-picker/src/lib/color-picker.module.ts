@@ -72,7 +72,7 @@ export { Color } from './helpers/color.class';
 export { ColorPickerControl, ColorType } from './helpers/control.class';
 export { ColorsTable } from './helpers/colors-table.class';
 export { getValueByType } from './helpers/helper.functions';
-export { IColorPickerConfig, COLOR_PICKER_CONFIG } from './services/color-picker.service';
+export { IColorPickerConfig, COLOR_PICKER_CONFIG, ColorPickerConfig } from './services/color-picker.service';
 
 @NgModule({
     imports: [
@@ -104,10 +104,6 @@ export { IColorPickerConfig, COLOR_PICKER_CONFIG } from './services/color-picker
         IpPickerComponent
     ],
     providers: [
-        {
-            provide: ColorPickerConfig,
-            useExisting: COLOR_PICKER_CONFIG
-        },
         {
             provide: COLOR_PICKER_CONFIG,
             useValue: new ColorPickerConfig()
