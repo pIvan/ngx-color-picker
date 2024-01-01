@@ -103,12 +103,6 @@ export { IColorPickerConfig, COLOR_PICKER_CONFIG, ColorPickerConfig } from './se
         CompactPickerComponent,
         IpPickerComponent
     ],
-    providers: [
-        {
-            provide: COLOR_PICKER_CONFIG,
-            useValue: new ColorPickerConfig()
-        }
-    ],
     exports: [
         SaturationComponent,
         IndicatorComponent,

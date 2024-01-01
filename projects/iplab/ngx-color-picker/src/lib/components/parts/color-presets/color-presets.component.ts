@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { ColorPresetSublist } from './../color-preset-sublist/color-preset-sublist.component';
 import { ColorPresetComponent } from './../color-preset/color-preset.component';
@@ -14,7 +14,7 @@ import { ChunksPipe } from './../../../pipes/chunks.pipe';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [ColorPresetComponent, ColorPresetSublist, NgClass, ChunksPipe]
+    imports: [ColorPresetComponent, ColorPresetSublist, NgClass, ChunksPipe],
 })
 export class ColorPresetsComponent {
 

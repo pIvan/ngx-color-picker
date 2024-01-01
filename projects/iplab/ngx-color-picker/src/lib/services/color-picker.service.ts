@@ -6,7 +6,7 @@ export interface IColorPickerConfig {
     presetsTitle: string;
 }
 
-export const COLOR_PICKER_CONFIG = new InjectionToken<IColorPickerConfig>('COLOR_PICKER_CONFIG');
+export const COLOR_PICKER_CONFIG = new InjectionToken<IColorPickerConfig>('COLOR_PICKER_CONFIG', { providedIn: 'root', factory: () => new ColorPickerConfig() });
 
 @Injectable({ providedIn: 'root', useExisting: COLOR_PICKER_CONFIG })
 export class ColorPickerConfig implements IColorPickerConfig {
