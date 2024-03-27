@@ -8,73 +8,79 @@
     padding: 6px;
 }
 
-:host ::ng-deep color-preset,
-:host ::ng-deep color-preset-sublist {
-    width: 30px;
-    height: 30px;
+:host ::ng-deep {
+
+    color-preset,
+    color-preset-sublist {
+        width: 30px;
+        height: 30px;
+    }
+
+    color-preset:hover:after,
+    color-preset.selected:after {
+        display: block;
+        content: '\0A0';
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        bottom: 3px;
+        right: 3px;
+        z-index: 10;
+        border: 3px solid #fff;
+        box-shadow: rgba(0, 0, 0, 0.2) 0 0 5px 2px;
+    }
+
+    .presets-row:first-child color-preset:first-child,
+    .presets-row:first-child color-preset-sublist:first-child {
+        border-radius: 4px 0 0 4px;
+    }
+
+    .presets-row.last color-preset.last,
+    .presets-row.last color-preset-sublist.last {
+        border-radius: 0 4px 4px 0;
+    }
+
+    .child-list {
+        margin-top: 6px;
+        border-top: 1px solid #e5e5e5;
+        padding: 6px 0 0;
+
+        .presets-row.first color-preset.first,
+        .presets-row.first color-preset-sublist.first {
+            border-radius: 4px 0 0 0;
+        }
+    
+        .presets-row.first color-preset.last,
+        .presets-row.first color-preset-sublist.last {
+            border-radius: 0 4px 0 0;
+        }
+
+        .presets-row.last color-preset.first,
+        .presets-row.last color-preset-sublist.first {
+            border-radius: 0 0 0 4px;
+        }
+
+        .presets-row.last color-preset.last,
+        .presets-row.last color-preset-sublist.last {
+            border-radius: 0 0 4px 0;
+        }
+
+        color-preset:hover:after,
+        color-preset.selected:after {
+            content: '\2714';
+            font-size: 18px;
+            color: #fff;
+            border: 0;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            line-height: 30px;
+            box-shadow: none;
+            text-align: center;
+        }
+    }
 }
 
-:host ::ng-deep color-preset:hover:after,
-:host ::ng-deep color-preset.selected:after {
-    display: block;
-    content: '\0A0';
-    position: absolute;
-    left: 3px;
-    top: 3px;
-    bottom: 3px;
-    right: 3px;
-    z-index: 10;
-    border: 3px solid #fff;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 0 5px 2px;
-}
 
-:host ::ng-deep .presets-row:first-child color-preset:first-child,
-:host ::ng-deep .presets-row:first-child color-preset-sublist:first-child {
-    border-radius: 4px 0 0 4px;
-}
 
-:host ::ng-deep .presets-row.last color-preset.last,
-:host ::ng-deep .presets-row.last color-preset-sublist.last {
-    border-radius: 0 4px 4px 0;
-}
-
-:host ::ng-deep .child-list .presets-row.first color-preset.first,
-:host ::ng-deep .child-list .presets-row.first color-preset-sublist.first {
-    border-radius: 4px 0 0 0;
-}
-
-:host ::ng-deep .child-list .presets-row.first color-preset.last,
-:host ::ng-deep .child-list .presets-row.first color-preset-sublist.last {
-    border-radius: 0 4px 0 0;
-}
-
-:host ::ng-deep .child-list .presets-row.last color-preset.first,
-:host ::ng-deep .child-list .presets-row.last color-preset-sublist.first {
-    border-radius: 0 0 0 4px;
-}
-
-:host ::ng-deep .child-list .presets-row.last color-preset.last,
-:host ::ng-deep .child-list .presets-row.last color-preset-sublist.last {
-    border-radius: 0 0 4px 0;
-}
-
-:host ::ng-deep .child-list {
-    margin-top: 6px;
-    border-top: 1px solid #e5e5e5;
-    padding: 6px 0 0;
-}
-
-:host ::ng-deep .child-list color-preset:hover:after,
-:host ::ng-deep .child-list color-preset.selected:after {
-    content: '\2714';
-    font-size: 18px;
-    color: #fff;
-    border: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    line-height: 30px;
-    box-shadow: none;
-    text-align: center;
-}

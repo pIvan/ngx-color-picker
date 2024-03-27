@@ -1,5 +1,6 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy, booleanAttribute } from '@angular/core';
+import { Component, ChangeDetectionStrategy, booleanAttribute, InputSignal, input, model, ModelSignal } from '@angular/core';
 import { Color } from './../../../../helpers/color.class';
+import { ColorPickerInputDirective } from '../../../../directives/color-picker-input.directive';
 
 
 @Component({
@@ -12,24 +13,18 @@ import { Color } from './../../../../helpers/color.class';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-
+    imports: [ColorPickerInputDirective]
 })
 export class RgbaComponent {
 
-    @Input()
-    public color: Color;
+    public color: ModelSignal<Color> = model.required<Color>();
 
-    @Output()
-    public colorChange = new EventEmitter<Color>(false);
+    public labelVisible: InputSignal<boolean> = input<boolean, boolean>(false, { alias: 'label', transform: booleanAttribute });
 
-    @Input({ alias: 'label', transform: booleanAttribute })
-    public labelVisible: boolean = false;
-
-    @Input({ alias: 'alpha', transform: booleanAttribute })
-    public isAlphaVisible: boolean = true;
+    public isAlphaVisible: InputSignal<boolean> = input<boolean, boolean>(true, { alias: 'alpha', transform: booleanAttribute });
 
     public get value() {
-        return this.color ? this.color.getRgba() : null;
+        return this.color()?.getRgba();
     }
 
     public onInputChange(newValue: number, color: 'R' | 'G' | 'B' | 'A') {
@@ -40,6 +35,6 @@ export class RgbaComponent {
         const alpha = color === 'A' ? newValue : value.alpha;
 
         const newColor = new Color().setRgba(red, green, blue, alpha);
-        this.colorChange.emit(newColor);
+        this.color.set(newColor);
     }
 }

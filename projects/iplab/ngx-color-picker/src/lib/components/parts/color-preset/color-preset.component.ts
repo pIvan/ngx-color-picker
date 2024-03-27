@@ -1,15 +1,18 @@
 import {
     Component,
     HostBinding,
-    Input,
-    EventEmitter,
-    Output,
     ChangeDetectionStrategy,
     OnDestroy,
     ElementRef,
-    booleanAttribute
+    booleanAttribute,
+    input,
+    InputSignal,
+    effect,
+    Renderer2,
+    output,
+    OutputEmitterRef
 } from '@angular/core';
-import { Color, ColorString } from './../../../helpers/color.class';
+import { Color } from './../../../helpers/color.class';
 import { Subject, of, fromEvent, Subscription, merge } from 'rxjs';
 import { takeUntil, delay, map } from 'rxjs/operators';
 import { ColorPickerConfig } from './../../../services/color-picker.service';
@@ -26,27 +29,30 @@ import { ColorPickerConfig } from './../../../services/color-picker.service';
 })
 export class ColorPresetComponent implements OnDestroy {
 
-    @Input()
-    public activeColor: Color;
+    public activeColor: InputSignal<Color> = input.required<Color>();
 
-    @Input()
-    public color: Color;
+    public color: InputSignal<Color> = input.required<Color>();
 
-    @Input({ alias: 'show-depth-title', transform: booleanAttribute })
-    public showDepthText: boolean = false;
+    public showDepthText: InputSignal<boolean> = input<boolean, boolean>(false, { alias: 'show-depth-title', transform: booleanAttribute });
 
-    @Output()
-    public selectionChange = new EventEmitter<Color>(false);
+    public selectionChange: OutputEmitterRef<Color> = output<Color>();
 
-    @Output()
-    public longPress = new EventEmitter<boolean>(false);
+    public longPress: OutputEmitterRef<boolean> = output<boolean>();
 
     private mouseup = new Subject<void>();
 
     private subscriptions: Subscription[] = [];
 
-    constructor(private readonly pickerConfig: ColorPickerConfig, private readonly elementRef: ElementRef) {
+    constructor(
+        private readonly pickerConfig: ColorPickerConfig,
+        private readonly elementRef: ElementRef,
+        private readonly renderer: Renderer2) {
         this.addEventListeners();
+
+        effect(() => {
+            this.updateBackground();
+            this.updateTitleAttr();
+        })
     }
 
     public ngOnDestroy(): void {
@@ -55,24 +61,26 @@ export class ColorPresetComponent implements OnDestroy {
         this.removeEventListeners();
     }
 
-    @HostBinding('style.backgroundColor')
-    public get bgColor(): ColorString {
-        return this.color.toRgbaString();
+    @HostBinding('class.selected')
+    public get className(): boolean {
+        return this.activeColor() ? this.color().toRgbaString() === this.activeColor().toRgbaString() : false;
     }
 
-    @HostBinding('attr.title')
-    public get title() {
-        const color = this.color ? this.color.toHexString() : '';
+    private updateBackground(): void {
+        this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', this.color().toRgbaString());
+    }
 
-        if (this.showDepthText) {
+    private updateTitleAttr(): void {
+        this.renderer.setAttribute(this.elementRef.nativeElement, 'title', this.getTitle());
+    }
+
+    private getTitle() {
+        const color = this.color() ? this.color().toHexString() : '';
+
+        if (this.showDepthText()) {
             return (this.pickerConfig?.presetsTitle || '').replace(/\{\s*(.+?)\s*\}/g, (match, firstMatch) => color);
         }
         return color;
-    }
-
-    @HostBinding('class.selected')
-    public get className(): boolean {
-        return this.activeColor ? this.color.toRgbaString() === this.activeColor.toRgbaString() : false;
     }
 
     private addEventListeners(): void {
@@ -105,9 +113,9 @@ export class ColorPresetComponent implements OnDestroy {
                 delay(350),
                 takeUntil(this.mouseup)
             )
-            .subscribe(() => this.longPress.next(true));
+            .subscribe(() => this.longPress.emit(true));
 
-        this.selectionChange.emit(this.color);
+        this.selectionChange.emit(this.color());
     }
 
     private onTouchEnd(): void {

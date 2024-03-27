@@ -8,7 +8,12 @@ import {
     ChangeDetectionStrategy,
     OnChanges,
     OnDestroy,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    ModelSignal,
+    model,
+    input,
+    InputSignal,
+    effect
 } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { ColorString } from './../../helpers/color.class';
@@ -43,37 +48,35 @@ import { ColorPresetsComponent } from '../parts/color-presets/color-presets.comp
         AsyncPipe
     ]
 })
-export class SketchPickerComponent implements OnInit, OnChanges, OnDestroy {
+export class SketchPickerComponent implements OnInit, OnDestroy {
 
-    @Input()
-    public color: string;
+    public color: ModelSignal<ColorString> = model<ColorString>();
 
-    @Input()
-    public control: ColorPickerControl;
-
-    @Output()
-    public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
+    public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 
     private subscriptions: Array<Subscription> = [];
 
     constructor(private readonly cdr: ChangeDetectorRef) {
+        effect(() => {
+            const color = this.color();
+            const control = this.control();
+            if (color && control && getValueByType(control.value, control.initType) !== color) {
+                control.setValueFrom(color);
+            }
+        });
     }
 
     public ngOnInit(): void {
-        if (!this.control) {
-            this.control = new ColorPickerControl();
+        if (this.color()) {
+            this.control().setValueFrom(this.color());
         }
 
-        if (this.color) {
-            this.control.setValueFrom(this.color);
-        }
-
-        if (!this.control.hasPresets()) {
+        if (!this.control().hasPresets()) {
             /**
              * set color presets
              * defined by sketch color picker component
              */
-            this.control
+            this.control()
                 .setColorPresets([
                     '#d0041b', '#8b572a', '#f5a623', '#f8e71c', '#7ed321', '#417506', '#bd10e0', '#9013fe',
                     '#4a90e2', '#50e3c2', '#b8e986', '#030303', '#4a4a4a', '#9b9b9b', '#fff'
@@ -81,9 +84,9 @@ export class SketchPickerComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.subscriptions.push(
-            this.control.valueChanges.subscribe((value) => {
+            this.control().valueChanges.subscribe((value) => {
                 this.cdr.detectChanges();
-                this.colorChange.emit(getValueByType(value, this.control.initType));
+                this.color.set(getValueByType(value, this.control().initType));
             })
         );
     }
@@ -92,11 +95,5 @@ export class SketchPickerComponent implements OnInit, OnChanges, OnDestroy {
         this.cdr.detach();
         this.subscriptions.forEach((subscription) => subscription.unsubscribe());
         this.subscriptions.length = 0;
-    }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (this.color && this.control && getValueByType(this.control.value, this.control.initType) !== this.color) {
-            this.control.setValueFrom(this.color);
-        }
     }
 }

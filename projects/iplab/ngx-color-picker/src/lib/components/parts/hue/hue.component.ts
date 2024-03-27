@@ -1,15 +1,15 @@
 import {
     Component,
     ChangeDetectionStrategy,
-    Input,
     Renderer2,
     ElementRef,
-    Output,
-    EventEmitter,
     ViewChild,
-    SimpleChanges,
-    OnChanges,
-    booleanAttribute
+    booleanAttribute,
+    InputSignal,
+    input,
+    effect,
+    model,
+    ModelSignal
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
@@ -24,42 +24,31 @@ import { BaseComponent } from './../base.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true
 })
-export class HueComponent extends BaseComponent implements OnChanges {
+export class HueComponent extends BaseComponent {
 
-    @Input()
-    public color: Color;
+    public color: ModelSignal<Color> = model.required<Color>();
 
-    @Output()
-    public colorChange = new EventEmitter<Color>(false);
+    public isVertical: InputSignal<boolean> = input<boolean, boolean>(false, { alias: 'vertical', transform: booleanAttribute });
 
     @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
 
-    @Input({ alias: 'vertical', transform: booleanAttribute })
-    private isVertical: boolean = false;
-
     constructor(private readonly renderer: Renderer2) {
         super();
-    }
 
-    /**
-     * color can be changed through inputs
-     * and then we need to move pointer
-     */
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.color && changes.color.previousValue !== changes.color.currentValue) {
-            const hsva = this.color.getHsva();
+        effect(() => {
+            const hsva = this.color().getHsva();
             this.changePointerPosition(hsva.hue);
-        }
+        })
     }
 
     protected movePointer({ x, y, height, width }): void {
-        const hue = this.isVertical ? (y / height) * 360 : (x / width) * 360;
+        const hue = this.isVertical() ? (y / height) * 359 : (x / width) * 359;
         this.changePointerPosition(hue);
 
-        const currentColor = this.color.getHsva();
+        const currentColor = this.color().getHsva();
         const newHueColor = new Color().setHsva(hue, currentColor.saturation, currentColor.value, currentColor.alpha);
-        this.colorChange.emit(newHueColor);
+        this.color.set(newHueColor);
     }
 
     /**
@@ -67,7 +56,7 @@ export class HueComponent extends BaseComponent implements OnChanges {
      */
     private changePointerPosition(hue: number): void {
         const x = (hue / 360) * 100;
-        const orientation = this.isVertical ? 'top' : 'left';
+        const orientation = this.isVertical() ? 'top' : 'left';
         this.renderer.setStyle(this.pointer.nativeElement, orientation, `${x}%`);
     }
 }

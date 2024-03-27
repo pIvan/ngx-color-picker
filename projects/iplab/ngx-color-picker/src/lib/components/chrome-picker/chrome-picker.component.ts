@@ -1,17 +1,16 @@
 import {
     Component,
     OnInit,
-    Input,
-    Output,
-    EventEmitter,
-    SimpleChanges,
     ChangeDetectionStrategy,
     OnDestroy,
-    OnChanges,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    model,
+    ModelSignal,
+    effect,
+    input,
+    InputSignal
 } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
 import { getValueByType } from './../../helpers/helper.functions';
 import { Subscription } from 'rxjs';
@@ -23,6 +22,7 @@ import { RgbaComponent } from './../parts/inputs/rgba-input/rgba-input.component
 import { HslaComponent } from './../parts/inputs/hsla-input/hsla-input.component';
 import { HexComponent } from './../parts/inputs/hex-input/hex-input.component';
 import { ColorPresetsComponent } from '../parts/color-presets/color-presets.component';
+import { ColorString } from '../../helpers/color.class';
 
 
 @Component({
@@ -47,40 +47,38 @@ import { ColorPresetsComponent } from '../parts/color-presets/color-presets.comp
         AsyncPipe
     ]
 })
-export class ChromePickerComponent implements OnInit, OnChanges, OnDestroy {
+export class ChromePickerComponent implements OnInit, OnDestroy {
 
     public selectedPresentation: number = 0;
     public presentations = ['rgba', 'hsla', 'hex'];
 
-    @Input()
-    public color: string;
+    public color: ModelSignal<ColorString> = model<ColorString>();
 
-    @Input()
-    public control: ColorPickerControl;
-
-    @Output()
-    public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
+    public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 
     private subscriptions: Array<Subscription> = [];
 
     constructor(private readonly cdr: ChangeDetectorRef) {
+        effect(() => {
+            const color = this.color();
+            const control = this.control();
+            if (color && control && getValueByType(control.value, control.initType) !== color) {
+                control.setValueFrom(color);
+            }
+        });
     }
 
     public ngOnInit(): void {
-        if (!this.control) {
-            this.control = new ColorPickerControl();
-        }
-
-        if (this.color) {
-            this.control.setValueFrom(this.color);
+        if (this.color()) {
+            this.control().setValueFrom(this.color());
         }
 
         /**
          * set color presets
          * defined by this chrome color picker component
          */
-        if (!this.control.hasPresets()) {
-            this.control
+        if (!this.control().hasPresets()) {
+            this.control()
                 .setColorPresets([
                     ['#f44336', '#ffebee', '#ffcdd2', '#EF9A9A', '#E57373', '#EF5350', '#F44336', '#E53935', '#D32F2F', '#C62828', '#B71C1C'],
                     ['#E91E63', '#fce4ec', '#f8bbd0', '#f48fb1', '#f06292', '#ec407a', '#e91e63', '#d81b60', '#c2185b', '#ad1457', '#880e4f'],
@@ -105,9 +103,9 @@ export class ChromePickerComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.subscriptions.push(
-            this.control.valueChanges.subscribe((value) => {
+            this.control().valueChanges.subscribe((value) => {
                 this.cdr.detectChanges();
-                this.colorChange.emit(getValueByType(value, this.control.initType));
+                this.color.set(getValueByType(value, this.control().initType));
             })
         );
     }
@@ -116,12 +114,6 @@ export class ChromePickerComponent implements OnInit, OnChanges, OnDestroy {
         this.cdr.detach();
         this.subscriptions.forEach((subscription) => subscription.unsubscribe());
         this.subscriptions.length = 0;
-    }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (this.color && this.control && getValueByType(this.control.value, this.control.initType) !== this.color) {
-            this.control.setValueFrom(this.color);
-        }
     }
 
     public changePresentation(): void {

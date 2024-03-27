@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, Renderer2, ElementRef, ChangeDetectionStrategy, Inject, OnInit } from '@angular/core';
+import { Component, Renderer2, ElementRef, ChangeDetectionStrategy, Inject, OnInit, InputSignal, input, effect, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { ColorPickerConfig } from './../../../services/color-picker.service';
@@ -16,16 +16,13 @@ import { fromEvent, Subscription } from 'rxjs';
     standalone: true
 })
 export class IndicatorComponent implements OnInit {
-    @Input()
-    public color: Color;
 
-    @Input()
-    public colorType: 'rgba' | 'hex' | 'hsla' | string = 'rgba';
+    public color: InputSignal<Color> = input.required<Color>();
 
-    @HostBinding('attr.title')
-    public get title() {
-        return this.pickerConfig?.indicatorTitle || '';
-    }
+    public colorType: InputSignal<'rgba' | 'hex' | 'hsla'> = input<'rgba' | 'hex' | 'hsla'>('rgba');
+
+    @ViewChild('backgroundColorEl')
+    public readonly backgroundColorEl: ElementRef<HTMLDivElement>;
 
     private subscriptions: Subscription[] = [];
 
@@ -34,6 +31,11 @@ export class IndicatorComponent implements OnInit {
         private readonly renderer: Renderer2,
         private readonly elementRef: ElementRef,
         @Inject(DOCUMENT) private readonly document) {
+            this.renderTitle();
+
+            effect(() => {
+                this.renderBackgroundColor();
+            })
     }
 
     public ngOnInit(): void {
@@ -42,8 +44,15 @@ export class IndicatorComponent implements OnInit {
         );
     }
 
-    public get backgroundColor(): string {
-        return this.color.toRgbaString();
+    private renderTitle(): void {
+        this.renderer.setAttribute(this.elementRef.nativeElement, 'title', this.pickerConfig?.indicatorTitle || '');
+    }
+
+    private renderBackgroundColor(): void {
+        if (!this.backgroundColorEl) {
+            return;
+        }
+        this.renderer.setStyle(this.backgroundColorEl.nativeElement, 'backgroundColor', this.color().toRgbaString());
     }
 
     private onClick() {
@@ -52,15 +61,15 @@ export class IndicatorComponent implements OnInit {
         this.renderer.setStyle(input, 'top', '-100%');
         this.renderer.setStyle(input, 'left', '-100%');
 
-        switch (this.colorType) {
+        switch (this.colorType()) {
             case 'hsla':
-                input.value = this.color.toHslaString();
+                input.value = this.color().toHslaString();
                 break;
             case 'hex':
-                input.value = this.color.toHexString(this.color.getRgba().alpha < 1);
+                input.value = this.color().toHexString(this.color().getRgba().alpha < 1);
                 break;
             default:
-                input.value = this.backgroundColor;
+                input.value = this.color().toRgbaString();
         }
 
         this.renderer.appendChild(this.elementRef.nativeElement, input);

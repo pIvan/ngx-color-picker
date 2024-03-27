@@ -1,31 +1,31 @@
 <ng-content select="[before]"></ng-content>
 
-<saturation-component [(color)]="control.value" />
+<saturation-component [(color)]="control().value" />
 
 <div class="controls">
     <div class="controls-row hue-alpha">
         <div class="column">
-            <hue-component [(color)]="control.value" />
-            @if (control.alphaChannelVisibilityChanges | async) {
-                <alpha-component [(color)]="control.value" />
+            <hue-component [(color)]="control().value" />
+            @if (control().alphaChannelVisibilityChanges | async) {
+                <alpha-component [(color)]="control().value" />
             }
         </div>
         <div class="column indicator-column">
-            <indicator-component colorType="rgba" [color]="control.value" />
+            <indicator-component colorType="rgba" [color]="control().value" />
         </div>
     </div>
     <div class="controls-row presentation">
         <div class="column">
-            <hex-input-component label [(color)]="control.value" />
+            <hex-input-component label [(color)]="control().value" />
         </div>
         <div class="column">
-            <rgba-input-component [alpha]="control.alphaChannelVisibilityChanges | async" label [(color)]="control.value" />
+            <rgba-input-component [alpha]="control().alphaChannelVisibilityChanges | async" label [(color)]="control().value" />
         </div>
     </div>
 </div>
 
-@if (control.presetsVisibilityChanges | async) {
-    <color-presets-component [(color)]="control.value" [colorPresets]="control.presets" />
+@if (control().presetsVisibilityChanges | async) {
+    <color-presets-component [(color)]="control().value" [colorPresets]="control().presets" />
 }
 
 <ng-content></ng-content>

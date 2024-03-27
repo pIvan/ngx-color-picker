@@ -1,13 +1,13 @@
-<color-preset [show-depth-title]="list.length > 1" [color]="list[0]" [activeColor]="activeColor" (longPress)="onLongPress()" (selectionChange)="onSelectionChange($event)" />
-<div class="reflection" [style.backgroundColor]="list[0].toRgbaString()"></div>
-<div class="reflection" [style.backgroundColor]="list[0].toRgbaString()"></div>
+<color-preset [show-depth-title]="list().length > 1" [color]="list()[0]" [activeColor]="activeColor()" (longPress)="onLongPress()" (selectionChange)="onSelectionChange($event)" />
+<div class="reflection" [style.backgroundColor]="list()[0].toRgbaString()"></div>
+<div class="reflection" [style.backgroundColor]="list()[0].toRgbaString()"></div>
 
 @if (showChildren) {
     <div class="sublist" [@opacityAnimation]="showChildren" [@listAnimation]="direction">
-        @for(preset of list | reverse : (direction == 'up' || direction == 'right'); track preset.toRgbaString()) {
+        @for(preset of list() | reverse : (direction() == 'up' || direction() == 'right'); track preset.toRgbaString()) {
         <color-preset 
             [color]="preset"
-            [activeColor]="activeColor"
+            [activeColor]="activeColor()"
             (selectionChange)="onSelectionChange($event)" />
         }
     </div>

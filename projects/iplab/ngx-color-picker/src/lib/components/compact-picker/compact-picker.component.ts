@@ -1,17 +1,16 @@
 import {
     Component,
     OnInit,
-    Input,
-    Output,
-    EventEmitter,
-    SimpleChanges,
     ChangeDetectionStrategy,
-    OnChanges,
     OnDestroy,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    model,
+    ModelSignal,
+    InputSignal,
+    input,
+    effect
 } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
 import { getValueByType } from './../../helpers/helper.functions';
 import { Subscription } from 'rxjs';
@@ -20,6 +19,7 @@ import { IndicatorComponent } from './../parts/indicator/indicator.component';
 import { HueComponent } from './../parts/hue/hue.component';
 import { HexComponent } from './../parts/inputs/hex-input/hex-input.component';
 import { ColorPresetsComponent } from '../parts/color-presets/color-presets.component';
+import { ColorString } from '../../helpers/color.class';
 
 @Component({
     selector: `compact-picker`,
@@ -39,46 +39,44 @@ import { ColorPresetsComponent } from '../parts/color-presets/color-presets.comp
         AsyncPipe
     ]
 })
-export class CompactPickerComponent implements OnInit, OnChanges, OnDestroy {
+export class CompactPickerComponent implements OnInit, OnDestroy {
 
-    @Input()
-    public color: string;
+    public color: ModelSignal<ColorString> = model<ColorString>();
 
-    @Input()
-    public control: ColorPickerControl;
-
-    @Output()
-    public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
+    public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 
     private subscriptions: Array<Subscription> = [];
 
     constructor(private readonly cdr: ChangeDetectorRef) {
+        effect(() => {
+            const color = this.color();
+            const control = this.control();
+            if (color && control && getValueByType(control.value, control.initType) !== color) {
+                control.setValueFrom(color);
+            }
+        })
     }
 
     public ngOnInit(): void {
-        if (!this.control) {
-            this.control = new ColorPickerControl();
-        }
-
-        if (this.color) {
-            this.control.setValueFrom(this.color);
+        if (this.color()) {
+            this.control().setValueFrom(this.color());
         }
 
         /**
          * set color presets
          * defined by compact color picker component
          */
-        if (!this.control.hasPresets()) {
-            this.control
+        if (!this.control().hasPresets()) {
+            this.control()
                 .setColorPresets([
                     '#6da6e8', '#74c283', '#f9d948', '#f5943f', '#f66c6c', '#ef8ab8', '#696cd4', '#6c6c6c', '#f6f5f5'
                 ]);
         }
 
         this.subscriptions.push(
-            this.control.valueChanges.subscribe((value) => {
+            this.control().valueChanges.subscribe((value) => {
                 this.cdr.detectChanges();
-                this.colorChange.emit(getValueByType(value, this.control.initType));
+                this.color.set(getValueByType(value, this.control().initType));
             })
         );
     }
@@ -87,11 +85,5 @@ export class CompactPickerComponent implements OnInit, OnChanges, OnDestroy {
         this.cdr.detach();
         this.subscriptions.forEach((subscription) => subscription.unsubscribe());
         this.subscriptions.length = 0;
-    }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (this.color && this.control && getValueByType(this.control.value, this.control.initType) !== this.color) {
-            this.control.setValueFrom(this.color);
-        }
     }
 }

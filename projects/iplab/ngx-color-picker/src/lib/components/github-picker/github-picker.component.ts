@@ -1,15 +1,15 @@
 import {
     Component,
     OnInit,
-    Input,
-    Output,
-    EventEmitter,
-    OnChanges,
-    SimpleChanges,
     ChangeDetectionStrategy,
     OnDestroy,
     ChangeDetectorRef,
-    HostBinding
+    HostBinding,
+    model,
+    ModelSignal,
+    InputSignal,
+    input,
+    effect
 } from '@angular/core';
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
@@ -37,49 +37,46 @@ export function columnAttribute(value: string | number | null | undefined): numb
         ColorPresetsComponent
     ]
 })
-export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
+export class GithubPickerComponent implements OnInit, OnDestroy {
 
-    @Input()
-    public color: string;
+    public color: ModelSignal<ColorString> = model<ColorString>();
 
-    @Input()
-    public control: ColorPickerControl;
+    public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 
-    @Input({ transform: columnAttribute })
-    public columns: 'auto' | number = 8;
-
-    @Output()
-    public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
+    public columns: InputSignal<'auto' | number> = input<'auto' | number, 'auto' | number>(8, { transform: columnAttribute });
 
     @HostBinding('style.width')
     public get width() {
-        return this.columns === 'auto' ? `auto` : `${25 * this.columns + 12}px`;
+        return this.columns() === 'auto' ? `auto` : `${25 * (this.columns() as number) + 12}px`;
     }
 
     public get columnsCount() {
-        return this.columns === 'auto' ? this.control.presets.length : this.columns;
+        return this.columns() === 'auto' ? this.control().presets.length : this.columns();
     }
     
     private subscriptions: Array<Subscription> = [];
 
     constructor(private readonly cdr: ChangeDetectorRef) {
+        effect(() => {
+            const color = this.color();
+            const control = this.control();
+            if (color && control && getValueByType(control.value, control.initType) !== color) {
+                control.setValueFrom(color);
+            }
+        })
     }
 
     public ngOnInit(): void {
-        if (!this.control) {
-            this.control = new ColorPickerControl();
+        if (this.color()) {
+            this.control().setValueFrom(this.color());
         }
 
-        if (this.color) {
-            this.control.setValueFrom(this.color);
-        }
-
-        if (!this.control.hasPresets()) {
+        if (!this.control().hasPresets()) {
             /**
              * set color presets
              * defined by github color picker component
              */
-            this.control
+            this.control()
                 .setColorPresets([
                     '#b80000', '#db3e00', '#fccb00', '#008b02', '#006b76', '#1273de', '#004dcf', '#5300eb',
                     '#eb9694', '#fad0c3', '#fef3bd', '#c1e1c5', '#bedadc', '#c4def6', '#bed3f3', '#d4c4fb'
@@ -87,9 +84,9 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.subscriptions.push(
-            this.control.valueChanges.subscribe((value) => {
+            this.control().valueChanges.subscribe((value) => {
                 this.cdr.detectChanges();
-                this.colorChange.emit(getValueByType(value, this.control.initType));
+                this.color.set(getValueByType(value, this.control().initType));
             })
         );
     }
@@ -98,11 +95,5 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
         this.cdr.detach();
         this.subscriptions.forEach((subscription) => subscription.unsubscribe());
         this.subscriptions.length = 0;
-    }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (this.color && this.control && getValueByType(this.control.value, this.control.initType) !== this.color) {
-            this.control.setValueFrom(this.color);
-        }
     }
 }

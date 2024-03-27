@@ -27,8 +27,8 @@ export abstract class BaseComponent implements OnDestroy {
     private addEventListeners(): void {
         this.subscriptions.push(
             merge(
-                fromEvent(this.elementRef.nativeElement, 'touchstart', { passive: true }),
-                fromEvent(this.elementRef.nativeElement, 'mousedown')
+                fromEvent(this.elementRef.nativeElement, 'touchstart', { passive: true, capture: true }),
+                fromEvent(this.elementRef.nativeElement, 'mousedown', { capture: true })
             )
             .subscribe((e: TouchEvent | MouseEvent) => this.onEventChange(e))
         );
@@ -38,15 +38,15 @@ export abstract class BaseComponent implements OnDestroy {
         this.calculate(event);
 
         merge(
-            fromEvent(this.document, 'mouseup'),
-            fromEvent(this.document, 'touchend')
+            fromEvent(this.document, 'mouseup', { capture: true }),
+            fromEvent(this.document, 'touchend', { capture: true })
         )
         .pipe(takeUntil(this.mouseup))
         .subscribe(() => this.mouseup.next());
 
         merge(
-            fromEvent(this.document, 'mousemove'),
-            fromEvent(this.document, 'touchmove', { passive: true })
+            fromEvent(this.document, 'mousemove', { capture: true }),
+            fromEvent(this.document, 'touchmove', { passive: true, capture: true })
         )
         .pipe(takeUntil(this.mouseup))
         .subscribe((e: MouseEvent | TouchEvent) => this.calculate(e));
@@ -67,6 +67,7 @@ export abstract class BaseComponent implements OnDestroy {
     }
 
     private calculate(event: MouseEvent | TouchEvent): void {
+        event.stopPropagation();
         if (!event.type.includes('touch')) {
             event.preventDefault();
         }

@@ -1,13 +1,14 @@
 import {
     Component,
-    Input,
     ChangeDetectionStrategy,
     Inject,
     OnDestroy,
     ChangeDetectorRef,
-    Output,
-    EventEmitter,
-    HostBinding
+    HostBinding,
+    InputSignal,
+    input,
+    OutputEmitterRef,
+    output
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
@@ -30,17 +31,13 @@ import { ReversePipe } from './../../../pipes/reverse.pipe';
 })
 export class ColorPresetSublist implements OnDestroy {
 
-    @Input()
-    public list: Array<Color>;
+    public list: InputSignal<Array<Color>> = input.required<Array<Color>>();
 
-    @Output()
-    public selectionChange = new EventEmitter<Color>(false);
+    public activeColor: InputSignal<Color> = input.required<Color>();
 
-    @Input()
-    public direction: 'down' | 'up' | 'left' | 'right' = 'up';
+    public direction: InputSignal<'down' | 'up' | 'left' | 'right'> = input<'down' | 'up' | 'left' | 'right'>('up');
 
-    @Input()
-    public activeColor: Color;
+    public selectionChange: OutputEmitterRef<Color> = output<Color>();
 
     public showChildren: boolean = false;
 
@@ -58,14 +55,14 @@ export class ColorPresetSublist implements OnDestroy {
 
     @HostBinding('className')
     public get className(): string {
-        return `direction-${this.direction}`;
+        return `direction-${this.direction()}`;
     }
 
     /**
      * emit color change
      */
     public onSelectionChange(color: Color): void {
-        this.selectionChange.next(color);
+        this.selectionChange.emit(color);
     }
 
     public onLongPress(): void {

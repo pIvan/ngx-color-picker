@@ -1,14 +1,12 @@
 import {
     Component,
     OnInit,
-    Input,
-    Output,
-    EventEmitter,
-    SimpleChanges,
     ChangeDetectionStrategy,
     OnDestroy,
     ChangeDetectorRef,
-    OnChanges
+    ModelSignal,
+    model,
+    effect
 } from '@angular/core';
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
@@ -29,13 +27,9 @@ import { ColorPresetsComponent } from '../parts/color-presets/color-presets.comp
         ColorPresetsComponent
     ]
 })
-export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
+export class SwatchesPickerComponent implements OnInit, OnDestroy {
 
-    @Input()
-    public color: string;
-
-    @Output()
-    public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
+    public color: ModelSignal<ColorString> = model<ColorString>();
 
     public control: ColorPickerControl = new ColorPickerControl();
     public childControl: ColorPickerControl = new ColorPickerControl();
@@ -80,11 +74,18 @@ export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
     };
 
     constructor(private readonly cdr: ChangeDetectorRef) {
+        effect(() => {
+            const color = this.color();
+            const control = this.control;
+            if (getValueByType(control.value, control.initType) !== color) {
+                this.childControl.setValueFrom(color);
+            }
+        });
     }
 
     public ngOnInit(): void {
-        if (this.color) {
-            this.childControl.setValueFrom(this.color);
+        if (this.color()) {
+            this.childControl.setValueFrom(this.color());
         } else {
             this.control.setValueFrom('#E6315B');
         }
@@ -104,7 +105,7 @@ export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
 
         this.subscriptions.push(
             this.childControl.valueChanges.subscribe((value) => {
-                this.colorChange.emit(getValueByType(value, this.childControl.initType));
+                this.color.set(getValueByType(value, this.childControl.initType));
             })
         );
 
@@ -115,7 +116,7 @@ export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
                     this.childControl.setColorPresets(presets);
                 }
                 this.cdr.detectChanges();
-                this.colorChange.emit(getValueByType(this.childControl.value, this.childControl.initType));
+                this.color.set(getValueByType(this.childControl.value, this.childControl.initType));
             })
         );
     }
@@ -124,11 +125,5 @@ export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
         this.cdr.detach();
         this.subscriptions.forEach((subscription) => subscription.unsubscribe());
         this.subscriptions.length = 0;
-    }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (this.color && this.control && getValueByType(this.control.value, this.control.initType) !== this.color) {
-            this.childControl.setValueFrom(this.color);
-        }
     }
 }

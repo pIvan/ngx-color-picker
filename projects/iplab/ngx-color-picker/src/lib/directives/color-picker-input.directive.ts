@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Directive, Input, Output, EventEmitter, HostListener, input, InputSignal, OutputEmitterRef, output, numberAttribute, ElementRef, Renderer2 } from '@angular/core';
 
 
 @Directive({
@@ -6,14 +6,12 @@ import { Directive, Input, Output, EventEmitter, HostListener } from '@angular/c
     standalone: true
 })
 export class ColorPickerInputDirective {
-    @Input()
-    public min: string;
 
-    @Input()
-    public max: string;
+    public min: InputSignal<number> = input<number, number>(0, { transform: numberAttribute });
 
-    @Output()
-    public inputChange = new EventEmitter<number>();
+    public max: InputSignal<number> = input<number, number>(255, { transform: numberAttribute });
+
+    public inputChange: OutputEmitterRef<number> = output<number>();
 
     @HostListener('input', ['$event'])
     public inputChanges(event: any): void {
@@ -21,8 +19,7 @@ export class ColorPickerInputDirective {
         const value = element.value;
 
         const numeric = parseFloat(value);
-        if (!isNaN(numeric) && numeric >= parseInt(this.min, 10) &&
-            numeric <= parseInt(this.max, 10)) {
+        if (!isNaN(numeric) && numeric >= this.min() && numeric <= this.max()) {
             this.inputChange.emit(numeric);
         }
     }

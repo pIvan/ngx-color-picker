@@ -1,5 +1,6 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy, booleanAttribute } from '@angular/core';
+import { Component, ChangeDetectionStrategy, booleanAttribute, InputSignal, input, model, ModelSignal } from '@angular/core';
 import { Color } from './../../../../helpers/color.class';
+import { ColorPickerInputDirective } from '../../../../directives/color-picker-input.directive';
 
 
 @Component({
@@ -11,24 +12,19 @@ import { Color } from './../../../../helpers/color.class';
         `./hsla-input.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true
+    standalone: true,
+    imports: [ColorPickerInputDirective]
 })
 export class HslaComponent {
 
-    @Input()
-    public color: Color;
+    public color: ModelSignal<Color> = model.required<Color>();
 
-    @Output()
-    public colorChange = new EventEmitter<Color>(false);
+    public labelVisible: InputSignal<boolean> = input<boolean, boolean>(false, { alias: 'label', transform: booleanAttribute });
 
-    @Input({ alias: 'label', transform: booleanAttribute })
-    public labelVisible: boolean = false;
-
-    @Input({ alias: 'alpha', transform: booleanAttribute })
-    public isAlphaVisible: boolean = true;
+    public isAlphaVisible: InputSignal<boolean> = input<boolean, boolean>(true, { alias: 'alpha', transform: booleanAttribute });
 
     public get value() {
-        return this.color ? this.color.getHsla() : null;
+        return this.color()?.getHsla();
     }
 
     public onInputChange(newValue: number, color: 'H' | 'S' | 'L' | 'A') {
@@ -39,6 +35,6 @@ export class HslaComponent {
         const alpha = color === 'A' ? newValue : value.alpha;
 
         const newColor = new Color().setHsla(hue, saturation, lightness, alpha);
-        this.colorChange.emit(newColor);
+        this.color.set(newColor);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, InputSignal, input, numberAttribute, model, ModelSignal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { ColorPresetSublist } from './../color-preset-sublist/color-preset-sublist.component';
@@ -18,27 +18,20 @@ import { ChunksPipe } from './../../../pipes/chunks.pipe';
 })
 export class ColorPresetsComponent {
 
-    @Input()
-    public columns: number = 8;
+    public columns: InputSignal<number> = input<number, number>(8, { transform: numberAttribute });
 
-    @Input()
-    public colorPresets: Array<Array<Color> | Color>;
+    public colorPresets: InputSignal<Array<Array<Color> | Color>> = input.required<Array<Array<Color> | Color>>();
 
-    @Input()
-    public color: Color;
+    public color: ModelSignal<Color> = model.required<Color>();
 
-    @Output()
-    public colorChange = new EventEmitter<Color>(false);
-
-    @Input()
-    public direction: 'down' | 'up' | 'left' | 'right' = 'up';
+    public direction: InputSignal<'down' | 'up' | 'left' | 'right'> = input<'down' | 'up' | 'left' | 'right'>('up');
 
     public onSelectionChange(color: Color): void {
         const selectedRgbaColor = color.getRgba();
 
         const newColor = new Color()
             .setRgba(selectedRgbaColor.red, selectedRgbaColor.green, selectedRgbaColor.blue, selectedRgbaColor.alpha);
-        this.colorChange.emit(newColor);
+        this.color.set(newColor);
     }
 
     public isList(colorPreset: Array<Array<Color> | Color>): boolean {

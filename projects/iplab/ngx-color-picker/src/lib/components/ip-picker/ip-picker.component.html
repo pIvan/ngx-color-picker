@@ -1,23 +1,23 @@
 <div class="controls">
     <div class="controls-row presentation">
-        <indicator-component colorType="hex" [color]="control.value" />
-        <hex-input-component [(color)]="control.value" />
+        <indicator-component colorType="hex" [color]="control().value" />
+        <hex-input-component [(color)]="control().value" />
     </div>
 
     <div class="controls-row saturation-hue-alpha">
         <div class="column">
-            <saturation-component [(color)]="control.value" />
-            <alpha-component [(color)]="control.value" />
+            <saturation-component [(color)]="control().value" />
+            <alpha-component [(color)]="control().value" />
         </div>
         <div class="column hue-column">
-            <hue-component vertical [(color)]="control.value" />
+            <hue-component vertical [(color)]="control().value" />
         </div>
     </div>
 </div>
 
-@if (control.presetsVisibilityChanges | async) {
+@if (control().presetsVisibilityChanges | async) {
     <color-presets-component 
         [columns]="8" 
-        [(color)]="control.value" 
-        [colorPresets]="control.presets" />
+        [(color)]="control().value" 
+        [colorPresets]="control().presets" />
 }
