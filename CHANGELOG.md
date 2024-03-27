@@ -1,3 +1,12 @@
+<a name="17.2.0"></a>
+## [17.2.0](https://github.com/pIvan/ngx-color-picker/commit/b460318f9ff51b282760361637dc0b78053f890d) (2024-03-27)
+### Feature
+### * signal implementation
+### * documentation application update
+
+### Bug
+### * Fixed bug with rgba and hsla input fields
+
 <a name="17.1.0"></a>
 ## [17.1.0](https://github.com/pIvan/ngx-color-picker/commit/530105f6edcc533245476394797e367f35bfd55b) (2023-11-14)
 ### Feature
