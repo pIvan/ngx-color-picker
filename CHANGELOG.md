@@ -1,3 +1,8 @@
+<a name="17.2.1"></a>
+## [17.2.1](https://github.com/pIvan/ngx-color-picker/commit/1b12cec750ade4624c9cd14326fcae614336a7fb) (2024-05-28)
+### Bug
+### * Error on writing to signals on first open from effect() fix
+
 <a name="17.2.0"></a>
 ## [17.2.0](https://github.com/pIvan/ngx-color-picker/commit/b460318f9ff51b282760361637dc0b78053f890d) (2024-03-27)
 ### Feature
