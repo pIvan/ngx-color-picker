@@ -1,3 +1,8 @@
+<a name="18.0.0"></a>
+## [18.0.0](https://github.com/pIvan/ngx-color-picker/commit/b9b0929b742e8c9ce469db4322d01186a996b283) (2024-05-28)
+### Feature
+### * Angular 18 support
+
 <a name="17.2.1"></a>
 ## [17.2.1](https://github.com/pIvan/ngx-color-picker/commit/1b12cec750ade4624c9cd14326fcae614336a7fb) (2024-05-28)
 ### Bug
