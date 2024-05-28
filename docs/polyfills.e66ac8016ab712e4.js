@@ -1,0 +1,1 @@
+(self.webpackChunkngx_color_picker=self.webpackChunkngx_color_picker||[]).push([[461],{50:()=>{}},_=>{_(_.s=50)}]);

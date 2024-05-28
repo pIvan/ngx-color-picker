@@ -1,4 +1,4 @@
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
 import { AppComponent } from './app/app.component';
@@ -13,6 +13,7 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
   providers: [
     provideAnimations(),
+    provideExperimentalZonelessChangeDetection()
     // { provide: COLOR_PICKER_CONFIG, useValue: { indicatorTitle: 'test indikator' } }
   ]
 })
