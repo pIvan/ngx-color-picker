@@ -1,3 +1,8 @@
+<a name="18.0.1"></a>
+## [18.0.1](https://github.com/pIvan/ngx-color-picker/commit/b9b0929b742e8c9ce469db4322d01186a996b283) (2024-05-28)
+### Feature
+### * Zoneless Demo build
+
 <a name="18.0.0"></a>
 ## [18.0.0](https://github.com/pIvan/ngx-color-picker/commit/b9b0929b742e8c9ce469db4322d01186a996b283) (2024-05-28)
 ### Feature
