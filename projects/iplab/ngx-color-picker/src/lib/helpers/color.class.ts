@@ -182,6 +182,10 @@ export class Color {
         return this.rgbaToCmyk(this.getRgba());
     }
 
+    public equal(color: Color): boolean {
+        return this.hsva.equal(color.getHsva());
+    }
+
     private hsvaToHsla(color: Hsva): Hsla {
         const hue = color.hue;
         const s = color.saturation / 100;

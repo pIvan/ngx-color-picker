@@ -34,4 +34,14 @@ export class Hsva extends BaseColor {
     public getAlpha(): number {
         return Math.round(this.alpha * 100) / 100;
     }
+
+    public equal(color: Hsva): boolean {
+        if (this === color) {
+            return true;
+        }
+        return this.hue === color.hue
+            && this.saturation === color.saturation
+            && this.value === color.value
+            && this.alpha === color.alpha;
+    }
 }

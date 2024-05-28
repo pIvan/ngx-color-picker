@@ -1,9 +1,6 @@
 import {
     Component,
     OnInit,
-    Input,
-    Output,
-    EventEmitter,
     SimpleChanges,
     ChangeDetectionStrategy,
     OnChanges,
@@ -13,12 +10,11 @@ import {
     model,
     input,
     InputSignal,
-    effect
 } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
-import { getValueByType } from './../../helpers/helper.functions';
+import { getValueByType, isColorEqual } from './../../helpers/helper.functions';
 import { Subscription } from 'rxjs';
 import { SaturationComponent } from './../parts/saturation/saturation.component';
 import { IndicatorComponent } from './../parts/indicator/indicator.component';
@@ -48,7 +44,7 @@ import { ColorPresetsComponent } from '../parts/color-presets/color-presets.comp
         AsyncPipe
     ]
 })
-export class SketchPickerComponent implements OnInit, OnDestroy {
+export class SketchPickerComponent implements OnInit, OnChanges, OnDestroy {
 
     public color: ModelSignal<ColorString> = model<ColorString>();
 
@@ -57,13 +53,6 @@ export class SketchPickerComponent implements OnInit, OnDestroy {
     private subscriptions: Array<Subscription> = [];
 
     constructor(private readonly cdr: ChangeDetectorRef) {
-        effect(() => {
-            const color = this.color();
-            const control = this.control();
-            if (color && control && getValueByType(control.value, control.initType) !== color) {
-                control.setValueFrom(color);
-            }
-        });
     }
 
     public ngOnInit(): void {
@@ -85,10 +74,21 @@ export class SketchPickerComponent implements OnInit, OnDestroy {
 
         this.subscriptions.push(
             this.control().valueChanges.subscribe((value) => {
-                this.cdr.detectChanges();
                 this.color.set(getValueByType(value, this.control().initType));
+                this.cdr.detectChanges();
             })
         );
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        /**
+         * trigger only if color binding is changed
+         */
+        const color = this.color();
+        const control = this.control();
+        if (color && control && !isColorEqual(getValueByType(control.value, control.initType), color)) {
+            control.setValueFrom(color);
+        }
     }
 
     public ngOnDestroy(): void {

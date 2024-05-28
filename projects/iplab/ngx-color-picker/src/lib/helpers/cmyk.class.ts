@@ -33,4 +33,14 @@ export class Cmyk extends BaseColor {
     public getBlack() {
         return Math.round(this.black);
     }
+
+    public equal(color: Cmyk): boolean {
+        if (this === color) {
+            return true;
+        }
+        return this.cyan === color.cyan
+            && this.magenta === color.magenta
+            && this.yellow === color.yellow
+            && this.black === color.black;
+    }
 }

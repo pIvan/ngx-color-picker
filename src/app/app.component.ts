@@ -25,6 +25,8 @@ export class AppComponent implements AfterViewInit {
                           .setValueFrom('rgba(54, 86, 4, 1)');
 
   public chromeColorControl = new ColorPickerControl()
+                          // .setValueFrom('rgb(24, 86, 4)');
+                          // .setValueFrom('hsl(83, 70%, 12%)')
                           .setValueFrom('rgba(54, 86, 4, 1)');
 
   public readonly chromeControl = new ColorPickerControl()
@@ -43,7 +45,7 @@ export class AppComponent implements AfterViewInit {
   public swatchesColor = '#F04A71';
 
   public wrapperColor = '#F04A71';
-
+    
   public angularCompatibility: { ng: string; lib: string }[] = [
     { ng: '17.x.x', lib: '17.x.x' },
     { ng: '16.x.x', lib: '16.x.x' },
@@ -89,7 +91,8 @@ export class AppComponent implements AfterViewInit {
     { property: 'getHsva', type: 'Function', description: 'return Hsva object' },
     { property: 'getRgba', type: 'Function', description: 'return Rgba object' },
     { property: 'getHsla', type: 'Function', description: 'return Hsla object' },
-    { property: 'getCmyk', type: 'Function', description: 'return Cmyk object' }
+    { property: 'getCmyk', type: 'Function', description: 'return Cmyk object' },
+    { property: 'equal', type: 'Function', description: 'compare the values of 2 Color objects' }
   ]
 
   constructor(private readonly elRef: ElementRef) {

@@ -6,11 +6,12 @@ import {
     ChangeDetectorRef,
     ModelSignal,
     model,
-    effect
+    OnChanges,
+    SimpleChanges
 } from '@angular/core';
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
-import { getValueByType } from './../../helpers/helper.functions';
+import { getValueByType, isColorEqual } from './../../helpers/helper.functions';
 import { Subscription } from 'rxjs';
 import { ColorPresetsComponent } from '../parts/color-presets/color-presets.component';
 
@@ -27,7 +28,7 @@ import { ColorPresetsComponent } from '../parts/color-presets/color-presets.comp
         ColorPresetsComponent
     ]
 })
-export class SwatchesPickerComponent implements OnInit, OnDestroy {
+export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
 
     public color: ModelSignal<ColorString> = model<ColorString>();
 
@@ -74,13 +75,6 @@ export class SwatchesPickerComponent implements OnInit, OnDestroy {
     };
 
     constructor(private readonly cdr: ChangeDetectorRef) {
-        effect(() => {
-            const color = this.color();
-            const control = this.control;
-            if (getValueByType(control.value, control.initType) !== color) {
-                this.childControl.setValueFrom(color);
-            }
-        });
     }
 
     public ngOnInit(): void {
@@ -115,10 +109,22 @@ export class SwatchesPickerComponent implements OnInit, OnDestroy {
                 if (presets) {
                     this.childControl.setColorPresets(presets);
                 }
-                this.cdr.detectChanges();
                 this.color.set(getValueByType(this.childControl.value, this.childControl.initType));
+                this.cdr.detectChanges();
             })
         );
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        /**
+         * trigger only if color binding is changed
+         */
+        const color = this.color();
+        const control = this.control;
+
+        if (color && control && !isColorEqual(getValueByType(control.value, control.initType), color)) {
+            this.childControl.setValueFrom(color);
+        }
     }
 
     public ngOnDestroy(): void {

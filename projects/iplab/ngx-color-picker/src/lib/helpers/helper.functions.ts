@@ -1,4 +1,4 @@
-import { Color } from './color.class';
+import { Color, ColorString } from './color.class';
 import { ColorType } from './control.class';
 
 
@@ -19,4 +19,13 @@ export function getValueByType(color: Color, type: ColorType): string {
         default:
             return color.toRgbaString();
     }
+}
+
+export function isColorEqual(first: Color, second: Color): boolean;
+export function isColorEqual(first: ColorString, second: ColorString): boolean;
+export function isColorEqual(first: Color | ColorString, second: Color | ColorString): boolean {
+    if (first instanceof Color && second instanceof Color) {
+        return first.equal(second);
+    }
+    return first === second;
 }

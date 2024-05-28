@@ -35,4 +35,14 @@ export class Rgba extends BaseColor {
     public getAlpha(): number {
         return Math.round(this.alpha * 100) / 100;
     }
+
+    public equal(color: Rgba): boolean {
+        if (this === color) {
+            return true;
+        }
+        return this.red === color.red
+            && this.green === color.green
+            && this.blue === color.blue
+            && this.alpha === color.alpha;
+    }
 }

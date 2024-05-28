@@ -35,4 +35,14 @@ export class Hsla extends BaseColor {
     public getAlpha(): number {
         return Math.round(this.alpha * 100) / 100;
     }
+
+    public equal(color: Hsla): boolean {
+        if (this === color) {
+            return true;
+        }
+        return this.hue === color.hue
+            && this.saturation === color.saturation
+            && this.lightness === color.lightness
+            && this.alpha === color.alpha;
+    }
 }
