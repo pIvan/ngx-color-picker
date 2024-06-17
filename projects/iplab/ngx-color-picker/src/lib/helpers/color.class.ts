@@ -108,12 +108,10 @@ export class Color {
      */
     public toHexString(alpha: boolean = false): ColorString {
         const rgba = this.getRgba();
-        /* tslint:disable:no-bitwise */
         let hex = '#' + ((1 << 24) | (rgba.getRed() << 16) | (rgba.getGreen() << 8) | rgba.getBlue()).toString(16).substring(1);
         if (alpha) {
             hex += ((1 << 8) | Math.round(rgba.alpha * 255)).toString(16).substring(1);
         }
-        /* tslint:enable:no-bitwise */
         return hex.toUpperCase();
     }
 
