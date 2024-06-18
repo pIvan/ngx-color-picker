@@ -2,6 +2,8 @@
   "name": "ngx-color-picker",
   "version": "0.0.0",
   "scripts": {
+    "postinstall": "husky",
+    "pretty-quick": "pretty-quick",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -9,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "clean": "rm -rf dist",
-    "copy:files": "copy README.md .\\dist\\lib\\ && copy LICENSE .\\dist\\lib\\",
+    "copy:files": "cpy README.md './dist/lib' && cpy LICENSE './dist/lib'",
     "build:git:demo": "ng build --configuration production",
     "build:library": "ng test ngx-library && ng build ngx-library --configuration production && npm run copy:files && npm run build:git:demo",
     "build:publish": "npm publish dist/lib/ --access public --tag=latest"
@@ -35,7 +37,9 @@
     "@angular/language-service": "^18.0.0",
     "@types/jasmine": "~5.1.0",
     "bootstrap": "4.0.0-alpha.6",
+    "cpy-cli": "^5.0.0",
     "google-code-prettify": "1.0.5",
+    "husky": "^9.0.11",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -43,6 +47,8 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^18.0.0",
+    "prettier": "^3.3.2",
+    "pretty-quick": "^4.0.0",
     "ts-node": "~7.0.0",
     "typescript": "~5.4.5"
   }
