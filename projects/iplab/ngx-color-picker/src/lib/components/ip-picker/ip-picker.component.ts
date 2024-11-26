@@ -31,7 +31,6 @@ import { ColorPresetsComponent } from '../parts/color-presets/color-presets.comp
         `./ip-picker.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [
         SaturationComponent,
         IndicatorComponent,

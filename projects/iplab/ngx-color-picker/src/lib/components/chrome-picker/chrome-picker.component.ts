@@ -34,7 +34,6 @@ import { ColorString } from '../../helpers/color.class';
         `./chrome-picker.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [
         SaturationComponent,
         IndicatorComponent,
@@ -44,7 +43,6 @@ import { ColorString } from '../../helpers/color.class';
         HslaComponent,
         HexComponent,
         ColorPresetsComponent,
-
         AsyncPipe
     ]
 })

@@ -3,13 +3,14 @@ import {
     ChangeDetectionStrategy,
     Renderer2,
     ElementRef,
-    ViewChild,
     booleanAttribute,
     InputSignal,
     input,
     effect,
     model,
-    ModelSignal
+    ModelSignal,
+    viewChild,
+    Signal
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
@@ -30,8 +31,7 @@ export class HueComponent extends BaseComponent {
 
     public isVertical: InputSignal<boolean> = input<boolean, boolean>(false, { alias: 'vertical', transform: booleanAttribute });
 
-    @ViewChild('pointer', { static: true })
-    public pointer: ElementRef;
+    public readonly pointer: Signal<ElementRef> = viewChild.required<ElementRef>('pointer');
 
     constructor(private readonly renderer: Renderer2) {
         super();
@@ -57,6 +57,6 @@ export class HueComponent extends BaseComponent {
     private changePointerPosition(hue: number): void {
         const x = (hue / 360) * 100;
         const orientation = this.isVertical() ? 'top' : 'left';
-        this.renderer.setStyle(this.pointer.nativeElement, orientation, `${x}%`);
+        this.renderer.setStyle(this.pointer().nativeElement, orientation, `${x}%`);
     }
 }

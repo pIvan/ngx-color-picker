@@ -30,7 +30,6 @@ import { ColorString } from '../../helpers/color.class';
         `./compact-picker.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [
         SaturationComponent,
         IndicatorComponent,

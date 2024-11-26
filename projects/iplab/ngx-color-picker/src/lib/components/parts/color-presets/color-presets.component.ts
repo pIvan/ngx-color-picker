@@ -13,8 +13,7 @@ import { ChunksPipe } from './../../../pipes/chunks.pipe';
         `./color-presets.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [ColorPresetComponent, ColorPresetSublist, NgClass, ChunksPipe],
+    imports: [ColorPresetComponent, ColorPresetSublist, NgClass, ChunksPipe]
 })
 export class ColorPresetsComponent {
 

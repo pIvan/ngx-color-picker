@@ -33,7 +33,6 @@ export function columnAttribute(value: string | number | null | undefined): numb
         `./github-picker.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [
         ColorPresetsComponent
     ]

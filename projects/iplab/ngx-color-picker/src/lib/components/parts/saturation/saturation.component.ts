@@ -3,10 +3,11 @@ import {
     ChangeDetectionStrategy,
     Renderer2,
     ElementRef,
-    ViewChild,
     effect,
     model,
-    ModelSignal
+    ModelSignal,
+    viewChild,
+    Signal
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
@@ -26,8 +27,7 @@ export class SaturationComponent extends BaseComponent {
 
     public color: ModelSignal<Color> = model.required<Color>();
 
-    @ViewChild('pointer', { static: true })
-    public pointer: ElementRef;
+    public readonly pointer: Signal<ElementRef> = viewChild.required<ElementRef>('pointer');
 
     constructor(private readonly renderer: Renderer2) {
         super();
@@ -72,7 +72,8 @@ export class SaturationComponent extends BaseComponent {
     }
 
     private changePointerPosition(x: number, y: number): void {
-        this.renderer.setStyle(this.pointer.nativeElement, 'top', `${100 - y}%`);
-        this.renderer.setStyle(this.pointer.nativeElement, 'left', `${x}%`);
+        const pointer = this.pointer();
+        this.renderer.setStyle(pointer.nativeElement, 'top', `${100 - y}%`);
+        this.renderer.setStyle(pointer.nativeElement, 'left', `${x}%`);
     }
 }

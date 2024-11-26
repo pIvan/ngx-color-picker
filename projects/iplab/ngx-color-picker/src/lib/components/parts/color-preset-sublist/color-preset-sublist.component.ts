@@ -25,7 +25,6 @@ import { ReversePipe } from './../../../pipes/reverse.pipe';
         `./color-preset-sublist.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ColorPresetComponent, ReversePipe],
     animations: [OpacityAnimation, ListAnimation]
 })

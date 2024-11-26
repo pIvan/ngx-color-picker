@@ -1,4 +1,4 @@
-import { Component, Renderer2, ElementRef, ChangeDetectionStrategy, Inject, OnInit, InputSignal, input, effect, ViewChild } from '@angular/core';
+import { Component, Renderer2, ElementRef, ChangeDetectionStrategy, Inject, OnInit, InputSignal, input, effect, viewChild, Signal } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { ColorPickerConfig } from './../../../services/color-picker.service';
@@ -21,8 +21,7 @@ export class IndicatorComponent implements OnInit {
 
     public colorType: InputSignal<'rgba' | 'hex' | 'hsla'> = input<'rgba' | 'hex' | 'hsla'>('rgba');
 
-    @ViewChild('backgroundColorEl')
-    public readonly backgroundColorEl: ElementRef<HTMLDivElement>;
+    public readonly backgroundColorEl: Signal<ElementRef<HTMLDivElement>> = viewChild.required<ElementRef<HTMLDivElement>>('backgroundColorEl')
 
     private subscriptions: Subscription[] = [];
 
@@ -49,10 +48,10 @@ export class IndicatorComponent implements OnInit {
     }
 
     private renderBackgroundColor(): void {
-        if (!this.backgroundColorEl) {
+        if (!this.backgroundColorEl()) {
             return;
         }
-        this.renderer.setStyle(this.backgroundColorEl.nativeElement, 'backgroundColor', this.color().toRgbaString());
+        this.renderer.setStyle(this.backgroundColorEl().nativeElement, 'backgroundColor', this.color().toRgbaString());
     }
 
     private onClick() {

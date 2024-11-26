@@ -5,7 +5,6 @@ import { ColorPickerControl, Color, getValueByType, ChromePickerComponent } from
     selector: 'chrome-wrapper',
     templateUrl: './chrome-wrapper.component.html',
     styleUrls: ['./chrome-wrapper.component.scss'],
-    standalone: true,
     imports: [ChromePickerComponent]
 })
 export class ChromeWrapperComponent implements OnInit, OnDestroy {

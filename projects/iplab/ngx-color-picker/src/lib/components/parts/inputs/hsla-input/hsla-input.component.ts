@@ -12,7 +12,6 @@ import { ColorPickerInputDirective } from '../../../../directives/color-picker-i
         `./hsla-input.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ColorPickerInputDirective]
 })
 export class HslaComponent {

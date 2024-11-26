@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef } from '@angular/core';
 import { ColorPickerControl, ColorPickerModule, ColorsTable } from '@iplab/ngx-color-picker';
-import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 import { ChromeWrapperComponent } from './wrap-examples/chrome-picker/chrome-wrapper.component';
+// import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 
 interface IDescription {
   property: string;
@@ -10,14 +10,13 @@ interface IDescription {
 }
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  imports: [
-    ColorPickerModule,
-    ChromeWrapperComponent
-  ]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    imports: [
+        ColorPickerModule,
+        ChromeWrapperComponent
+    ]
 })
 export class AppComponent implements AfterViewInit {
 
@@ -47,6 +46,7 @@ export class AppComponent implements AfterViewInit {
   public wrapperColor = '#F04A71';
     
   public angularCompatibility: { ng: string; lib: string }[] = [
+    { ng: '19.x.x', lib: '19.x.x' },
     { ng: '18.x.x', lib: '18.x.x' },
     { ng: '17.x.x', lib: '17.x.x' },
     { ng: '16.x.x', lib: '16.x.x' },
@@ -102,7 +102,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.elRef.nativeElement.querySelectorAll('.prettify')
-      .forEach((el: HTMLElement) => el.innerHTML = prettify.prettyPrintOne(el.innerHTML));
+    // this.elRef.nativeElement.querySelectorAll('.prettify')
+    //   .forEach((el: HTMLElement) => el.innerHTML = prettify.prettyPrintOne(el.innerHTML));
   }
 }
