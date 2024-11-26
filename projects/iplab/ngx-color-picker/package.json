@@ -3,7 +3,7 @@
   "description": "",
   "homepage": "https://github.com/pIvan/ngx-color-picker",
   "bugs": "https://github.com/pIvan/ngx-color-picker/issues",
-  "version": "18.0.1",
+  "version": "19.0.0",
   "author": "Ivan Pintar",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -18,8 +18,8 @@
     "url": "https://github.com/pIvan/ngx-color-picker.git"
   },
   "peerDependencies": {
-    "@angular/common": "^18.0.0",
-    "@angular/core": "^18.0.0",
-    "@angular/animations": "^18.0.0"
+    "@angular/common": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "@angular/animations": "^19.0.0"
   }
 }
