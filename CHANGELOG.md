@@ -1,3 +1,13 @@
+<a name="19.0.1"></a>
+## [19.0.1](https://github.com/pIvan/ngx-color-picker/commit/17c0b9e94e2f154f13111934917f09298c7b7e43) (2025-04-29)
+### * Bug - fixed the issue with alpha precision loss due to rounding.
+
+<a name="19.0.0"></a>
+## [19.0.0](https://github.com/pIvan/ngx-color-picker/commit/b179d069baabd848a6d5dd54b7397684aa7e918b) (2024-11-26)
+### Feature
+### * Angular 18 support
+
+
 <a name="18.0.1"></a>
 ## [18.0.1](https://github.com/pIvan/ngx-color-picker/commit/b9b0929b742e8c9ce469db4322d01186a996b283) (2024-05-28)
 ### Feature
