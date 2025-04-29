@@ -15,7 +15,7 @@ export class Hsva extends BaseColor {
     }
 
     public toString(showAlphaChannel: boolean = true): string {
-        return showAlphaChannel ? `hsva(${this.getHue()}, ${this.getSaturation()}%, ${this.getValue()}%, ${this.getAlpha()})`
+        return showAlphaChannel ? `hsva(${this.getHue()}, ${this.getSaturation()}%, ${this.getValue()}%, ${this.getAlpha(true)})`
             : `hsv(${this.getHue()}, ${this.getSaturation()}%, ${this.getValue()}%)`;
     }
 
@@ -31,8 +31,11 @@ export class Hsva extends BaseColor {
         return Math.round(this.value);
     }
 
-    public getAlpha(): number {
-        return Math.round(this.alpha * 100) / 100;
+    public getAlpha(round: boolean = false): number {
+        if (round != false) {
+            return this.round(this.getAlpha());
+        }
+        return this.alpha;
     }
 
     public equal(color: Hsva): boolean {

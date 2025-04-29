@@ -121,6 +121,31 @@ describe('Color.class', () => {
         expect(black.toCmykString()).toBe(staticColors.black.cmyk);
     }));
 
+    it('should convert color with alpha correctly', () => {
+        const RGBA = "rgba(0, 0, 0, 0.694)";
+        const HEX = "#000000B1";
+        const HSLA = "hsla(0, 0%, 0%, 0.694)";
+
+        const RGBA_ROUND = "rgba(0, 0, 0, 0.69)";
+        const HSLA_ROUND = "hsla(0, 0%, 0%, 0.69)";
+
+        const FROM_HEX = new Color(HEX);
+        const FROM_RGBA = new Color(RGBA);
+        const FROM_HSLA = new Color(HSLA);
+
+        expect(FROM_HEX.toHexString(true)).toBe(HEX);
+        expect(FROM_HEX.toRgbaString()).toBe(RGBA_ROUND);
+        expect(FROM_HEX.toHslaString()).toBe(HSLA_ROUND);
+
+        expect(FROM_RGBA.toHexString(true)).toBe(HEX);
+        expect(FROM_RGBA.toRgbaString()).toBe(RGBA_ROUND);
+        expect(FROM_RGBA.toHslaString()).toBe(HSLA_ROUND);
+
+        expect(FROM_HSLA.toHexString(true)).toBe(HEX);
+        expect(FROM_HSLA.toRgbaString()).toBe(RGBA_ROUND);
+        expect(FROM_HSLA.toHslaString()).toBe(HSLA_ROUND);
+    });
+
     it('should correctly convert rgb', waitForAsync(() => {
         const blue = new Color(staticColors.blue.rgb);
         const green = new Color(staticColors.green.rgb);
@@ -179,15 +204,6 @@ describe('Color.class', () => {
         expect(black.toHsvString()).toBe(staticColors.black.hsv);
         expect(black.toCmykString()).toBe(staticColors.black.cmyk);
     }));
-
-    // it('should correctly convert hsl', async(() => {
-    //     const blue = new Color(staticColors.blue.hsl);
-    //     const green = new Color(staticColors.green.hsl);
-    //     const lime = new Color(staticColors.lime.hsl);
-    //     const yellow = new Color(staticColors.yellow.hsl);
-    //     const red = new Color(staticColors.red.hsl);
-    //     const purple = new Color(staticColors.purple.hsl);
-    // }));
 
     // it('should correctly convert cmyk', async(() => {
     //     const blue = new Color(staticColors.blue.cmyk);

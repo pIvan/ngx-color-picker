@@ -16,7 +16,7 @@ export class Rgba extends BaseColor {
 
     public toString(showAlphaChannel: boolean = true): string {
         return showAlphaChannel
-            ? `rgba(${this.getRed()}, ${this.getGreen()}, ${this.getBlue()}, ${this.getAlpha()})`
+            ? `rgba(${this.getRed()}, ${this.getGreen()}, ${this.getBlue()}, ${this.getAlpha(true)})`
             : `rgb(${this.getRed()}, ${this.getGreen()}, ${this.getBlue()})`;
     }
 
@@ -32,8 +32,11 @@ export class Rgba extends BaseColor {
         return Math.round(this.blue);
     }
 
-    public getAlpha(): number {
-        return Math.round(this.alpha * 100) / 100;
+    public getAlpha(round: boolean = false): number {
+        if (round != false) {
+            return this.round(this.getAlpha());
+        }
+        return this.alpha;
     }
 
     public equal(color: Rgba): boolean {

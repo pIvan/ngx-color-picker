@@ -460,7 +460,7 @@ export class Color {
             } else if (length === 8) {
                 const alpha = hex.substr(-2);
                 hex = hex.substr(0, length - 2);
-                a = this.roundNumber(parseInt(alpha || 'FF', 16) / 255);
+                a = parseInt(alpha || 'FF', 16) / 255;
                 hexArray = hex.match(/.{2}/g);
             }
 

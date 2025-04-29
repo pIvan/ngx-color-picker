@@ -16,7 +16,7 @@ export class Hsla extends BaseColor {
 
     public toString(showAlphaChannel: boolean = true): string {
         return showAlphaChannel
-            ? `hsla(${this.getHue()}, ${this.getSaturation()}%, ${this.getLightness()}%, ${this.getAlpha()})`
+            ? `hsla(${this.getHue()}, ${this.getSaturation()}%, ${this.getLightness()}%, ${this.getAlpha(true)})`
             : `hsl(${this.getHue()}, ${this.getSaturation()}%, ${this.getLightness()}%)`;
     }
 
@@ -32,8 +32,11 @@ export class Hsla extends BaseColor {
         return Math.round(this.lightness);
     }
 
-    public getAlpha(): number {
-        return Math.round(this.alpha * 100) / 100;
+    public getAlpha(round: boolean = false): number {
+        if (round != false) {
+            return this.round(this.getAlpha());
+        }
+        return this.alpha;
     }
 
     public equal(color: Hsla): boolean {
