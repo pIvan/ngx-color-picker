@@ -30,7 +30,7 @@ export class AlphaComponent extends BaseComponent {
 
     public colorChange: OutputEmitterRef<Color> = output<Color>();
 
-    public isVertical: InputSignal<boolean> = input<boolean, boolean>(false, { alias: 'vertical', transform: booleanAttribute });
+    public isVertical: InputSignal<boolean | string> = input<boolean | string, boolean>(false, { alias: 'vertical', transform: booleanAttribute });
 
     @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
