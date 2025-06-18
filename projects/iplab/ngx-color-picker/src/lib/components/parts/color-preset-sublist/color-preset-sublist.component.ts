@@ -1,16 +1,17 @@
 import {
-    Component,
-    ChangeDetectionStrategy,
-    Inject,
-    OnDestroy,
-    ChangeDetectorRef,
-    HostBinding,
-    InputSignal,
-    input,
-    OutputEmitterRef,
-    output
+  Component,
+  ChangeDetectionStrategy,
+  Inject,
+  OnDestroy,
+  ChangeDetectorRef,
+  HostBinding,
+  InputSignal,
+  input,
+  OutputEmitterRef,
+  output,
+  DOCUMENT
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+
 import { Color } from './../../../helpers/color.class';
 import { OpacityAnimation, ListAnimation } from './color-preset-sublist.animation';
 import { fromEvent, merge, Subscription } from 'rxjs';
