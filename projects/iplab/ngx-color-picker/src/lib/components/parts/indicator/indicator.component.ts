@@ -1,5 +1,5 @@
-import { Component, Renderer2, ElementRef, ChangeDetectionStrategy, Inject, OnInit, InputSignal, input, effect, viewChild, Signal } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, Renderer2, ElementRef, ChangeDetectionStrategy, Inject, OnInit, InputSignal, input, effect, viewChild, Signal, DOCUMENT } from '@angular/core';
+
 import { Color } from './../../../helpers/color.class';
 import { ColorPickerConfig } from './../../../services/color-picker.service';
 import { fromEvent, Subscription } from 'rxjs';
