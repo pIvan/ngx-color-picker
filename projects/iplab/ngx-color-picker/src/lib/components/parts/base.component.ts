@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { ElementRef, OnDestroy, Directive, inject } from '@angular/core';
+
+import { ElementRef, OnDestroy, Directive, inject, DOCUMENT } from '@angular/core';
 import { fromEvent, merge, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
