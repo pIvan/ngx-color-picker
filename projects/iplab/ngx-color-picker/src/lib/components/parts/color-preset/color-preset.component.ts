@@ -10,7 +10,8 @@ import {
     effect,
     Renderer2,
     output,
-    OutputEmitterRef
+    OutputEmitterRef,
+    InputSignalWithTransform
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { Subject, of, fromEvent, Subscription, merge } from 'rxjs';
@@ -33,7 +34,7 @@ export class ColorPresetComponent implements OnDestroy {
 
     public color: InputSignal<Color> = input.required<Color>();
 
-    public showDepthText: InputSignal<boolean> = input<boolean, boolean>(false, { alias: 'show-depth-title', transform: booleanAttribute });
+    public showDepthText: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(false, { alias: 'show-depth-title', transform: booleanAttribute });
 
     public selectionChange: OutputEmitterRef<Color> = output<Color>();
 

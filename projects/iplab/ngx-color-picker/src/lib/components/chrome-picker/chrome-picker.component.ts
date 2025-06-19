@@ -49,7 +49,7 @@ import { ColorString } from '../../helpers/color.class';
 export class ChromePickerComponent implements OnInit, OnChanges, OnDestroy {
 
     public selectedPresentation: number = 0;
-    public presentations = ['rgba', 'hsla', 'hex'];
+    public presentations: ['rgba', 'hsla', 'hex'] = ['rgba', 'hsla', 'hex'];
 
     public color: ModelSignal<ColorString> = model<ColorString>();
 

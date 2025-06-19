@@ -10,7 +10,8 @@ import {
     model,
     ModelSignal,
     viewChild,
-    Signal
+    Signal,
+    InputSignalWithTransform
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
@@ -29,7 +30,7 @@ export class HueComponent extends BaseComponent {
 
     public color: ModelSignal<Color> = model.required<Color>();
 
-    public isVertical: InputSignal<boolean> = input<boolean, boolean>(false, { alias: 'vertical', transform: booleanAttribute });
+    public isVertical: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(false, { alias: 'vertical', transform: booleanAttribute });
 
     public readonly pointer: Signal<ElementRef> = viewChild.required<ElementRef>('pointer');
 

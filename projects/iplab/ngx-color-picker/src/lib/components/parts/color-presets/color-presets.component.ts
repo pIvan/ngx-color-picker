@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, InputSignal, input, numberAttribute, model, ModelSignal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, InputSignal, input, numberAttribute, model, ModelSignal, InputSignalWithTransform } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { ColorPresetSublist } from './../color-preset-sublist/color-preset-sublist.component';
@@ -17,7 +17,7 @@ import { ChunksPipe } from './../../../pipes/chunks.pipe';
 })
 export class ColorPresetsComponent {
 
-    public columns: InputSignal<number> = input<number, number>(8, { transform: numberAttribute });
+    public columns: InputSignalWithTransform<number, string | number> = input<number, string | number>(8, { transform: numberAttribute });
 
     public colorPresets: InputSignal<Array<Array<Color> | Color>> = input.required<Array<Array<Color> | Color>>();
 

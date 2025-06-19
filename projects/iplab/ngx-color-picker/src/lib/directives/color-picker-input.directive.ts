@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, HostListener, input, InputSignal, OutputEmitterRef, output, numberAttribute, ElementRef, Renderer2 } from '@angular/core';
+import { Directive, Input, Output, EventEmitter, HostListener, input, InputSignal, OutputEmitterRef, output, numberAttribute, ElementRef, Renderer2, InputSignalWithTransform } from '@angular/core';
 
 
 @Directive({
@@ -7,9 +7,9 @@ import { Directive, Input, Output, EventEmitter, HostListener, input, InputSigna
 })
 export class ColorPickerInputDirective {
 
-    public min: InputSignal<number> = input<number, number>(0, { transform: numberAttribute });
+    public min: InputSignalWithTransform<number, string | number> = input<number, string | number>(0, { transform: numberAttribute });
 
-    public max: InputSignal<number> = input<number, number>(255, { transform: numberAttribute });
+    public max: InputSignalWithTransform<number, string | number> = input<number, string | number>(255, { transform: numberAttribute });
 
     public inputChange: OutputEmitterRef<number> = output<number>();
 

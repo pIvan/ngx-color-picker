@@ -11,6 +11,7 @@ import {
     input,
     SimpleChanges,
     OnChanges,
+    InputSignalWithTransform,
 } from '@angular/core';
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
@@ -43,7 +44,7 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
 
     public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 
-    public columns: InputSignal<'auto' | number> = input<'auto' | number, 'auto' | number>(8, { transform: columnAttribute });
+    public columns: InputSignalWithTransform<'auto' | number, 'auto' | number | string> = input<'auto' | number, 'auto' | number | string>(8, { transform: columnAttribute });
 
     @HostBinding('style.width')
     public get width() {

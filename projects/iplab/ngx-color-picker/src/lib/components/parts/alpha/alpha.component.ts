@@ -9,7 +9,8 @@ import {
     output,
     InputSignal,
     OutputEmitterRef,
-    effect
+    effect,
+    InputSignalWithTransform
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
@@ -30,7 +31,7 @@ export class AlphaComponent extends BaseComponent {
 
     public colorChange: OutputEmitterRef<Color> = output<Color>();
 
-    public isVertical: InputSignal<boolean> = input<boolean, boolean>(false, { alias: 'vertical', transform: booleanAttribute });
+    public isVertical: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(false, { alias: 'vertical', transform: booleanAttribute });
 
     @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
