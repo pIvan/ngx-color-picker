@@ -1,3 +1,7 @@
+<a name="19.0.2"></a>
+## [19.0.2](https://github.com/pIvan/ngx-color-picker/commit/6eb389d5a497247106831141f7c4d33e088479ff) (2025-06-19)
+### * Bug - fixed the issue with alpha emited value
+
 <a name="19.0.1"></a>
 ## [19.0.1](https://github.com/pIvan/ngx-color-picker/commit/17c0b9e94e2f154f13111934917f09298c7b7e43) (2025-04-29)
 ### * Bug - fixed the issue with alpha precision loss due to rounding.
