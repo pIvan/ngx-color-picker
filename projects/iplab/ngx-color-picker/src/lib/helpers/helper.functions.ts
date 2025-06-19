@@ -3,18 +3,26 @@ import { ColorType } from './control.class';
 
 
 export function getValueByType(color: Color, type: ColorType): string {
+    const showAlpha = type == ColorType.hexa
+                    || type == ColorType.rgba
+                    || type == ColorType.hsla
+                    || color.getHsva().alpha <= 0.995;
+
     switch (type) {
         case ColorType.hex:
-            return color.toHexString();
         case ColorType.hexa:
-            return color.toHexString(true);
+            return color.toHexString(showAlpha);
         case ColorType.rgb:
-            return color.toRgbString();
         case ColorType.rgba:
+            if (!showAlpha) {
+                return color.toRgbString();
+            }
             return color.toRgbaString();
         case ColorType.hsl:
-            return color.toHslString();
         case ColorType.hsla:
+            if (!showAlpha) {
+                return color.toHslString();
+            }
             return color.toHslaString();
         default:
             return color.toRgbaString();
