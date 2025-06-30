@@ -5,7 +5,7 @@
 <div class="controls">
     <div class="controls-row hue-alpha">
         <div class="column">
-            <indicator-component [colorType]="presentations[selectedPresentation]" [color]="control().value" />
+            <indicator-component [colorType]="presentations[selectedPresentation()]" [color]="control().value" />
         </div>
         <div class="column">
             <hue-component [(color)]="control().value" />
@@ -16,7 +16,7 @@
     </div>
     <div class="controls-row presentation">
         <div class="column">
-            @switch (presentations[selectedPresentation]) {
+            @switch (presentations[selectedPresentation()]) {
                 @case('rgba') {
                     <rgba-input-component [alpha]="control().alphaChannelVisibilityChanges | async" label [(color)]="control().value" />
                 }

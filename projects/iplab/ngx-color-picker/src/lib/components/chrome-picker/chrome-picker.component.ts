@@ -48,12 +48,12 @@ import { ColorString } from '../../helpers/color.class';
 })
 export class ChromePickerComponent implements OnInit, OnChanges, OnDestroy {
 
-    public selectedPresentation: number = 0;
     public presentations: ['rgba', 'hsla', 'hex'] = ['rgba', 'hsla', 'hex'];
 
-    public color: ModelSignal<ColorString> = model<ColorString>();
+    public readonly selectedPresentation: ModelSignal<number> = model<number>(0);
+    public readonly color: ModelSignal<ColorString> = model<ColorString>();
 
-    public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
+    public readonly control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 
     private subscriptions: Array<Subscription> = [];
 
@@ -120,8 +120,9 @@ export class ChromePickerComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public changePresentation(): void {
-        this.selectedPresentation =
-            this.selectedPresentation === this.presentations.length - 1 ? 0 : this.selectedPresentation + 1;
+      this.selectedPresentation.update(current =>
+        current === this.presentations.length - 1 ? 0 : current + 1
+      );
     }
 
 }
