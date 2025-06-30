@@ -1,5 +1,5 @@
 <div class="jumbotron">
-    <div class="background" [style.backgroundColor]="colorControl?.value?.getRgba()"></div>
+    <div class="background" [style.background-color]="colorControl?.value?.getRgba()"></div>
     <div class="container">
         <div class="row">
             <div class="col">
@@ -13,7 +13,7 @@
                 <sketch-picker [control]="colorControl" />
             </div>
             <div class="col col-md-6">
-                <chrome-picker [control]="chromeColorControl" />
+                <chrome-picker [control]="chromeColorControl" [selectedPresentation]="2" />
                 <!-- <ip-picker [control]="colorControl"></ip-picker> -->
             </div>
         </div>
@@ -188,7 +188,7 @@ bootstrapApplication(
 class ColorPickerConfiguration implements IColorPickerConfig &#123;
     public indicatorTitle: string = 'Copy color to clipboard';
 &#125;
-                
+
 &#64;NgModule(&#123;
 imports: [
     BrowserModule,
@@ -207,7 +207,7 @@ bootstrap: [AppComponent]
 class ColorPickerConfiguration implements IColorPickerConfig &#123;
     public presetsTitle: string = '&#123;0&#125;. Long-click to show alternate shades.'; // &#123;0&#125; is the place where hex value will be placed
 &#125;
-                
+
 &#64;NgModule(&#123;
 imports: [
     BrowserModule,
@@ -227,7 +227,7 @@ class ColorPickerConfiguration implements IColorPickerConfig &#123;
         return 'Copy color to clipboard';
     &#125;
 &#125;
-                
+
 &#64;Component(&#123;
     selector: 'app-standalone',
     standalone: true,
@@ -272,7 +272,7 @@ bootstrapApplication(
             <p>
                 <b>color =></b> currently selected color (output color)<br>
                 <b>hue =></b> color used internally as current hue color<br>
-                <b>colorType =></b> specify which type of color should be copied to the clipboard<br>                
+                <b>colorType =></b> specify which type of color should be copied to the clipboard<br>
                 <b>vertical =></b> should component be placed horizontally or vertically<br>
                 <b>alpha =></b> should component display alpha channel<br>
                 <b>label =></b> whether the label will be displayed or not (rgba, hsla, hex)<br>
@@ -315,7 +315,7 @@ export class AppComponent &#123;
                                 .hidePresets()
                                 .hideAlphaChannel();
 
-    constructor() &#123;    
+    constructor() &#123;
     &#125;
 &#125;</pre>
                     <p>Template code</p>
@@ -324,14 +324,14 @@ export class AppComponent &#123;
             </div>
 
             <div class="buttons-row">
-                <button class="btn btn-primary" 
-                    (click)="chromeControl.isPresetVisible() 
+                <button class="btn btn-primary"
+                    (click)="chromeControl.isPresetVisible()
                             ? chromeControl.hidePresets() : chromeControl.showPresets()">Toggle presets visibility</button>
                 &nbsp;
                 <button class="btn btn-primary" (click)="chromeControl.reset()">Reset to initial</button>
                 &nbsp;
-                <button class="btn btn-primary" 
-                    (click)="chromeControl.isAlphaChannelEnabled() ? 
+                <button class="btn btn-primary"
+                    (click)="chromeControl.isAlphaChannelEnabled() ?
                     chromeControl.hideAlphaChannel() : chromeControl.showAlphaChannel()">Toggle alpha channel</button>
             </div>
         </div>
@@ -368,7 +368,7 @@ export class AppComponent &#123;
     public sketchControl = new ColorPickerControl()
                                 .setValueFrom('#A6771C');
 
-    constructor() &#123;    
+    constructor() &#123;
     &#125;
 &#125;</pre>
                     <p>Template code</p>
@@ -377,14 +377,14 @@ export class AppComponent &#123;
             </div>
 
             <div class="buttons-row">
-                <button class="btn btn-primary" 
-                    (click)="sketchControl.isPresetVisible() 
+                <button class="btn btn-primary"
+                    (click)="sketchControl.isPresetVisible()
                             ? sketchControl.hidePresets() : sketchControl.showPresets()">Toggle presets visibility</button>
                 &nbsp;
                 <button class="btn btn-primary" (click)="sketchControl.reset()">Reset to initial</button>
                 &nbsp;
-                <button class="btn btn-primary" 
-                    (click)="sketchControl.isAlphaChannelEnabled() ? 
+                <button class="btn btn-primary"
+                    (click)="sketchControl.isAlphaChannelEnabled() ?
                     sketchControl.hideAlphaChannel() : sketchControl.showAlphaChannel()">Toggle alpha channel</button>
             </div>
         </div>
@@ -420,7 +420,7 @@ export class AppComponent &#123;
 
     public compactControl = new ColorPickerControl();
 
-    constructor() &#123;    
+    constructor() &#123;
     &#125;
 &#125;</pre>
                     <p>Template code</p>
@@ -429,8 +429,8 @@ export class AppComponent &#123;
             </div>
 
             <div class="buttons-row">
-                <button class="btn btn-primary" 
-                    (click)="compactControl.isPresetVisible() 
+                <button class="btn btn-primary"
+                    (click)="compactControl.isPresetVisible()
                             ? compactControl.hidePresets() : compactControl.showPresets()">Toggle presets visibility</button>
                 &nbsp;
                 <button class="btn btn-primary" (click)="compactControl.reset()">Reset to initial</button>
@@ -469,7 +469,7 @@ export class AppComponent &#123;
     public githubControl = new ColorPickerControl()
                                 .setValueFrom('#1273DE');
 
-    constructor() &#123;    
+    constructor() &#123;
     &#125;
 &#125;</pre>
                     <p>Template code</p>
@@ -508,7 +508,7 @@ export class AppComponent &#123;
 
     public swatchesColor = '#F04A71'
 
-    constructor() &#123;    
+    constructor() &#123;
     &#125;
 &#125;</pre>
                     <p>Template code</p>
@@ -525,7 +525,7 @@ export class AppComponent &#123;
         <div class="card-block">
             <div class="row">
                 <div class="col col-lg-4">
-                    
+
                     <div class="info-row">
                         <code>selected color: {{ wrapperColor }}</code><br>
                     </div>
@@ -598,7 +598,7 @@ export class ChromeWrapperComponent &#123;
         this.isVisible = false;
     &#125;
 &#125;</pre>
-                    
+
                     <p>Use case</p>
                     <pre class="prettify">&lt;chrome-wrapper [(color)]="wrapperColor"&gt;&lt;/chrome-wrapper&gt;</pre>
                 </div>
