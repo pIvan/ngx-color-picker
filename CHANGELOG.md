@@ -1,3 +1,8 @@
+<a name="21.0.0"></a>
+## [21.0.0](https://github.com/pIvan/ngx-color-picker/commit/dd69181e523a5d75d0570abed8643b64f672af6c) (2025-12-18)
+### Feature
+### * Angular 21 support
+
 <a name="20.0.0"></a>
 ## [20.0.0](https://github.com/pIvan/ngx-color-picker/commit/de5540910d1d5e6e55f8aa8aca6cfc5ca44df87b) (2025-06-29)
 ### Feature

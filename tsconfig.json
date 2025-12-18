@@ -14,10 +14,6 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
     "paths": {
       "@iplab/ngx-color-picker": [
         "projects/iplab/ngx-color-picker/src/public-api"
