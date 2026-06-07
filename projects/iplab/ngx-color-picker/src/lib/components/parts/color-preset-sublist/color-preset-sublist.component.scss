@@ -4,8 +4,13 @@
 }
 
 color-preset {
+    display: inline-block;
     position: relative;
     z-index: 3;
+
+    &.first-preset {
+        margin: 0;
+    }
 }
 
 .reflection {
@@ -32,27 +37,84 @@ color-preset:hover + .reflection + .reflection {
 }
 
 .sublist {
-    position: absolute;
-    bottom: -8px;
-    left: -8px;
-    right: -8px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     background: #fff;
     border-radius: 2px;
+    bottom: -8px;
     box-shadow: rgba(0,0,0,.3) 0 0 2px, rgba(0,0,0,.3) 0 2px 4px;
+    height: 0;
+    left: -8px;
+    opacity: 0;
     padding: 8px 5px;
+    position: absolute;
+    right: -8px;
     text-align: center;
     z-index: 1000;
+
+    &.animated {
+        opacity: 1;
+        transition: ease-in .08s opacity;
+        height: auto;
+    }
 }
 
 .sublist color-preset {
+    animation-delay: calc(var(--i) * 0.01s) !important;
     margin: 8px 0 0;
-}
+    opacity: 0;
 
-.sublist color-preset:first-child {
-    margin: 0;
+    &.last-preset {
+        margin: 0;
+    }
+
+    &.first-preset {
+
+    }
 }
 
 :host(.direction-down) .sublist {
     bottom: auto;
     top: -8px;
+}
+
+:host(.direction-up) .sublist {
+    flex-direction: column-reverse;
+}
+
+:host(.direction-down) .animated color-preset {
+    animation: enterDown 0.08s ease-out forwards;
+}
+
+:host(.direction-up) .animated color-preset {
+    animation: enterUp 0.08s ease-out forwards;
+}
+
+:host(.direction-left) .animated color-preset {
+    animation: enterLeft 0.08s ease-out forwards;
+}
+
+:host(.direction-right) .animated color-preset {
+    animation: enterRight 0.08s ease-out forwards;
+}
+
+@keyframes enterDown {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes enterUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes enterLeft {
+  from { opacity: 0; transform: translateX(15px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes enterRight {
+  from { opacity: 0; transform: translateX(-15px); }
+  to { opacity: 1; transform: translateX(0); }
 }

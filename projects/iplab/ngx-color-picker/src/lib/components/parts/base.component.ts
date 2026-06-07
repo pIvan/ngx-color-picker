@@ -75,7 +75,7 @@ export abstract class BaseComponent implements OnDestroy {
             return this.calculateCoordinates(event);
         }
 
-        this.requestAnimationFrame.call(this.window, () => this.calculateCoordinates(event));
+        this.requestAnimationFrame.call(this.window, (e: DOMHighResTimeStamp) => this.calculateCoordinates(event));
     }
 
     private getRequestAnimationFrame(): () => void {

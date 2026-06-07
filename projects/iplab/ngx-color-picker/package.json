@@ -19,7 +19,6 @@
   },
   "peerDependencies": {
     "@angular/common": "^21.0.0",
-    "@angular/core": "^21.0.0",
-    "@angular/animations": "^21.0.0"
+    "@angular/core": "^21.0.0"
   }
 }

@@ -3,20 +3,20 @@ import {
   ChangeDetectionStrategy,
   Inject,
   OnDestroy,
-  ChangeDetectorRef,
   HostBinding,
   InputSignal,
   input,
   OutputEmitterRef,
   output,
-  DOCUMENT
+  DOCUMENT,
+  signal,
+  WritableSignal
 } from '@angular/core';
 
 import { Color } from './../../../helpers/color.class';
-import { OpacityAnimation, ListAnimation } from './color-preset-sublist.animation';
 import { fromEvent, merge, Subscription } from 'rxjs';
 import { ColorPresetComponent } from './../color-preset/color-preset.component';
-import { ReversePipe } from './../../../pipes/reverse.pipe';
+// import { ReversePipe } from './../../../pipes/reverse.pipe';
 
 @Component({
     selector: `color-preset-sublist`,
@@ -26,8 +26,7 @@ import { ReversePipe } from './../../../pipes/reverse.pipe';
         `./color-preset-sublist.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ColorPresetComponent, ReversePipe],
-    animations: [OpacityAnimation, ListAnimation]
+    imports: [ColorPresetComponent],
 })
 export class ColorPresetSublist implements OnDestroy {
 
@@ -39,18 +38,16 @@ export class ColorPresetSublist implements OnDestroy {
 
     public selectionChange: OutputEmitterRef<Color> = output<Color>();
 
-    public showChildren: boolean = false;
+    public showChildren: WritableSignal<boolean> = signal(false);
 
     private subscriptions: Subscription[] = [];
 
     constructor(
-        @Inject(DOCUMENT) private readonly document,
-        private readonly cdr: ChangeDetectorRef) {
+        @Inject(DOCUMENT) private readonly document: Document) {
     }
 
     public ngOnDestroy(): void {
         this.removeListeners();
-        this.cdr.detach();
     }
 
     @HostBinding('className')
@@ -66,7 +63,7 @@ export class ColorPresetSublist implements OnDestroy {
     }
 
     public onLongPress(): void {
-        this.showChildren = true;
+        this.showChildren.set(true)
         this.listenDocumentEvents();
     }
 
@@ -87,8 +84,7 @@ export class ColorPresetSublist implements OnDestroy {
 
     private closeList(): void {
         if (this.showChildren) {
-            this.showChildren = false;
-            this.cdr.markForCheck();
+            this.showChildren.set(false);
             this.removeListeners();
         }
     }

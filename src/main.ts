@@ -3,7 +3,6 @@ import { bootstrapApplication } from '@angular/platform-browser';
 
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
-import { provideAnimations } from '@angular/platform-browser/animations';
 
 if (environment.production) {
   enableProdMode();
@@ -12,7 +11,6 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideAnimations(),
     provideZonelessChangeDetection()
     // { provide: COLOR_PICKER_CONFIG, useValue: { indicatorTitle: 'test indikator' } }
   ]
