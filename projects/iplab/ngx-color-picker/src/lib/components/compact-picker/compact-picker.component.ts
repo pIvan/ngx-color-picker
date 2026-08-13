@@ -41,7 +41,7 @@ import { ColorString } from '../../helpers/color.class';
 })
 export class CompactPickerComponent implements OnInit, OnChanges, OnDestroy {
 
-    public color: ModelSignal<ColorString> = model<ColorString>();
+    public color: ModelSignal<ColorString | undefined> = model<ColorString>();
 
     public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 
@@ -52,7 +52,7 @@ export class CompactPickerComponent implements OnInit, OnChanges, OnDestroy {
 
     public ngOnInit(): void {
         if (this.color()) {
-            this.control().setValueFrom(this.color());
+            this.control().setValueFrom(this.color() as ColorString);
         }
 
         /**

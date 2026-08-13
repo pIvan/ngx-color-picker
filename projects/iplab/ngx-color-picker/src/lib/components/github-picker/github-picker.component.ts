@@ -40,7 +40,7 @@ export function columnAttribute(value: string | number | null | undefined): numb
 })
 export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
 
-    public color: ModelSignal<ColorString> = model<ColorString>();
+    public color: ModelSignal<ColorString | undefined> = model<ColorString>();
 
     public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 
@@ -62,7 +62,7 @@ export class GithubPickerComponent implements OnInit, OnChanges, OnDestroy {
 
     public ngOnInit(): void {
         if (this.color()) {
-            this.control().setValueFrom(this.color());
+            this.control().setValueFrom(this.color() as ColorString);
         }
 
         if (!this.control().hasPresets()) {

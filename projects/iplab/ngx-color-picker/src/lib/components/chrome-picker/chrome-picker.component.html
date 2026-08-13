@@ -18,10 +18,10 @@
         <div class="column">
             @switch (presentations[selectedPresentation]) {
                 @case('rgba') {
-                    <rgba-input-component [alpha]="control().alphaChannelVisibilityChanges | async" label [(color)]="control().value" />
+                    <rgba-input-component [alpha]="(control().alphaChannelVisibilityChanges | async) ?? true" label [(color)]="control().value" />
                 }
                 @case ('hsla') {
-                    <hsla-input-component [alpha]="control().alphaChannelVisibilityChanges | async" label [(color)]="control().value" />
+                    <hsla-input-component [alpha]="(control().alphaChannelVisibilityChanges | async) ?? true" label [(color)]="control().value" />
                 }
                 @case('hex') {
                     <hex-input-component label prefix="#" [(color)]="control().value" />

@@ -29,7 +29,7 @@ export class IndicatorComponent implements OnInit {
         private readonly pickerConfig: ColorPickerConfig,
         private readonly renderer: Renderer2,
         private readonly elementRef: ElementRef,
-        @Inject(DOCUMENT) private readonly document) {
+        @Inject(DOCUMENT) private readonly document: HTMLDocument) {
             this.renderTitle();
 
             effect(() => {

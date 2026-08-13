@@ -37,7 +37,7 @@ export class Color {
             return new Color().setHsla(color.hue, color.saturation, color.lightness, color.alpha);
         }
 
-        return null;
+        throw new Error('Invalid color type');
     }
 
     /**
@@ -57,7 +57,7 @@ export class Color {
     /**
      * define Color from HSV values
      */
-    public setHsva(hue: number = null, saturation: number = 100, brightness: number = 100, alpha: number = 1): this {
+    public setHsva(hue: number, saturation: number = 100, brightness: number = 100, alpha: number = 1): this {
         if (hue != null) {
             this.hsva.hue = hue;
         }
@@ -82,7 +82,7 @@ export class Color {
     /**
      * define Color from RGBa
      */
-    public setRgba(red: number = null, green: number = null, blue: number = null, alpha: number = 1): this {
+    public setRgba(red: number, green: number, blue: number, alpha: number = 1): this {
         if (alpha != null) {
             alpha = alpha > 1 ? 1 : alpha < 0 ? 0 : alpha;
         }
@@ -344,7 +344,7 @@ export class Color {
         return new Rgba(red, green, blue, alpha);
     }
 
-    private hueToRgb(p, q, t): number {
+    private hueToRgb(p: number, q: number, t: number): number {
         // based on CamanJS
         if (t < 0) { t += 1; }
         if (t > 1) { t -= 1; }
@@ -442,7 +442,7 @@ export class Color {
         /**
          * try to find color by name in table
          */
-        let rgba: Rgba = ColorsTable[str] || null;
+        let rgba: Rgba = ColorsTable[str as keyof typeof ColorsTable] as Rgba || null;
 
         /**
          * hex find
@@ -451,17 +451,17 @@ export class Color {
             let hex = str.substr(1);
             const length = hex.length;
             let a = 1;
-            let hexArray = [];
+            let hexArray: string[] = [];
 
             if (length === 3) {
                 hexArray = hex.split('').map((value) => value + value);
             } else if (length === 6) {
-                hexArray = hex.match(/.{2}/g);
+                hexArray = hex.match(/.{2}/g) || [];
             } else if (length === 8) {
                 const alpha = hex.substr(-2);
                 hex = hex.substr(0, length - 2);
                 a = parseInt(alpha || 'FF', 16) / 255;
-                hexArray = hex.match(/.{2}/g);
+                hexArray = hex.match(/.{2}/g) || [];
             }
 
             if (hexArray.length === 3) {
@@ -479,13 +479,13 @@ export class Color {
 
             switch (colorTypeName) {
                 case 'rgba':
-                    alpha = parseFloat(params.pop());
+                    alpha = parseFloat(params.pop() || '1');
                 // Fall through.
                 case 'rgb':
                     rgba = new Rgba(parseInt(params[0], 10), parseInt(params[1], 10), parseInt(params[2], 10), alpha);
                     break;
                 case 'hsla':
-                    alpha = parseFloat(params.pop());
+                    alpha = parseFloat(params.pop() || '1');
                 case 'hsl':
                     const hsla = new Hsla(parseInt(params[0], 10), parseInt(params[1], 10), parseInt(params[2], 10), alpha);
                     rgba = this.hslaToRgba(hsla);

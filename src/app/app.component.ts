@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { ColorPickerControl, ColorPickerModule, ColorsTable } from '@iplab/ngx-color-picker';
 import { ChromeWrapperComponent } from './wrap-examples/chrome-picker/chrome-wrapper.component';
 // import * as prettify from 'google-code-prettify/bin/prettify.min.js';
@@ -13,6 +13,7 @@ interface IDescription {
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ColorPickerModule,
         ChromeWrapperComponent

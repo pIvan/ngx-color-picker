@@ -11,7 +11,9 @@ import {
     Renderer2,
     output,
     OutputEmitterRef,
-    InputSignalWithTransform
+    InputSignalWithTransform,
+    computed,
+    Signal
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { Subject, of, fromEvent, Subscription, merge } from 'rxjs';
@@ -26,7 +28,10 @@ import { ColorPickerConfig } from './../../../services/color-picker.service';
         `./color-preset.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true
+    standalone: true,
+    host: {
+        'class.selected': 'className()',
+    }
 })
 export class ColorPresetComponent implements OnDestroy {
 
@@ -44,6 +49,10 @@ export class ColorPresetComponent implements OnDestroy {
 
     private subscriptions: Subscription[] = [];
 
+    protected className: Signal<boolean> = computed(() => {
+        return this.activeColor() ? this.color().toRgbaString() === this.activeColor().toRgbaString() : false;
+    });
+
     constructor(
         private readonly pickerConfig: ColorPickerConfig,
         private readonly elementRef: ElementRef,
@@ -60,11 +69,6 @@ export class ColorPresetComponent implements OnDestroy {
         this.mouseup.next();
         this.mouseup.complete();
         this.removeEventListeners();
-    }
-
-    @HostBinding('class.selected')
-    public get className(): boolean {
-        return this.activeColor() ? this.color().toRgbaString() === this.activeColor().toRgbaString() : false;
     }
 
     private updateBackground(): void {
@@ -95,8 +99,8 @@ export class ColorPresetComponent implements OnDestroy {
 
         this.subscriptions.push(
             merge(
-                fromEvent(this.elementRef.nativeElement, 'mousedown'),
-                fromEvent(this.elementRef.nativeElement, 'touchstart', { passive: true })
+                fromEvent<MouseEvent>(this.elementRef.nativeElement, 'mousedown'),
+                fromEvent<TouchEvent>(this.elementRef.nativeElement, 'touchstart', { passive: true })
             )
             .subscribe((e: MouseEvent | TouchEvent) => this.onTouch(e))
         );

@@ -45,7 +45,7 @@ import { ColorPresetsComponent } from '../parts/color-presets/color-presets.comp
 })
 export class SketchPickerComponent implements OnInit, OnChanges, OnDestroy {
 
-    public color: ModelSignal<ColorString> = model<ColorString>();
+    public color: ModelSignal<ColorString | undefined> = model<ColorString>();
 
     public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 
@@ -56,7 +56,7 @@ export class SketchPickerComponent implements OnInit, OnChanges, OnDestroy {
 
     public ngOnInit(): void {
         if (this.color()) {
-            this.control().setValueFrom(this.color());
+            this.control().setValueFrom(this.color() as string);
         }
 
         if (!this.control().hasPresets()) {

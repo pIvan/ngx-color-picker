@@ -2,7 +2,6 @@ import {
     Component,
     ChangeDetectionStrategy,
     ElementRef,
-    ViewChild,
     Renderer2,
     booleanAttribute,
     input,
@@ -10,7 +9,9 @@ import {
     InputSignal,
     OutputEmitterRef,
     effect,
-    InputSignalWithTransform
+    InputSignalWithTransform,
+    viewChild,
+    Signal
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { BaseComponent } from './../base.component';
@@ -33,8 +34,7 @@ export class AlphaComponent extends BaseComponent {
 
     public isVertical: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(false, { alias: 'vertical', transform: booleanAttribute });
 
-    @ViewChild('pointer', { static: true })
-    public pointer: ElementRef;
+    public pointer: Signal<ElementRef<HTMLDivElement>> = viewChild.required<ElementRef<HTMLDivElement>>('pointer');
 
     constructor(private readonly renderer: Renderer2) {
         super();
@@ -49,7 +49,7 @@ export class AlphaComponent extends BaseComponent {
         })
     }
 
-    protected movePointer({ x, y, height, width }): void {
+    protected movePointer({ x, y, height, width }: { x: number; y: number; height: number; width: number }): void {
         const alpha = this.isVertical() ? y / height : x / width;
         this.changePointerPosition(alpha);
 
@@ -64,7 +64,7 @@ export class AlphaComponent extends BaseComponent {
     private changePointerPosition(alpha: number): void {
         const x = alpha * 100;
         const orientation = this.isVertical() ? 'top' : 'left';
-        this.renderer.setStyle(this.pointer.nativeElement, orientation, `${x}%`);
+        this.renderer.setStyle(this.pointer().nativeElement, orientation, `${x}%`);
     }
 
     public get gradient(): string {

@@ -7,8 +7,8 @@ import { takeUntil } from 'rxjs/operators';
 export abstract class BaseComponent implements OnDestroy {
 
     private readonly subscriptions: Subscription[] = [];
-    private window: any = { pageXOffset: 0, pageYOffset: 0 };
-    private readonly requestAnimationFrame;
+    private window: (Window & typeof globalThis);
+    private readonly requestAnimationFrame: (callback: FrameRequestCallback) => number;
 
     private mouseup = new Subject<void>();
 
@@ -17,7 +17,7 @@ export abstract class BaseComponent implements OnDestroy {
     protected readonly elementRef: ElementRef = inject(ElementRef);
 
     constructor() {
-        this.window = document.defaultView;
+        this.window = this.document.defaultView as (Window & typeof globalThis);
         this.requestAnimationFrame = this.getRequestAnimationFrame();
         this.addEventListeners();
     }
@@ -27,8 +27,8 @@ export abstract class BaseComponent implements OnDestroy {
     private addEventListeners(): void {
         this.subscriptions.push(
             merge(
-                fromEvent(this.elementRef.nativeElement, 'touchstart', { passive: true, capture: true }),
-                fromEvent(this.elementRef.nativeElement, 'mousedown', { capture: true })
+                fromEvent<TouchEvent>(this.elementRef.nativeElement, 'touchstart', { passive: true, capture: true }),
+                fromEvent<MouseEvent>(this.elementRef.nativeElement, 'mousedown', { capture: true })
             )
             .subscribe((e: TouchEvent | MouseEvent) => this.onEventChange(e))
         );
@@ -45,8 +45,8 @@ export abstract class BaseComponent implements OnDestroy {
         .subscribe(() => this.mouseup.next());
 
         merge(
-            fromEvent(this.document, 'mousemove', { capture: true }),
-            fromEvent(this.document, 'touchmove', { passive: true, capture: true })
+            fromEvent<MouseEvent>(this.document, 'mousemove', { capture: true }),
+            fromEvent<TouchEvent>(this.document, 'touchmove', { passive: true, capture: true })
         )
         .pipe(takeUntil(this.mouseup))
         .subscribe((e: MouseEvent | TouchEvent) => this.calculate(e));
@@ -75,15 +75,22 @@ export abstract class BaseComponent implements OnDestroy {
             return this.calculateCoordinates(event);
         }
 
-        this.requestAnimationFrame.call(this.window, (e: DOMHighResTimeStamp) => this.calculateCoordinates(event));
+        this.requestAnimationFrame.call(this.window, () => this.calculateCoordinates(event));
     }
 
-    private getRequestAnimationFrame(): () => void {
-        return this.window.requestAnimationFrame ||
-            this.window.webkitRequestAnimationFrame ||
-            this.window.mozRequestAnimationFrame ||
-            this.window.oRequestAnimationFrame ||
-            this.window.msRequestAnimationFrame;
+    private getRequestAnimationFrame(): (callback: FrameRequestCallback) => number {
+        const windowWithLegacyAnimationFrame = this.window as Window & {
+            webkitRequestAnimationFrame?: typeof window.requestAnimationFrame;
+            mozRequestAnimationFrame?: typeof window.requestAnimationFrame;
+            oRequestAnimationFrame?: typeof window.requestAnimationFrame;
+            msRequestAnimationFrame?: typeof window.requestAnimationFrame;
+        };
+
+        return windowWithLegacyAnimationFrame.requestAnimationFrame ||
+            windowWithLegacyAnimationFrame.webkitRequestAnimationFrame ||
+            windowWithLegacyAnimationFrame.mozRequestAnimationFrame ||
+            windowWithLegacyAnimationFrame.oRequestAnimationFrame ||
+            windowWithLegacyAnimationFrame.msRequestAnimationFrame;
     }
 
     public ngOnDestroy(): void {

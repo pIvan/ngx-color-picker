@@ -17,12 +17,12 @@ export enum ColorType {
 
 export class ColorPickerControl {
 
-    private modelValue: Color = null;
-    private initValue: Color = null;
+    private modelValue!: Color;
+    private initValue: Color  | null = null;
     private readonly valueChanged: Subject<Color> = new Subject();
 
     public readonly presetsVisibilityChanges: BehaviorSubject<boolean> = new BehaviorSubject(true);
-    public initType: ColorType = null;
+    public initType: ColorType | null = null;
     public readonly alphaChannelVisibilityChanges: BehaviorSubject<boolean> = new BehaviorSubject(true);
     public readonly valueChanges = this.valueChanged.asObservable().pipe(distinctUntilChanged((x, y) => x.toRgbaString() == y.toRgbaString()));
 
@@ -83,7 +83,7 @@ export class ColorPickerControl {
         return this;
     }
 
-    public getColorType(colorString: ColorString): ColorType {
+    public getColorType(colorString: ColorString): ColorType | null {
         return this.finOutInputType(colorString);
     }
 
@@ -120,7 +120,7 @@ export class ColorPickerControl {
         return this;
     }
 
-    private finOutInputType(colorString: ColorString): ColorType {
+    private finOutInputType(colorString: ColorString): ColorType | null {
         const str = colorString.replace(/ /g, '').toLowerCase();
         if (str[0] === '#') {
             if (str.length > 7) {
@@ -146,12 +146,12 @@ export class ColorPickerControl {
         return null;
     }
 
-    private setPresets(colorPresets: Array<Array<ColorString> | ColorString>): Array<Color> {
-        const presets = [];
+    private setPresets(colorPresets: Array<ColorString | ColorString[]>): Array<Color | Color[]> {
+        const presets: Array<Color | Color[]> = [];
 
         for (const color of colorPresets) {
             if (Array.isArray(color)) {
-                presets.push(this.setPresets(color));
+                presets.push(this.setPresets(color) as Color[]);
             } else {
                 presets.push(new Color(color));
             }

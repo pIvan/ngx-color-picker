@@ -63,6 +63,12 @@
                   "maximumError": "20kb"
                 }
               ]
+            },
+            "testing": {
+              "aot": false,
+              "styles": [
+                "src/styles.css"
+              ]
             }
           }
         },
@@ -87,20 +93,17 @@
           }
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
+            "reporters": [
+              "default"
             ],
-            "styles": [
-              "src/styles.css"
+            "setupFiles": [
+              "src/test.ts"
             ],
-            "scripts": []
+            "buildTarget": ":build:testing",
+            "runner": "vitest"
           }
         }
       }

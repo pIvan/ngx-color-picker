@@ -43,7 +43,7 @@ export class HueComponent extends BaseComponent {
         })
     }
 
-    protected movePointer({ x, y, height, width }): void {
+    protected movePointer({ x, y, height, width }: { x: number; y: number; height: number; width: number }): void {
         const hue = this.isVertical() ? (y / height) * 359 : (x / width) * 359;
         this.changePointerPosition(hue);
 

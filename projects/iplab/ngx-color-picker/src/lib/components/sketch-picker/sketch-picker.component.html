@@ -19,7 +19,7 @@
             <hex-input-component label [(color)]="control().value" />
         </div>
         <div class="column">
-            <rgba-input-component [alpha]="control().alphaChannelVisibilityChanges | async" label [(color)]="control().value" />
+            <rgba-input-component [alpha]="(control().alphaChannelVisibilityChanges | async) ?? true" label [(color)]="control().value" />
         </div>
     </div>
 </div>

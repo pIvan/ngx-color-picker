@@ -2,7 +2,7 @@ import { Color, ColorString } from './color.class';
 import { ColorType } from './control.class';
 
 
-export function getValueByType(color: Color, type: ColorType): string {
+export function getValueByType(color: Color, type: ColorType | null): string {
     const showAlpha = type == ColorType.hexa
                     || type == ColorType.rgba
                     || type == ColorType.hsla

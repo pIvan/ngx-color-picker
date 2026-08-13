@@ -29,13 +29,15 @@ import { ColorPresetsComponent } from '../parts/color-presets/color-presets.comp
 })
 export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
 
-    public color: ModelSignal<ColorString> = model<ColorString>();
+    private readonly defaultColor: ColorString = '#E6315B';
+
+    public color: ModelSignal<ColorString> = model<ColorString>(this.defaultColor);
 
     public control: ColorPickerControl = new ColorPickerControl();
     public childControl: ColorPickerControl = new ColorPickerControl();
     private subscriptions: Array<Subscription> = [];
 
-    private mapColors = {
+    private mapColors: Record<string, string[]> = {
         '#E6315B': [
             '#fc8da7', '#fa7d9a', '#f56484', '#f04a71', '#e82c58', '#e31746', '#de0235',
             '#d60234', '#d10232', '#c70230', '#b8022c', '#ab0229', '#9c0225', '#8f0122',
@@ -80,7 +82,7 @@ export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
         if (this.color()) {
             this.childControl.setValueFrom(this.color());
         } else {
-            this.control.setValueFrom('#E6315B');
+            this.control.setValueFrom(this.defaultColor);
         }
 
         /**
@@ -94,7 +96,7 @@ export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
         /**
          * initially open first group
          */
-        this.childControl.setColorPresets(this.mapColors['#E6315B']);
+        this.childControl.setColorPresets(this.mapColors[this.defaultColor]);
 
         this.subscriptions.push(
             this.childControl.valueChanges.subscribe((value) => {
@@ -104,7 +106,7 @@ export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
 
         this.subscriptions.push(
             this.control.valueChanges.subscribe((value) => {
-                const presets = this.mapColors[value.toHexString()];
+                const presets = (this.mapColors as Record<string, string[]>)[value.toHexString()];
                 if (presets) {
                     this.childControl.setColorPresets(presets);
                 }
@@ -121,7 +123,7 @@ export class SwatchesPickerComponent implements OnInit, OnChanges, OnDestroy {
         const color = this.color();
         const control = this.control;
 
-        if (color && control && !isColorEqual(getValueByType(control.value, control.initType), color)) {
+        if (color && control && control.initType && !isColorEqual(getValueByType(control.value, control.initType), color)) {
             this.childControl.setValueFrom(color);
         }
     }

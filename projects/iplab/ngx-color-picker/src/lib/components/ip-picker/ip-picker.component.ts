@@ -43,7 +43,7 @@ import { ColorPresetsComponent } from '../parts/color-presets/color-presets.comp
 })
 export class IpPickerComponent implements OnInit, OnChanges, OnDestroy {
 
-    public color: ModelSignal<ColorString> = model<ColorString>();
+    public color: ModelSignal<ColorString | undefined> = model<ColorString>();
 
     public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 

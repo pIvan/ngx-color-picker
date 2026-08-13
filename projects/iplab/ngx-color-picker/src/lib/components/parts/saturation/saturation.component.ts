@@ -44,7 +44,7 @@ export class SaturationComponent extends BaseComponent {
         })
     }
 
-    protected movePointer({ x, y, height, width }): void {
+    protected movePointer({ x, y, height, width }: { x: number; y: number; height: number; width: number }): void {
         const saturation = (x * 100) / width;
         let bright = -((y * 100) / height) + 100;
 
