@@ -1,3 +1,12 @@
+<a name="22.0.0"></a>
+## [22.0.0](https://github.com/pIvan/ngx-color-picker/commit/8487dd5d862c0032d47dec70bc03ab4156c8bb00) (2026-08-13)
+### Feature
+### * Angular 22 support
+
+### Changed
+### * Replaced Angular animations with native CSS animations ([1671335](https://github.com/pIvan/ngx-color-picker/commit/167133568ef3ef553b793135f6097f68be59e1a6))
+### * Migrated the test builder to Angular's unit-test builder with Vitest
+
 <a name="21.0.0"></a>
 ## [21.0.0](https://github.com/pIvan/ngx-color-picker/commit/dd69181e523a5d75d0570abed8643b64f672af6c) (2025-12-18)
 ### Feature
