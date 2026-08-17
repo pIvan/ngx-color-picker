@@ -1,9 +1,11 @@
 :host {
     display: block;
-    width: 240px;
-    border-radius: 3px;
-    background: #fff;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 0 4px;
+    --ngx-color-picker-width: 240px;
+    width: var(--ngx-color-picker-width);
+    border-radius: var(--ngx-color-picker-border-radius);
+    background: var(--ngx-color-picker-surface);
+    border: 1px solid var(--ngx-color-picker-border);
+    box-shadow: var(--ngx-color-picker-shadow);
 }
 
 .controls {
@@ -31,7 +33,7 @@ saturation-component {
 }
 
 .controls-row.presentation {
-    border: 1px solid #e4e4e6;
+    border: 1px solid var(--ngx-color-picker-control-border);
     border-radius: 3px;
     padding: 6px 6px 6px 36px;
     position: relative;
@@ -59,7 +61,7 @@ indicator-component {
 
 hex-input-component ::ng-deep input {
     border: 0;
-    color: #817e81;
+    color: var(--ngx-color-picker-input-secondary-color);
     margin: 0;
     text-align: left;
     height: 18px;

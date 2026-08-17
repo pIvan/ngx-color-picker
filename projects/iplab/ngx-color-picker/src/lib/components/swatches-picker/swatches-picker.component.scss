@@ -1,10 +1,11 @@
 :host {
     display: block;
-    background: #fff;
-    width: 224px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: var(--ngx-color-picker-surface);
+    --ngx-color-picker-width: 224px;
+    width: var(--ngx-color-picker-width);
+    border: 1px solid var(--ngx-color-picker-border, rgba(0, 0, 0, 0.2));
     box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px;
-    border-radius: 4px;
+    border-radius: var(--ngx-color-picker-border-radius);
     padding: 6px;
 }
 

@@ -1,3 +1,19 @@
+:host {
+    --ngx-color-picker-width: 230px;
+    --ngx-color-picker-surface: #fff;
+    --ngx-color-picker-border: transparent;
+    --ngx-color-picker-border-radius: 2px;
+    --ngx-color-picker-shadow: rgba(0, 0, 0, 0.3) 0 1px 4px;
+    --ngx-color-picker-divider: #d0d0d0;
+    --ngx-color-picker-control-border: #e4e4e6;
+    --ngx-color-picker-input-label-color: #b4b4b4;
+    --ngx-color-picker-input-color: #272727;
+    --ngx-color-picker-input-secondary-color: #817e81;
+    --ngx-color-picker-input-border-color: rgb(218, 218, 218);
+    --ngx-color-picker-pencil-color: #000;
+    --ngx-color-picker-pointer-shadow: rgba(0, 0, 0, 0.3) 0 1px 4px;
+}
+
 :host,
 :host ::ng-deep * {
     padding: 0;

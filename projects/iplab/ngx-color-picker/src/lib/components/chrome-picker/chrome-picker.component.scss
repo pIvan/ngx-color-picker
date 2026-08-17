@@ -1,13 +1,14 @@
 :host {
     display: block;
-    width: 230px;
-    border-radius: 2px;
-    background: #fff;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 1px 4px;
+    width: var(--ngx-color-picker-width);
+    border-radius: var(--ngx-color-picker-border-radius);
+    background: var(--ngx-color-picker-surface);
+    border: 1px solid var(--ngx-color-picker-border);
+    box-shadow: var(--ngx-color-picker-shadow);
 
     ::ng-deep {
         .controls .pointer {
-            box-shadow: rgba(0,0,0,.3) 0 0 2px, rgba(0,0,0,.3) 0 1px 4px;
+            box-shadow: var(--ngx-color-picker-pointer-shadow);
         }
 
         .reflection,
@@ -70,7 +71,7 @@ alpha-component {
 }
 
 color-presets-component {
-    border-top: 1px solid #d0d0d0;
+    border-top: 1px solid var(--ngx-color-picker-divider);
     padding: 12px;
 
     ::ng-deep .presets-row {
