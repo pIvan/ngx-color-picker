@@ -1,3 +1,8 @@
+<a name="20.1.0"></a>
+## [20.1.0](https://github.com/pIvan/ngx-color-picker/compare/aa0347bcb544a00c7d1ba8f9108adc7aa85374e1) (2026-08-18)
+### Feature
+### * Added CSS custom properties for picker theming, including input, border, pointer and pencil colors
+
 <a name="20.0.0"></a>
 ## [20.0.0](https://github.com/pIvan/ngx-color-picker/commit/de5540910d1d5e6e55f8aa8aca6cfc5ca44df87b) (2025-06-29)
 ### Feature

@@ -11,7 +11,7 @@
     "clean": "rm -rf dist",
     "copy:files": "copy README.md .\\dist\\lib\\ && copy LICENSE .\\dist\\lib\\",
     "build:git:demo": "ng build --configuration production",
-    "build:library": "ng test ngx-library && ng build ngx-library --configuration production && npm run copy:files && npm run build:git:demo",
+    "build:library": "ng test ngx-library --watch=false && ng build ngx-library --configuration production && npm run copy:files && npm run build:git:demo",
     "build:publish": "npm publish dist/lib/ --access public --tag=support-20.0.0"
   },
   "private": true,
@@ -36,7 +36,7 @@
     "@types/jasmine": "~5.1.0",
     "bootstrap": "4.0.0-alpha.6",
     "jasmine-core": "~5.1.0",
-    "karma": "~6.3.2",
+    "karma": "^6.4.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
