@@ -1,3 +1,9 @@
+<a name="19.1.0"></a>
+## [19.1.0](https://github.com/pIvan/ngx-color-picker/compare/aa0347bcb544a00c7d1ba8f9108adc7aa85374e1) (2026-08-18)
+### Feature
+### * Added CSS custom properties for picker theming, including input, border, pointer and pencil colors
+
+
 <a name="19.0.2"></a>
 ## [19.0.2](https://github.com/pIvan/ngx-color-picker/commit/6eb389d5a497247106831141f7c4d33e088479ff) (2025-06-19)
 ### * Bug - fixed the issue with alpha emited value
@@ -9,7 +15,7 @@
 <a name="19.0.0"></a>
 ## [19.0.0](https://github.com/pIvan/ngx-color-picker/commit/b179d069baabd848a6d5dd54b7397684aa7e918b) (2024-11-26)
 ### Feature
-### * Angular 18 support
+### * Angular 19 support
 
 
 <a name="18.0.1"></a>
