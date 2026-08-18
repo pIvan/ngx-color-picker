@@ -2,7 +2,7 @@
     display: table;
     width: 100%;
     text-align: center;
-    color: #b4b4b4;
+    color: var(--ngx-color-picker-input-label-color);
     font-size: 11px;
 }
 
@@ -13,8 +13,8 @@
 
 input {
     width: 100%;
-    border: 1px solid rgb(218, 218, 218);
-    color: #272727;
+    border: 1px solid var(--ngx-color-picker-input-border-color);
+    color: var(--ngx-color-picker-input-color);
     text-align: center;
     font-size: 12px;
     -webkit-appearance: none;
