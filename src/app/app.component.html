@@ -44,7 +44,7 @@
         <div class="card-block">
             <p>Pure Angular color picker library.</p>
             <ul>
-                <li>Compatible with Angular 5+ versions</li>
+                <li>Library compatibility: Angular 11 through 22</li>
                 <li>No external dependency</li>
                 <li>Simple to configure</li>
                 <li>Easy to use</li>
@@ -54,7 +54,7 @@
     <br>
 
     <div class="card">
-        <div class="card-header">Compatibility with angular</div>
+        <div class="card-header">Library compatibility with Angular</div>
         <div class="card-block">
             <table class="table table-bordered table-striped">
                 <thead>
@@ -520,6 +520,55 @@ export class AppComponent &#123;
     <br>
 
 
+    <div class="card" id="theming">
+        <div class="card-header">Theming</div>
+        <div class="card-block">
+            <div class="row align-items-center">
+                <div class="col col-lg-4">
+                    <compact-picker class="theme-demo-picker" />
+                </div>
+                <div class="col col-lg-8">
+                    <p>Customize the picker through CSS custom properties on its host element:</p>
+                    <div class="theme-color-list" aria-label="Theme colors">
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch" style="background-color: #202124"></span>
+                            <code>--ngx-color-picker-surface: #202124</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch" style="background-color: #4b4d52"></span>
+                            <code>--ngx-color-picker-border: #4b4d52</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch" style="background-color: #d7d9dc"></span>
+                            <code>--ngx-color-picker-input-color: #d7d9dc</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch" style="background-color: #aeb4bd"></span>
+                            <code>--ngx-color-picker-input-secondary-color: #aeb4bd</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch" style="background-color: #656a73"></span>
+                            <code>--ngx-color-picker-input-border-color: #656a73</code>
+                        </div>
+                    </div>
+                    <pre class="prettify">.theme-demo-picker &#123;
+    --ngx-color-picker-surface: #202124;
+    --ngx-color-picker-border: #4b4d52;
+    --ngx-color-picker-border-radius: 8px;
+    --ngx-color-picker-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+    --ngx-color-picker-divider: #4b4d52;
+    --ngx-color-picker-input-color: #d7d9dc;
+    --ngx-color-picker-input-secondary-color: #aeb4bd;
+    --ngx-color-picker-input-border-color: #656a73;
+    --ngx-color-picker-pencil-color: #d7d9dc;
+&#125;</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+
     <div class="card" id="wrap-component">
         <div class="card-header">How to wrapp color picker</div>
         <div class="card-block">
@@ -550,7 +599,11 @@ template: '
     &#125;
     '
 standalone: true,
-imports: [ChromePickerComponent]
+imports: [ChromePickerComponent],
+host: &#123;
+    'style.background-color': 'background()',
+    '(click)': 'showColorPicker($event)'
+&#125;
 &#125;)
 export class ChromeWrapperComponent &#123;
 
@@ -560,24 +613,19 @@ export class ChromeWrapperComponent &#123;
 
     public isVisible: boolean = false;
 
-    &#64;Input()
-    public set color(color: string) &#123;
-        this.colorControl.setValueFrom(color);
-        this._color = this.colorControl.value;
-    &#125;
-
-    &#64;Output()
-    public colorChange: EventEmitter&lt;string&gt; = new EventEmitter();
-
-    &#64;HostBinding('style.background-color')
-    public get background(): string &#123;
+    protected background: Signal&lt;string | null&gt; = computed(() => &#123;
         return this._color ? this._color.toHexString() : null;
-    &#125;
+    &#125;);
 
-    public ngOnInit() &#123;
-    &#125;
+    public color: InputSignal&lt;string&gt; = input&lt;string, string&gt;('', &#123; transform: (value: string) => &#123;
+            this.colorControl.setValueFrom(value);
+            this._color = this.colorControl.value;
+            return value;
+        &#125;
+    &#125;);
 
-    &#64;HostListener('click', ['$event'])
+    public colorChange: OutputEmitterRef&lt;string&gt; = output&lt;string&gt;();
+
     public showColorPicker(event: MouseEvent) &#123;
         if (this.isVisible === true) &#123;
             return;
