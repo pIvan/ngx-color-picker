@@ -62,6 +62,40 @@
     padding: 0;
 }
 
+.theme-demo-picker {
+    --ngx-color-picker-surface: #202124;
+    --ngx-color-picker-border: #4b4d52;
+    --ngx-color-picker-border-radius: 8px;
+    --ngx-color-picker-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+    --ngx-color-picker-divider: #4b4d52;
+    --ngx-color-picker-input-color: #d7d9dc;
+    --ngx-color-picker-input-secondary-color: #aeb4bd;
+    --ngx-color-picker-input-border-color: #656a73;
+    --ngx-color-picker-pencil-color: #d7d9dc;
+}
+
+.theme-color-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    margin-bottom: 12px;
+}
+
+.theme-color-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.theme-color-swatch {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    border: 1px solid rgb(0 0 0 / 20%);
+    border-radius: 50%;
+}
+
 .buttons-row {
     padding: 20px 0;
 }

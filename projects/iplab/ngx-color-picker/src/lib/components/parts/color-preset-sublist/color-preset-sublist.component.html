@@ -3,7 +3,7 @@
 <div class="reflection" [style.backgroundColor]="list()[0].toRgbaString()"></div>
 
 @if (showChildren) {
-    <div class="sublist" [@opacityAnimation]="showChildren" [@listAnimation]="direction">
+    <div class="sublist" [@opacityAnimation]="showChildren" [@listAnimation]="direction()">
         @for(preset of list() | reverse : (direction() == 'up' || direction() == 'right'); track preset) {
         <color-preset 
             [color]="preset"
