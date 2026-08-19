@@ -251,21 +251,20 @@ bootstrapApplication(
             <p>Color picker library exports all parts to enable custom components builds<br>
                 Here is a list of all available components and their attributes (optional attributes are marked with question mark)
             </p>
-            <pre class="prettify">&lt;saturation-component [hue]="hueColor" [(color)]="valueColor"&gt;&lt;/saturation-component&gt;
+            <pre class="prettify">&lt;saturation-component [(color)]="valueColor"&gt;&lt;/saturation-component&gt;
 &lt;indicator-component [colorType]="'rgba' | 'hsla' | 'hex'" [color]="valueColor"&gt;&lt;/indicator-component&gt;
 
-&lt;hue-component vertical? [(hue)]="hueColor" [(color)]="valueColor"&gt;&lt;/hue-component&gt;
+&lt;hue-component vertical? [(color)]="valueColor"&gt;&lt;/hue-component&gt;
 &lt;alpha-component vertical? [(color)]="valueColor"&gt;&lt;/alpha-component&gt;
 
-&lt;rgba-input-component [alpha?]="boolean" label? [(color)]="valueColor" [(hue)]="hueColor"&gt;&lt;/rgba-input-component&gt;
-&lt;hsla-input-component [alpha?]="boolean" label? [(color)]="valueColor" [(hue)]="hueColor"&gt;&lt;/hsla-input-component&gt;
-&lt;hex-input-component label? prefix?="#" [(color)]="valueColor" [(hue)]="hueColor"&gt;&lt;/hex-input-component&gt;
+&lt;rgba-input-component [alpha?]="boolean" label? [(color)]="valueColor"&gt;&lt;/rgba-input-component&gt;
+&lt;hsla-input-component [alpha?]="boolean" label? [(color)]="valueColor"&gt;&lt;/hsla-input-component&gt;
+&lt;hex-input-component label? prefix?="#" [(color)]="valueColor"&gt;&lt;/hex-input-component&gt;
 
-&lt;color-presets-component [(color)]="valueColor" [colorPresets]="presetsList [(hue)]="hueColor"&gt;&lt;/color-presets-component&gt;</pre>
+&lt;color-presets-component [(color)]="valueColor" [colorPresets]="presetsList"&gt;&lt;/color-presets-component&gt;</pre>
             <h6>attributes explanation</h6>
             <p>
                 <b>color =></b> currently selected color (output color)<br>
-                <b>hue =></b> color used internally as current hue color<br>
                 <b>colorType =></b> specify which type of color should be copied to the clipboard<br>                
                 <b>vertical =></b> should component be placed horizontally or vertically<br>
                 <b>alpha =></b> should component display alpha channel<br>
