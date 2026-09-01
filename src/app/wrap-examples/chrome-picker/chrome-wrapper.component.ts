@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, input, InputSignal, output, OutputEmitterRef, computed, Signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, input, InputSignal, output, OutputEmitterRef, computed, Signal, signal, WritableSignal } from '@angular/core';
 import { ColorPickerControl, Color, getValueByType, ChromePickerComponent } from '@iplab/ngx-color-picker';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'chrome-wrapper',
@@ -8,7 +9,7 @@ import { ColorPickerControl, Color, getValueByType, ChromePickerComponent } from
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ChromePickerComponent],
     host: {
-        'style.background-color': 'background()',
+        '[style.background-color]': 'background()',
         '(click)': 'showColorPicker($event)'
     }
 })
@@ -18,15 +19,13 @@ export class ChromeWrapperComponent implements OnInit, OnDestroy {
 
     protected isVisible: boolean = false;
 
-    protected background: Signal<string | null> = computed(() => {
-        return this._color ? this._color.toHexString() : null;
-    });
+    protected background: WritableSignal<string | null> = signal(this._color ? this._color.toHexString() : null);
 
     protected colorControl = new ColorPickerControl();
 
     public color: InputSignal<string> = input<string, string>('', { transform: (value: string) => {
             this.colorControl.setValueFrom(value);
-            this._color = this.colorControl.value;
+            this.setColor(this.colorControl.value);
             return value;
         }
     });
@@ -41,6 +40,8 @@ export class ChromeWrapperComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
     }
 
+    
+
     protected showColorPicker(event: MouseEvent) {
         if (this.isVisible === true) {
             return;
@@ -51,7 +52,7 @@ export class ChromeWrapperComponent implements OnInit, OnDestroy {
 
     protected applyClick(event: MouseEvent): void {
         event.stopPropagation();
-        this._color = this.colorControl.value;
+        this.setColor(this.colorControl.value);
         this.colorChange.emit(getValueByType(this.colorControl.value, this.colorControl.initType));
         this.isVisible = false;
     }
@@ -59,5 +60,10 @@ export class ChromeWrapperComponent implements OnInit, OnDestroy {
     protected discardClick(event: MouseEvent): void {
         event.stopPropagation();
         this.isVisible = false;
+    }
+
+    private setColor(value: Color): void {
+        this._color = value;
+        this.background.set(this._color.toHexString());
     }
 }
