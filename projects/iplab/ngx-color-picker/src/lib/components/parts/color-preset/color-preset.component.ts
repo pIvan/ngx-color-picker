@@ -30,7 +30,7 @@ import { ColorPickerConfig } from './../../../services/color-picker.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     host: {
-        'class.selected': 'className()',
+        '[class.selected]': 'className()',
     }
 })
 export class ColorPresetComponent implements OnDestroy {
