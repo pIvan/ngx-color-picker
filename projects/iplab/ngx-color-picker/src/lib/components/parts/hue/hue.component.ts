@@ -34,13 +34,16 @@ export class HueComponent extends BaseComponent {
 
     public readonly pointer: Signal<ElementRef> = viewChild.required<ElementRef>('pointer');
 
+    private lastHue: number | null = null;
+    private lastOrientation: 'top' | 'left' | null = null;
+
     constructor(private readonly renderer: Renderer2) {
         super();
 
         effect(() => {
             const hsva = this.color().getHsva();
             this.changePointerPosition(hsva.hue);
-        })
+        });
     }
 
     protected movePointer({ x, y, height, width }: { x: number; y: number; height: number; width: number }): void {
@@ -56,8 +59,13 @@ export class HueComponent extends BaseComponent {
      * hue value is in range from 0 to 360°
      */
     private changePointerPosition(hue: number): void {
-        const x = (hue / 360) * 100;
         const orientation = this.isVertical() ? 'top' : 'left';
+        if (hue === this.lastHue && orientation === this.lastOrientation) {
+            return;
+        }
+        this.lastHue = hue;
+        this.lastOrientation = orientation;
+        const x = (hue / 360) * 100;
         this.renderer.setStyle(this.pointer().nativeElement, orientation, `${x}%`);
     }
 }

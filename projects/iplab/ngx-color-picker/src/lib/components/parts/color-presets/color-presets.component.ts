@@ -1,5 +1,4 @@
-import { Component, ChangeDetectionStrategy, InputSignal, input, numberAttribute, model, ModelSignal, InputSignalWithTransform } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { Component, ChangeDetectionStrategy, InputSignal, input, numberAttribute, model, ModelSignal, InputSignalWithTransform, computed } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { ColorPresetSublist } from './../color-preset-sublist/color-preset-sublist.component';
 import { ColorPresetComponent } from './../color-preset/color-preset.component';
@@ -13,7 +12,7 @@ import { ChunksPipe } from './../../../pipes/chunks.pipe';
         `./color-presets.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ColorPresetComponent, ColorPresetSublist, NgClass, ChunksPipe]
+    imports: [ColorPresetComponent, ColorPresetSublist, ChunksPipe]
 })
 export class ColorPresetsComponent {
 
@@ -25,6 +24,8 @@ export class ColorPresetsComponent {
 
     public direction: InputSignal<'down' | 'up' | 'left' | 'right'> = input<'down' | 'up' | 'left' | 'right'>('up');
 
+    protected readonly activeColorKey = computed(() => this.color()?.toRgbaString() ?? '');
+
     public onSelectionChange(color: Color): void {
         const selectedRgbaColor = color.getRgba();
 
@@ -33,7 +34,7 @@ export class ColorPresetsComponent {
         this.color.set(newColor);
     }
 
-    public isList(colorPreset: Array<Array<Color> | Color>): boolean {
+    public isList(colorPreset: Array<Color> | Color): colorPreset is Array<Color> {
         return Array.isArray(colorPreset);
     }
 }

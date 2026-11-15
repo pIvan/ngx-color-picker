@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, booleanAttribute, input, model, ModelSignal, InputSignalWithTransform } from '@angular/core';
+import { Component, ChangeDetectionStrategy, booleanAttribute, computed, input, model, ModelSignal, InputSignalWithTransform } from '@angular/core';
 import { Color } from './../../../../helpers/color.class';
 import { ColorPickerInputDirective } from '../../../../directives/color-picker-input.directive';
 
@@ -22,8 +22,10 @@ export class RgbaComponent {
 
     public isAlphaVisible: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(true, { alias: 'alpha', transform: booleanAttribute });
 
+    private readonly rgbaValue = computed(() => this.color()?.getRgba());
+
     public get value() {
-        return this.color()?.getRgba();
+        return this.rgbaValue();
     }
 
     public onInputChange(newValue: number, color: 'R' | 'G' | 'B' | 'A') {

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, booleanAttribute, input, model, ModelSignal, InputSignalWithTransform } from '@angular/core';
+import { Component, ChangeDetectionStrategy, booleanAttribute, computed, input, model, ModelSignal, InputSignalWithTransform } from '@angular/core';
 import { Color } from './../../../../helpers/color.class';
 import { ColorPickerInputDirective } from '../../../../directives/color-picker-input.directive';
 
@@ -22,8 +22,10 @@ export class HslaComponent {
 
     public isAlphaVisible: InputSignalWithTransform<boolean, string | boolean> = input<boolean, string | boolean>(true, { alias: 'alpha', transform: booleanAttribute });
 
+    private readonly hslaValue = computed(() => this.color()?.getHsla());
+
     public get value() {
-        return this.color()?.getHsla();
+        return this.hslaValue();
     }
 
     public onInputChange(newValue: number, color: 'H' | 'S' | 'L' | 'A') {

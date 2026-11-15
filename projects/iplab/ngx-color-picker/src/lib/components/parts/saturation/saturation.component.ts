@@ -29,6 +29,10 @@ export class SaturationComponent extends BaseComponent {
 
     public readonly pointer: Signal<ElementRef> = viewChild.required<ElementRef>('pointer');
 
+    private lastX: number | null = null;
+    private lastY: number | null = null;
+    private lastHue: number | null = null;
+
     constructor(private readonly renderer: Renderer2) {
         super();
 
@@ -37,11 +41,14 @@ export class SaturationComponent extends BaseComponent {
          * and then we need to move pointer
          */
         effect(() => {
-            const hsva = this.color().getHsva();
+            const color = this.color();
+            if (!color) {
+                return;
+            }
+            const hsva = color.getHsva();
             this.changePointerPosition(hsva.saturation, hsva.value);
-            // background update
-            this.updateBackgroundColor();
-        })
+            this.updateBackgroundColor(hsva.hue);
+        });
     }
 
     protected movePointer({ x, y, height, width }: { x: number; y: number; height: number; width: number }): void {
@@ -62,18 +69,23 @@ export class SaturationComponent extends BaseComponent {
         this.color.set(newColor);
     }
 
-    private updateBackgroundColor(): void {
-        let backgroundColor = null;
-        if (this.color()) {
-            const currentColor = this.color().getHsva();
-            backgroundColor = new Color().setHsva(currentColor.hue, 100, 100).toRgbString();
+    private updateBackgroundColor(hue: number): void {
+        if (hue === this.lastHue) {
+            return;
         }
+        this.lastHue = hue;
+        const backgroundColor = new Color().setHsva(hue, 100, 100).toRgbString();
         this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', backgroundColor);
     }
 
     private changePointerPosition(x: number, y: number): void {
-        const pointer = this.pointer();
-        this.renderer.setStyle(pointer.nativeElement, 'top', `${100 - y}%`);
-        this.renderer.setStyle(pointer.nativeElement, 'left', `${x}%`);
+        if (x === this.lastX && y === this.lastY) {
+            return;
+        }
+        this.lastX = x;
+        this.lastY = y;
+        const pointer = this.pointer().nativeElement;
+        this.renderer.setStyle(pointer, 'top', `${100 - y}%`);
+        this.renderer.setStyle(pointer, 'left', `${x}%`);
     }
 }

@@ -24,7 +24,16 @@ export class ColorPickerControl {
     public readonly presetsVisibilityChanges: BehaviorSubject<boolean> = new BehaviorSubject(true);
     public initType: ColorType | null = null;
     public readonly alphaChannelVisibilityChanges: BehaviorSubject<boolean> = new BehaviorSubject(true);
-    public readonly valueChanges = this.valueChanged.asObservable().pipe(distinctUntilChanged((x, y) => x.toRgbaString() == y.toRgbaString()));
+    public readonly valueChanges = this.valueChanged.asObservable().pipe(
+        distinctUntilChanged((x, y) => {
+            const a = x.getRgba();
+            const b = y.getRgba();
+            return a.getRed() === b.getRed()
+                && a.getGreen() === b.getGreen()
+                && a.getBlue() === b.getBlue()
+                && a.getAlpha(true) === b.getAlpha(true);
+        })
+    );
 
     private colorPresets: Array<Array<Color> | Color> = [];
 

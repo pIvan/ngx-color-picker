@@ -6,6 +6,11 @@ import { ColorsTable } from './colors-table.class';
 
 export type ColorString = string;
 
+const HEX_COLOR_REGEX = /^(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+const FUNCTIONAL_COLOR_REGEX = /^([a-z]+)\s*\(\s*([^()]*)\s*\)$/;
+const WHITESPACE_REGEX = /\s+/;
+const HAS_WHITESPACE_REGEX = /\s/;
+
 export class Color {
 
     /**
@@ -15,8 +20,14 @@ export class Color {
      * hsl(0, 100%, 50%)
      * #ff0000
      */
-    private hsva: Hsva = new Hsva(0, 1, 1, 1);
-    // private rgba: Rgba = new Rgba(255, 0, 0, 1);
+    private hsva: Hsva = new Hsva(0, 100, 100, 1);
+
+    /**
+     * Micro-optimization: caches the result of hsvaToRgba(this.hsva) to avoid
+     * recalculating and allocating new Rgba instances on repeated getter/formatter calls.
+     * Invalidated (reset to null) whenever this.hsva is modified.
+     */
+    private cachedRgba: Rgba | null = null;
 
     constructor(colorString?: ColorString) {
         if (colorString) {
@@ -75,7 +86,7 @@ export class Color {
             this.hsva.alpha = alpha;
         }
 
-        // this.rgba = this.hsvaToRgba(this.hsva);
+        this.cachedRgba = null;
         return this;
     }
 
@@ -87,6 +98,7 @@ export class Color {
             alpha = alpha > 1 ? 1 : alpha < 0 ? 0 : alpha;
         }
         this.hsva = this.rgbaToHsva(new Rgba(red, green, blue, alpha));
+        this.cachedRgba = null;
         return this;
     }
 
@@ -100,6 +112,7 @@ export class Color {
 
         const hsla = new Hsla(hue, saturation, lightness, alpha);
         this.hsva = this.hslaToHsva(hsla);
+        this.cachedRgba = null;
         return this;
     }
 
@@ -107,7 +120,7 @@ export class Color {
      * return hexadecimal value formatted as '#341d2a' or '#341d2aFF' if alhpa channel is enabled
      */
     public toHexString(alpha: boolean = false): ColorString {
-        const rgba = this.getRgba();
+        const rgba = this.getCachedRgba();
         let hex = '#' + ((1 << 24) | (rgba.getRed() << 16) | (rgba.getGreen() << 8) | rgba.getBlue()).toString(16).substring(1);
         if (alpha) {
             hex += ((1 << 8) | Math.round(rgba.alpha * 255)).toString(16).substring(1);
@@ -119,14 +132,14 @@ export class Color {
      * return rgba string formatted as rgba(52, 29, 42, 1)
      */
     public toRgbaString(): ColorString {
-        return this.getRgba().toString();
+        return this.getCachedRgba().toString();
     }
 
     /**
      * return rgb string formatted as rgb(52, 29, 42)
      */
     public toRgbString(): ColorString {
-        return this.getRgba().toString(false);
+        return this.getCachedRgba().toString(false);
     }
 
     /**
@@ -169,29 +182,39 @@ export class Color {
     }
 
     public getRgba(): Rgba {
-        return this.hsvaToRgba(this.getHsva());
+        const rgba = this.getCachedRgba();
+        return new Rgba(rgba.red, rgba.green, rgba.blue, rgba.alpha);
     }
 
     public getHsla(): Hsla {
-        return this.rgbaToHsla(this.getRgba());
+        return this.rgbaToHsla(this.getCachedRgba());
     }
 
     public getCmyk(): Cmyk {
-        return this.rgbaToCmyk(this.getRgba());
+        return this.rgbaToCmyk(this.getCachedRgba());
     }
 
     public equal(color: Color): boolean {
         return this.hsva.equal(color.getHsva());
     }
 
+    private getCachedRgba(): Rgba {
+        if (!this.cachedRgba) {
+            this.cachedRgba = this.hsvaToRgba(this.hsva);
+        }
+        return this.cachedRgba;
+    }
+
     private hsvaToHsla(color: Hsva): Hsla {
         const hue = color.hue;
         const s = color.saturation / 100;
         const v = color.value / 100;
-        const lightness = ((2 - s) * color.value) / 2;
-        const saturation = (s * v) / ((lightness <= 1) ? lightness : 2 - lightness) || 0;
+        const lightness = ((2 - s) * v) / 2;
+        const saturation = lightness === 0 || lightness === 1
+            ? 0
+            : (v - lightness) / Math.min(lightness, 1 - lightness);
 
-        return new Hsla(hue, lightness * 100, saturation * 100, color.alpha);
+        return new Hsla(hue, saturation * 100, lightness * 100, color.alpha);
     }
 
     private hslaToHsva(color: Hsla): Hsva {
@@ -201,7 +224,7 @@ export class Color {
         const value = (l + s) / 2;
         const saturation = (2 * s) / (l + s) || 0;
 
-        return new Hsva(hue, saturation, value, color.alpha);
+        return new Hsva(hue, saturation * 100, value * 100, color.alpha);
     }
 
     private rgbaToHsva(color: Rgba): Hsva {
@@ -438,74 +461,322 @@ export class Color {
     }
 
     private stringToColor(colorString: ColorString): this {
-        const str = colorString.replace(/ /g, '').toLowerCase();
+        const rgba = this.parseColorString(colorString);
+
+        if (rgba) {
+            this.hsva = this.rgbaToHsva(rgba);
+            this.cachedRgba = null;
+        }
+
+        return this;
+    }
+
+    /**
+     * parse color string (named color, hex, rgb(a), hsl(a) or cmyk) into Rgba
+     * supports CSS Color 4 syntax:
+     *  - comma and space separated channels, e.g. rgb(255, 0, 0), rgb(255 0 0), rgb(0 0 0 / 25%)
+     *  - percentage channels, e.g. rgb(100%, 0%, 0%), rgba(255, 0, 0, 50%)
+     *  - hue units (deg, rad, grad, turn), e.g. hsl(120deg 100% 50%)
+     *  - 3, 4, 6 and 8 digit hex notation
+     *
+     * returns null if string is not a valid color
+     */
+    private parseColorString(colorString: ColorString): Rgba | null {
+        if (typeof colorString !== 'string') {
+            return null;
+        }
+
+        const str = colorString.trim().toLowerCase();
+
         /**
          * try to find color by name in table
          */
-        let rgba: Rgba = ColorsTable[str as keyof typeof ColorsTable] as Rgba || null;
+        if (Object.prototype.hasOwnProperty.call(ColorsTable, str)) {
+            const named = ColorsTable[str as keyof typeof ColorsTable];
+            if (named instanceof Rgba) {
+                return new Rgba(named.red, named.green, named.blue, named.alpha);
+            }
+        }
 
         /**
          * hex find
          */
         if (str[0] === '#') {
-            let hex = str.substr(1);
-            const length = hex.length;
-            let a = 1;
-            let hexArray: string[] = [];
+            return this.parseHex(str.substring(1));
+        }
 
-            if (length === 3) {
-                hexArray = hex.split('').map((value) => value + value);
-            } else if (length === 6) {
-                hexArray = hex.match(/.{2}/g) || [];
-            } else if (length === 8) {
-                const alpha = hex.substr(-2);
-                hex = hex.substr(0, length - 2);
-                a = parseInt(alpha || 'FF', 16) / 255;
-                hexArray = hex.match(/.{2}/g) || [];
+        /**
+         * functional notation find
+         */
+        const match = FUNCTIONAL_COLOR_REGEX.exec(str);
+        if (!match) {
+            return null;
+        }
+
+        const colorTypeName = match[1];
+        const params = this.splitColorParams(match[2]);
+        if (!params) {
+            return null;
+        }
+
+        const { legacy } = params;
+        let { channels, alpha: alphaParam } = params;
+
+        // legacy (comma separated) syntax defines alpha as 4th channel, e.g. rgba(255, 0, 0, 0.5)
+        if (legacy && colorTypeName !== 'cmyk' && channels.length === 4) {
+            alphaParam = channels[3];
+            channels = channels.slice(0, 3);
+        }
+
+        switch (colorTypeName) {
+            case 'rgb':
+            case 'rgba': {
+                if (channels.length !== 3) {
+                    return null;
+                }
+                const red = this.parseRgbChannel(channels[0]);
+                const green = this.parseRgbChannel(channels[1]);
+                const blue = this.parseRgbChannel(channels[2]);
+                const alpha = this.parseAlphaChannel(alphaParam);
+                if (!this.allFinite(red, green, blue, alpha)) {
+                    return null;
+                }
+                return new Rgba(red, green, blue, alpha);
             }
-
-            if (hexArray.length === 3) {
-                rgba = new Rgba(parseInt(hexArray[0], 16), parseInt(hexArray[1], 16), parseInt(hexArray[2], 16), a);
+            case 'hsl':
+            case 'hsla': {
+                if (channels.length !== 3) {
+                    return null;
+                }
+                const hue = this.parseHueChannel(channels[0]);
+                const saturation = this.parsePercentChannel(channels[1]);
+                const lightness = this.parsePercentChannel(channels[2]);
+                const alpha = this.parseAlphaChannel(alphaParam);
+                if (!this.allFinite(hue, saturation, lightness, alpha)) {
+                    return null;
+                }
+                return this.hslaToRgba(new Hsla(hue, saturation, lightness, alpha));
+            }
+            case 'cmyk': {
+                if (alphaParam !== undefined || channels.length !== 4) {
+                    return null;
+                }
+                const [cyan, magenta, yellow, black] = channels.map((channel) => this.parsePercentChannel(channel));
+                if (!this.allFinite(cyan, magenta, yellow, black)) {
+                    return null;
+                }
+                return this.cmykToRgba(new Cmyk(cyan, magenta, yellow, black));
             }
         }
 
-        const OpenParenthesis = str.indexOf('(');
-        const CloseParenthesis = str.indexOf(')');
+        return null;
+    }
 
-        if (OpenParenthesis !== -1 && CloseParenthesis + 1 === str.length) {
-            const colorTypeName = str.substr(0, OpenParenthesis);
-            const params = str.substr(OpenParenthesis + 1, CloseParenthesis - (OpenParenthesis + 1)).split(',');
-            let alpha = 1;
+    /**
+     * parse #RGB, #RGBA, #RRGGBB and #RRGGBBAA hex notation (without leading #)
+     */
+    private parseHex(hex: string): Rgba | null {
+        if (!HEX_COLOR_REGEX.test(hex)) {
+            return null;
+        }
 
-            switch (colorTypeName) {
-                case 'rgba':
-                    alpha = parseFloat(params.pop() || '1');
-                // Fall through.
-                case 'rgb':
-                    rgba = new Rgba(parseInt(params[0], 10), parseInt(params[1], 10), parseInt(params[2], 10), alpha);
-                    break;
-                case 'hsla':
-                    alpha = parseFloat(params.pop() || '1');
-                case 'hsl':
-                    const hsla = new Hsla(parseInt(params[0], 10), parseInt(params[1], 10), parseInt(params[2], 10), alpha);
-                    rgba = this.hslaToRgba(hsla);
-                    break;
-                case 'cmyk':
-                    const cmyk = new Cmyk(
-                        parseInt(params[0], 10),
-                        parseInt(params[1], 10),
-                        parseInt(params[2], 10),
-                        parseInt(params[3], 10));
-                    rgba = this.cmykToRgba(cmyk);
-                    break;
+        if (hex.length <= 4) {
+            hex = hex.split('').map((value) => value + value).join('');
+        }
+
+        const red = parseInt(hex.substring(0, 2), 16);
+        const green = parseInt(hex.substring(2, 4), 16);
+        const blue = parseInt(hex.substring(4, 6), 16);
+        const alpha = hex.length === 8 ? parseInt(hex.substring(6, 8), 16) / 255 : 1;
+
+        return new Rgba(red, green, blue, alpha);
+    }
+
+    /**
+     * split functional notation arguments into color channels and optional alpha channel
+     *
+     * legacy syntax: rgba(255, 0, 0, 0.5)
+     * modern syntax: rgb(255 0 0 / 0.5)
+     */
+    private splitColorParams(params: string): { channels: string[], alpha?: string, legacy: boolean } | null {
+        const value = params.trim();
+        if (value === '') {
+            return null;
+        }
+
+        if (value.indexOf(',') !== -1) {
+            if (value.indexOf('/') !== -1) {
+                return null;
+            }
+            const channels = value.split(',').map((part) => part.trim());
+            if (channels.some((part) => part === '' || HAS_WHITESPACE_REGEX.test(part))) {
+                return null;
+            }
+            return { channels, legacy: true };
+        }
+
+        const slashParts = value.split('/');
+        if (slashParts.length > 2) {
+            return null;
+        }
+
+        const channels = slashParts[0].trim().split(WHITESPACE_REGEX).filter((part) => part !== '');
+        if (slashParts.length === 2) {
+            const alpha = slashParts[1].trim();
+            if (alpha === '' || HAS_WHITESPACE_REGEX.test(alpha)) {
+                return null;
+            }
+            return { channels, alpha, legacy: false };
+        }
+
+        return { channels, legacy: false };
+    }
+
+    /**
+     * parse number with optional unit, returns NaN for invalid values
+     */
+    private parseNumberWithUnit(value: string, units: string[]): { value: number, unit: string } {
+        if (value === 'none') {
+            return { value: 0, unit: '' };
+        }
+        if (!value) {
+            return { value: NaN, unit: '' };
+        }
+
+        let unit = '';
+        let numStr = value;
+
+        if (value.endsWith('%')) {
+            unit = '%';
+            numStr = value.slice(0, -1);
+        } else if (value.endsWith('grad')) {
+            unit = 'grad';
+            numStr = value.slice(0, -4);
+        } else if (value.endsWith('turn')) {
+            unit = 'turn';
+            numStr = value.slice(0, -4);
+        } else if (value.endsWith('deg')) {
+            unit = 'deg';
+            numStr = value.slice(0, -3);
+        } else if (value.endsWith('rad')) {
+            unit = 'rad';
+            numStr = value.slice(0, -3);
+        }
+
+        if (unit !== '' && units.indexOf(unit) === -1) {
+            return { value: NaN, unit: '' };
+        }
+
+        if (!this.isDecimalNumber(numStr)) {
+            return { value: NaN, unit: '' };
+        }
+
+        return { value: Number(numStr), unit };
+    }
+
+    /**
+     * check if string is a plain decimal number: [+-] digits [. digits] [e [+-] digits]
+     * (rejects hex, binary and octal literals, Infinity, numeric separators, whitespace...)
+     */
+    private isDecimalNumber(value: string): boolean {
+        const length = value.length;
+        let i = 0;
+        let code = value.charCodeAt(0);
+
+        // sign
+        if (code === 43 /* + */ || code === 45 /* - */) {
+            i++;
+        }
+
+        let digits = 0;
+        while (i < length && (code = value.charCodeAt(i)) >= 48 && code <= 57) {
+            i++;
+            digits++;
+        }
+
+        if (i < length && value.charCodeAt(i) === 46 /* . */) {
+            i++;
+            while (i < length && (code = value.charCodeAt(i)) >= 48 && code <= 57) {
+                i++;
+                digits++;
             }
         }
 
-        if (rgba) {
-            this.hsva = this.rgbaToHsva(rgba);
+        if (digits === 0) {
+            return false;
         }
 
-        return this;
+        // exponent
+        if (i < length && ((code = value.charCodeAt(i)) === 101 /* e */ || code === 69 /* E */)) {
+            i++;
+            if (i < length && ((code = value.charCodeAt(i)) === 43 || code === 45)) {
+                i++;
+            }
+            let exponentDigits = 0;
+            while (i < length && (code = value.charCodeAt(i)) >= 48 && code <= 57) {
+                i++;
+                exponentDigits++;
+            }
+            if (exponentDigits === 0) {
+                return false;
+            }
+        }
+
+        return i === length;
+    }
+
+    /**
+     * red, green, blue channel: number (0 - 255) or percentage (0% - 100%)
+     */
+    private parseRgbChannel(channel: string): number {
+        const { value, unit } = this.parseNumberWithUnit(channel, ['%']);
+        const rgb = unit === '%' ? (value * 255) / 100 : value;
+        return this.clamp(rgb, 0, 255);
+    }
+
+    /**
+     * alpha channel: number (0 - 1) or percentage (0% - 100%)
+     */
+    private parseAlphaChannel(channel?: string): number {
+        if (channel === undefined) {
+            return 1;
+        }
+        const { value, unit } = this.parseNumberWithUnit(channel, ['%']);
+        const alpha = unit === '%' ? value / 100 : value;
+        return this.clamp(alpha, 0, 1);
+    }
+
+    /**
+     * hue channel: number (degrees) or angle (deg, rad, grad, turn)
+     * normalized to 0 - 360 range
+     */
+    private parseHueChannel(channel: string): number {
+        const { value, unit } = this.parseNumberWithUnit(channel, ['deg', 'rad', 'grad', 'turn']);
+        let degrees = value;
+
+        switch (unit) {
+            case 'rad': degrees = (value * 180) / Math.PI; break;
+            case 'grad': degrees = (value * 360) / 400; break;
+            case 'turn': degrees = value * 360; break;
+        }
+
+        return ((degrees % 360) + 360) % 360;
+    }
+
+    /**
+     * percentage channel (saturation, lightness, cmyk): number or percentage, 0 - 100 range
+     */
+    private parsePercentChannel(channel: string): number {
+        const { value } = this.parseNumberWithUnit(channel, ['%']);
+        return this.clamp(value, 0, 100);
+    }
+
+    private clamp(value: number, min: number, max: number): number {
+        return Math.min(max, Math.max(min, value));
+    }
+
+    private allFinite(...values: number[]): boolean {
+        return values.every((value) => Number.isFinite(value));
     }
 
 }

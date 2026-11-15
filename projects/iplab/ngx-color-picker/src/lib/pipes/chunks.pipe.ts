@@ -6,7 +6,14 @@ import { Pipe, PipeTransform } from '@angular/core';
     standalone: true
 })
 export class ChunksPipe implements PipeTransform {
-    transform(arr: any[], chunkSize: number) {
-        return arr.reduce((prev, cur, i) => (i % chunkSize) ? prev : prev.concat([arr.slice(i, i + chunkSize)]), []);
+    transform<T>(arr: T[], chunkSize: number): T[][] {
+        if (!Array.isArray(arr) || chunkSize <= 0) {
+            return [];
+        }
+        const chunks: T[][] = [];
+        for (let i = 0; i < arr.length; i += chunkSize) {
+            chunks.push(arr.slice(i, i + chunkSize));
+        }
+        return chunks;
     }
 }

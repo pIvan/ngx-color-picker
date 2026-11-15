@@ -9,6 +9,7 @@ import {
     InputSignal,
     OutputEmitterRef,
     effect,
+    computed,
     InputSignalWithTransform,
     viewChild,
     Signal
@@ -36,6 +37,15 @@ export class AlphaComponent extends BaseComponent {
 
     public pointer: Signal<ElementRef<HTMLDivElement>> = viewChild.required<ElementRef<HTMLDivElement>>('pointer');
 
+    private lastAlpha: number | null = null;
+    private lastOrientation: 'top' | 'left' | null = null;
+
+    private readonly gradientStyle = computed(() => {
+        const rgba = this.color().getRgba();
+        const orientation = this.isVertical() ? 'bottom' : 'right';
+        return `linear-gradient(to ${orientation}, rgba(${rgba.red}, ${rgba.green}, ${rgba.blue}, 0) 0%, rgb(${rgba.red}, ${rgba.green}, ${rgba.blue}) 100%)`;
+    });
+
     constructor(private readonly renderer: Renderer2) {
         super();
 
@@ -46,7 +56,7 @@ export class AlphaComponent extends BaseComponent {
         effect(() => {
             const hsva = this.color().getHsva();
             this.changePointerPosition(hsva.alpha);
-        })
+        });
     }
 
     protected movePointer({ x, y, height, width }: { x: number; y: number; height: number; width: number }): void {
@@ -59,18 +69,21 @@ export class AlphaComponent extends BaseComponent {
     }
 
     /**
-     * hue value is in range from 0 to 360°
+     * alpha value is in range from 0 to 1
      */
     private changePointerPosition(alpha: number): void {
-        const x = alpha * 100;
         const orientation = this.isVertical() ? 'top' : 'left';
+        if (alpha === this.lastAlpha && orientation === this.lastOrientation) {
+            return;
+        }
+        this.lastAlpha = alpha;
+        this.lastOrientation = orientation;
+        const x = alpha * 100;
         this.renderer.setStyle(this.pointer().nativeElement, orientation, `${x}%`);
     }
 
     public get gradient(): string {
-        const rgba = this.color().getRgba();
-        const orientation = this.isVertical() ? 'bottom' : 'right';
-        return `linear-gradient(to ${orientation}, rgba(${rgba.red}, ${rgba.green}, ${rgba.blue}, 0) 0%, rgb(${rgba.red}, ${rgba.green}, ${rgba.blue}) 100%)`;
+        return this.gradientStyle();
     }
 
 }

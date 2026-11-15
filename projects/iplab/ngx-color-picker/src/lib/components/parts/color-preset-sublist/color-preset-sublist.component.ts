@@ -10,13 +10,15 @@ import {
   output,
   DOCUMENT,
   signal,
-  WritableSignal
+  WritableSignal,
+  computed,
+  NgZone,
+  inject
 } from '@angular/core';
 
 import { Color } from './../../../helpers/color.class';
 import { fromEvent, merge, Subscription } from 'rxjs';
 import { ColorPresetComponent } from './../color-preset/color-preset.component';
-// import { ReversePipe } from './../../../pipes/reverse.pipe';
 
 @Component({
     selector: `color-preset-sublist`,
@@ -32,7 +34,9 @@ export class ColorPresetSublist implements OnDestroy {
 
     public list: InputSignal<Array<Color>> = input.required<Array<Color>>();
 
-    public activeColor: InputSignal<Color> = input.required<Color>();
+    public activeColor: InputSignal<Color | undefined> = input<Color>();
+
+    public activeColorKey: InputSignal<string | null> = input<string | null>(null);
 
     public direction: InputSignal<'down' | 'up' | 'left' | 'right'> = input<'down' | 'up' | 'left' | 'right'>('up');
 
@@ -40,6 +44,14 @@ export class ColorPresetSublist implements OnDestroy {
 
     public showChildren: WritableSignal<boolean> = signal(false);
 
+    protected readonly firstColorStyle = computed(() => this.list()[0]?.toRgbaString() ?? '');
+
+    protected readonly resolvedActiveColorKey = computed(() => {
+        const key = this.activeColorKey();
+        return key !== null ? key : (this.activeColor()?.toRgbaString() ?? '');
+    });
+
+    private readonly ngZone = inject(NgZone);
     private subscriptions: Subscription[] = [];
 
     constructor(
@@ -63,7 +75,7 @@ export class ColorPresetSublist implements OnDestroy {
     }
 
     public onLongPress(): void {
-        this.showChildren.set(true)
+        this.showChildren.set(true);
         this.listenDocumentEvents();
     }
 
@@ -73,17 +85,19 @@ export class ColorPresetSublist implements OnDestroy {
     }
 
     private listenDocumentEvents(): void {
-        this.subscriptions.push(
-            merge(
-                fromEvent(this.document, 'mousedown'),
-                fromEvent(this.document, 'touchstart', { passive: true })
-            )
-            .subscribe(() => this.closeList())
-        );
+        this.ngZone.runOutsideAngular(() => {
+            this.subscriptions.push(
+                merge(
+                    fromEvent(this.document, 'mousedown'),
+                    fromEvent(this.document, 'touchstart', { passive: true })
+                )
+                .subscribe(() => this.ngZone.run(() => this.closeList()))
+            );
+        });
     }
 
     private closeList(): void {
-        if (this.showChildren) {
+        if (this.showChildren()) {
             this.showChildren.set(false);
             this.removeListeners();
         }

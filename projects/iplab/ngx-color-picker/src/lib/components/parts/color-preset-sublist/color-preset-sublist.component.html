@@ -1,13 +1,12 @@
-<color-preset [show-depth-title]="list().length > 1" [color]="list()[0]" [activeColor]="activeColor()" (longPress)="onLongPress()" (selectionChange)="onSelectionChange($event)" />
-<div class="reflection" [style.backgroundColor]="list()[0].toRgbaString()"></div>
-<div class="reflection" [style.backgroundColor]="list()[0].toRgbaString()"></div>
-
+<color-preset [show-depth-title]="list().length > 1" [color]="list()[0]" [activeColorKey]="resolvedActiveColorKey()" (longPress)="onLongPress()" (selectionChange)="onSelectionChange($event)" />
+<div class="reflection" [style.backgroundColor]="firstColorStyle()"></div>
+<div class="reflection" [style.backgroundColor]="firstColorStyle()"></div>
 @if (showChildren()) {
     <div class="sublist animated">
         @for(preset of list(); track preset; let i = $index, isLast = $last, isFirst = $first) {
         <color-preset 
             [color]="preset"
-            [activeColor]="activeColor()"
+            [activeColorKey]="resolvedActiveColorKey()"
             (selectionChange)="onSelectionChange($event)"
             [class.first-preset]="isFirst"
             [class.last-preset]="isLast"

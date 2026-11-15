@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, booleanAttribute, InputSignal, input, model, ModelSignal, InputSignalWithTransform } from '@angular/core';
+import { Component, ChangeDetectionStrategy, booleanAttribute, computed, InputSignal, input, model, ModelSignal, InputSignalWithTransform } from '@angular/core';
 import { Color } from '../../../../helpers/color.class';
 
 
@@ -21,8 +21,15 @@ export class HexComponent {
 
     public prefixValue: InputSignal<string> = input<string>('', { alias: 'prefix' });
 
+    private readonly hexValue = computed(() => {
+        const color = this.color();
+        return color ? color.toHexString(color.getRgba().alpha < 1).substring(1) : '';
+    });
+
+    private readonly formattedValue = computed(() => this.prefixValue() + this.hexValue());
+
     public get value() {
-        return this.prefixValue() + (this.color() ? this.color().toHexString(this.color().getRgba().alpha < 1).replace('#', '') : '');
+        return this.formattedValue();
     }
 
     public onInputChange(event: KeyboardEvent, inputValue: string): void {
@@ -40,7 +47,7 @@ export class HexComponent {
              * after parsing number leading 0 is removed,
              * compare length and add leading 0 before comparing two values
              */
-            if (hexStr.padStart(value.length, '0') === value && this.value !== value) {
+            if (hexStr.padStart(value.length, '0') === value && this.hexValue() !== value.toUpperCase()) {
                 const newColor = new Color(`#${value}`);
                 this.color.set(newColor);
             }

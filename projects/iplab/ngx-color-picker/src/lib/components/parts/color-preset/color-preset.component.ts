@@ -1,6 +1,5 @@
 import {
     Component,
-    HostBinding,
     ChangeDetectionStrategy,
     OnDestroy,
     ElementRef,
@@ -13,11 +12,13 @@ import {
     OutputEmitterRef,
     InputSignalWithTransform,
     computed,
-    Signal
+    Signal,
+    NgZone,
+    inject
 } from '@angular/core';
 import { Color } from './../../../helpers/color.class';
 import { Subject, of, fromEvent, Subscription, merge } from 'rxjs';
-import { takeUntil, delay, map } from 'rxjs/operators';
+import { takeUntil, delay } from 'rxjs/operators';
 import { ColorPickerConfig } from './../../../services/color-picker.service';
 
 @Component({
@@ -35,7 +36,9 @@ import { ColorPickerConfig } from './../../../services/color-picker.service';
 })
 export class ColorPresetComponent implements OnDestroy {
 
-    public activeColor: InputSignal<Color> = input.required<Color>();
+    public activeColor: InputSignal<Color | undefined> = input<Color>();
+
+    public activeColorKey: InputSignal<string | null> = input<string | null>(null);
 
     public color: InputSignal<Color> = input.required<Color>();
 
@@ -45,12 +48,19 @@ export class ColorPresetComponent implements OnDestroy {
 
     public longPress: OutputEmitterRef<boolean> = output<boolean>();
 
+    private readonly ngZone = inject(NgZone);
     private mouseup = new Subject<void>();
-
     private subscriptions: Subscription[] = [];
 
+    private readonly colorKey = computed(() => this.color()?.toRgbaString() ?? '');
+
     protected className: Signal<boolean> = computed(() => {
-        return this.activeColor() ? this.color().toRgbaString() === this.activeColor().toRgbaString() : false;
+        const key = this.activeColorKey();
+        if (key !== null) {
+            return this.colorKey() === key;
+        }
+        const active = this.activeColor();
+        return active ? this.colorKey() === active.toRgbaString() : false;
     });
 
     constructor(
@@ -62,7 +72,7 @@ export class ColorPresetComponent implements OnDestroy {
         effect(() => {
             this.updateBackground();
             this.updateTitleAttr();
-        })
+        });
     }
 
     public ngOnDestroy(): void {
@@ -72,38 +82,40 @@ export class ColorPresetComponent implements OnDestroy {
     }
 
     private updateBackground(): void {
-        this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', this.color().toRgbaString());
+        this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', this.colorKey());
     }
 
     private updateTitleAttr(): void {
         this.renderer.setAttribute(this.elementRef.nativeElement, 'title', this.getTitle());
     }
 
-    private getTitle() {
+    private getTitle(): string {
         const color = this.color() ? this.color().toHexString() : '';
 
         if (this.showDepthText()) {
-            return (this.pickerConfig?.presetsTitle || '').replace(/\{\s*(.+?)\s*\}/g, (match, firstMatch) => color);
+            return (this.pickerConfig?.presetsTitle || '').replace(/\{\s*(.+?)\s*\}/g, () => color);
         }
         return color;
     }
 
     private addEventListeners(): void {
-        this.subscriptions.push(
-            merge(
-                fromEvent(this.elementRef.nativeElement, 'mouseup'),
-                fromEvent(this.elementRef.nativeElement, 'touchend')
-            )
-            .subscribe(() => this.onTouchEnd())
-        );
+        this.ngZone.runOutsideAngular(() => {
+            this.subscriptions.push(
+                merge(
+                    fromEvent(this.elementRef.nativeElement, 'mouseup'),
+                    fromEvent(this.elementRef.nativeElement, 'touchend')
+                )
+                .subscribe(() => this.onTouchEnd())
+            );
 
-        this.subscriptions.push(
-            merge(
-                fromEvent<MouseEvent>(this.elementRef.nativeElement, 'mousedown'),
-                fromEvent<TouchEvent>(this.elementRef.nativeElement, 'touchstart', { passive: true })
-            )
-            .subscribe((e: MouseEvent | TouchEvent) => this.onTouch(e))
-        );
+            this.subscriptions.push(
+                merge(
+                    fromEvent<MouseEvent>(this.elementRef.nativeElement, 'mousedown'),
+                    fromEvent<TouchEvent>(this.elementRef.nativeElement, 'touchstart', { passive: true })
+                )
+                .subscribe((e: MouseEvent | TouchEvent) => this.onTouch(e))
+            );
+        });
     }
 
     private removeEventListeners(): void {
@@ -114,13 +126,12 @@ export class ColorPresetComponent implements OnDestroy {
     private onTouch(event: MouseEvent | TouchEvent): void {
         of(event)
             .pipe(
-                map((e: MouseEvent | TouchEvent) => e.timeStamp || new Date().getTime()),
                 delay(350),
                 takeUntil(this.mouseup)
             )
-            .subscribe(() => this.longPress.emit(true));
+            .subscribe(() => this.ngZone.run(() => this.longPress.emit(true)));
 
-        this.selectionChange.emit(this.color());
+        this.ngZone.run(() => this.selectionChange.emit(this.color()));
     }
 
     private onTouchEnd(): void {

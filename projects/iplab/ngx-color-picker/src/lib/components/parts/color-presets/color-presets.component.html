@@ -1,19 +1,20 @@
 @for (chunk of colorPresets() | chunks: columns(); track chunk; let firstRow = $first; let lastRow = $last) {
-    <div class="presets-row" [ngClass]="{ 'first': firstRow, 'last': lastRow }">
-
+    <div class="presets-row" [class.first]="firstRow" [class.last]="lastRow">
         @for (preset of chunk; track preset; let firstColumn = $first; let lastColumn = $last;) {
             @if (isList(preset)) {
             <color-preset-sublist 
                 [list]="preset" 
                 [direction]="direction()"
-                [activeColor]="color()"
-                [ngClass]="{ 'first': firstColumn, 'last': lastColumn }"
+                [activeColorKey]="activeColorKey()"
+                [class.first]="firstColumn"
+                [class.last]="lastColumn"
                 (selectionChange)="onSelectionChange($event)" />
             } @else {
                 <color-preset 
-                    [ngClass]="{ 'first': firstColumn, 'last': lastColumn }"
+                    [class.first]="firstColumn"
+                    [class.last]="lastColumn"
                     [color]="preset" 
-                    [activeColor]="color()" 
+                    [activeColorKey]="activeColorKey()" 
                     (selectionChange)="onSelectionChange($event)" />
             }
         }

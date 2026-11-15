@@ -85,7 +85,7 @@ export class IpPickerComponent implements OnInit, OnChanges, OnDestroy {
         this.subscriptions.push(
             this.control().valueChanges.subscribe((value) => {
                 this.color.set(getValueByType(value, this.control().initType));
-                this.cdr.detectChanges();
+                this.cdr.markForCheck();
             })
         );
     }

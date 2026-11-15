@@ -1,8 +1,8 @@
-import { Component, Renderer2, ElementRef, ChangeDetectionStrategy, Inject, OnInit, InputSignal, input, effect, viewChild, Signal, DOCUMENT } from '@angular/core';
+import { Component, Renderer2, ElementRef, ChangeDetectionStrategy, Inject, OnInit, OnDestroy, InputSignal, input, effect, viewChild, Signal, DOCUMENT, NgZone, inject } from '@angular/core';
+import { fromEvent, Subscription } from 'rxjs';
 
 import { Color } from './../../../helpers/color.class';
 import { ColorPickerConfig } from './../../../services/color-picker.service';
-import { fromEvent, Subscription } from 'rxjs';
 
 
 @Component({
@@ -15,7 +15,7 @@ import { fromEvent, Subscription } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true
 })
-export class IndicatorComponent implements OnInit {
+export class IndicatorComponent implements OnInit, OnDestroy {
 
     public color: InputSignal<Color> = input.required<Color>();
 
@@ -23,6 +23,7 @@ export class IndicatorComponent implements OnInit {
 
     public readonly backgroundColorEl: Signal<ElementRef<HTMLDivElement>> = viewChild.required<ElementRef<HTMLDivElement>>('backgroundColorEl')
 
+    private readonly ngZone = inject(NgZone);
     private subscriptions: Subscription[] = [];
 
     constructor(
@@ -38,9 +39,16 @@ export class IndicatorComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.subscriptions.push(
-            fromEvent(this.elementRef.nativeElement, 'click').subscribe(() => this.onClick())
-        );
+        this.ngZone.runOutsideAngular(() => {
+            this.subscriptions.push(
+                fromEvent(this.elementRef.nativeElement, 'click').subscribe(() => this.onClick())
+            );
+        });
+    }
+
+    public ngOnDestroy(): void {
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subscriptions.length = 0;
     }
 
     private renderTitle(): void {
