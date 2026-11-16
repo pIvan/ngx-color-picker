@@ -1,3 +1,15 @@
+<a name="22.1.2"></a>
+## [22.1.2](https://github.com/pIvan/ngx-color-picker/commit/1c15e6768b8ed30988b299d73568864919f51407) (2026-11-15)
+### Bug
+### * Fixed color string parsing - percentage channels, CSS Color 4 space separated syntax, hue units and 4-digit hex ([#118](https://github.com/pIvan/ngx-color-picker/issues/118))
+### * Fixed default `new Color()` value to `#FF0000` ([#118](https://github.com/pIvan/ngx-color-picker/issues/118))
+### * Fixed `setHsla` / `Color.from(Hsla)` saturation and value scale
+
+<a name="22.1.1"></a>
+## [22.1.1](https://github.com/pIvan/ngx-color-picker/commit/d6e13595452ca7526e5dbadb858a685658270729) (2026-09-09)
+### Bug
+### * Fixed selected preset highlighting in `ColorPresetComponent`
+
 <a name="22.1.0"></a>
 ## [22.1.0](https://github.com/pIvan/ngx-color-picker/compare/5deeed5b83e5d3724a4c136e9cd203727a0dc4e7) (2026-08-17)
 ### Feature
